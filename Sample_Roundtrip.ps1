@@ -13,7 +13,7 @@ $indexes = Get-DefaultFuzzyIndexes;
 $recognizers = Get-DefaultRecognizers;
 $tmFilePath = "c:\Projects\PowerShellToolKit\PowerShellTest\SampleTM\new_en_de.sdltm"
 
-New-FileBasedTM $tmFilePath "Created by PowerShell" "en-US" "de-DE" $indexes $recognizers;
+New-FileBasedTM $tmFilePath "Created by PowerShell" "en-US" "de-DE" $indexes $recognizers 7 4;
 	
 Write-Host "A TM created at: " $tmFilePath;
 
@@ -27,13 +27,13 @@ $inputFilesFolderPath = "c:\Projects\PowerShellToolKit\PowerShellTest\SampleFile
 $translationMemories = @($tmFilePath);
 
 
-New-Project $projectName $projectDestinationPath $sourceLanguage $targetLanguages $translationMemories $inputFilesFolderPath;
+New-Project $projectName $projectDestinationPath $sourceLanguage $targetLanguages $translationMemories $inputFilesFolderPath $pathSampleFile;
 
 Write-Host "A new project creation completed.";
 
 Write-Host "Now open project and get analyze statistics.";
 
-$project = Get-Project ($projectDestinationPath + "\" + $projectName + ".sdlproj");
+$project = Get-Project ($projectDestinationPath);
 
 Get-AnalyzeStatistics $project;
 
