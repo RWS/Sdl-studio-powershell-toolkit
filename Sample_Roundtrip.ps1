@@ -24,6 +24,13 @@ $projectDestinationPath = "c:\Projects\PowerShellToolKit\PowerShellTest\" + [gui
 $sourceLanguage = Get-Language "en-US";
 $targetLanguages = Get-Languages @("de-DE");
 $inputFilesFolderPath = "c:\Projects\PowerShellToolKit\PowerShellTest\SampleFiles";
+
+if(!(test-path $inputFilesFolderPath))
+{
+	New-Item -ItemType Directory -Force -Path $inputFilesFolderPath
+}
+New-Item ($inputFilesFolderPath + "\sampleTestFile.txt") -type file -force -value "This is text added to the sample file."
+
 $translationMemories = @($tmFilePath);
 
 
