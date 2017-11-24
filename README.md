@@ -37,7 +37,7 @@ A sample script has been provided; Sample_Roundtrip.ps1 which contains examples 
     d.	\windowspowershell\modules\TMHelper
   
 5.	Please note, the modules are set up for a 32-bit system as SDL Trados Studio runs as a 32-bit application.  Please run the (x86) version of the PowerShell command prompt.
-6.	To run on a 64-bit system, the paths in the modules must be changed from **C:\Program Files\SDL\SDL Trados Studio\Studio2\ to C:\Program Files (x86)\SDL\SDL Trados Studio\Studio2\** before running any script. 
+6.	To run on a 64-bit system, the "$StudioVersion" parameter in the modules must be changed to "Studio4" or "Studio5" depending on which version of Studio you are using, before running any script. 
 
 ## Using the sample script
 
@@ -61,3 +61,12 @@ You want to add a new functionality or you spot a bug please fill free to create
 
 If you find an issue you report it [here](https://github.com/sdl/Sdl-studio-powershell-toolkit/issues).
 
+##New features v2.0.0.0
+
+•	The paths to the .dll files are now identified regardless of the operating system(32-bit of 64-bit)
+•	The user can select which version of Studio is he using (Studio4 or Studio5)
+•	The script now creates in "Sample_Roundtrip.ps1" a sample text file with custom content
+•	The "Get-Project" function only requires as parameter the path to the .sdlproj file
+•	The "New-Project" function automatically creates the source file directory
+•	Updated the "New-FileBasedTM" function from TMHelper module to use the new implemention from Studio
+•	Updated the "New-Project" function from "Sample_Roundtrip.ps1” to use the new implementation from Studio
