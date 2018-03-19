@@ -70,3 +70,8 @@ If you find an issue you report it [here](https://github.com/sdl/Sdl-studio-powe
 •	The "New-Project" function automatically creates the source file directory
 •	Updated the "New-FileBasedTM" function from TMHelper module to use the new implemention from Studio
 •	Updated the "New-Project" function from "Sample_Roundtrip.ps1” to use the new implementation from Studio
+
+##New features v2.0.1.0
+
+•	Fix creation of FileBasedTM
+•	Update Script to include TM in Project
