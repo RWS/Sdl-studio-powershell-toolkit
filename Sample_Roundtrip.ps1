@@ -11,10 +11,15 @@ Write-Host "Now let's create a new empty TM.";
 
 $indexes = Get-DefaultFuzzyIndexes;
 $recognizers = Get-DefaultRecognizers;
-$tmFilePath = "c:\Projects\PowerShellToolKit\PowerShellTest\SampleTM\new_en_de.sdltm"
+$tmFilePath = "c:\Projects\PowerShellToolKit\PowerShellTest\SampleTM\new_en_de.sdltm";
+$sdltmdesc = "Created by PowerShell" ;
+$sdltmsrclangcode = "en-US" ;
+$sdltmtgtlangcode = "de-DE" ;
+$tokenizerFlags = [Sdl.LanguagePlatform.Core.Tokenization.TokenizerFlags]::DefaultFlags;
+$wordCountFlags = [Sdl.LanguagePlatform.TranslationMemory.WordCountFlags]::DefaultFlags;
 
-New-FileBasedTM $tmFilePath "Created by PowerShell" "en-US" "de-DE" $indexes $recognizers 7 4;
-	
+New-FileBasedTM -filePath $tmFilePath -description $sdltmdesc -sourceLanguageName $sdltmsrclangcode -targetLanguageName $sdltmtgtlangcode -fuzzyIndexes $indexes -recognizers $recognizers -tokenizerFlags $tokenizerFlags -wordCountFlag $wordCountFlags
+
 Write-Host "A TM created at: " $tmFilePath;
 
 Write-Host "Now let's create a new project which will use the newly created TM.";
