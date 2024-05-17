@@ -7,7 +7,7 @@
     ModuleVersion = '3.0.0.0'
     
     # ID used to uniquely identify this module
-    GUID = '{6ccd7a22-904b-4494-8795-88b1f41f0193}'
+    GUID = '{B5A83772-E820-4621-AB21-37CA9B092E2A}'
     
     # Author of this module
     Author = 'Trados Appstore Team'
