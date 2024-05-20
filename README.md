@@ -2,7 +2,7 @@
 ==================
 
 ## Introduction
-The SDL PowerShell Toolkit allows to script the [Project Automation API](http://producthelp.sdl.com/SDK/ProjectAutomationApi/3.0/html/b986e77a-82d2-4049-8610-5159c55fddd3.htm) that is available with SDL Trados Studio Professional.  In order to use the Project Automation API via the SDL PowerShell Toolkit , a Professional license for SDL Trados Studio is required.
+The Trados Powershell Toolkit allows to script the [Project Automation API](http://producthelp.sdl.com/SDK/ProjectAutomationApi/3.0/html/b986e77a-82d2-4049-8610-5159c55fddd3.htm) that is available with Trados Studio Professional.  In order to use the Project Automation API via the Trados PowerShell Toolkit , a Professional license for Trados Studio is required.
 PowerShell 2.0 comes pre-installed on Windows 7. On Windows XP, you may need to manually install PowerShell if it is not already installed.
 
 ## Structure
@@ -17,12 +17,19 @@ used to load all of the other four modules and the required dependencies that en
 and a `Sample_Roundtrip.ps1` sample script which contains examples to create translation memories, projects and packages.
 
 ## Installation
-1. Ensure SDL Trados Studio with a professional license is installed.
-2. Create the following folder:
+1. Ensure Trados Studio with a professional license is installed.
+2. Create the following 2 folders:
     - `C:\users\{your_user_name}\Documents\windowspowershell`
-3. Copy the `Toolkit` folder and files into `windowspowershell` folder
-4. Open the PowerShell **(x86)** command prompt (since SDL Trados Studio is a 32-bit application) 
-5. Before running script make sure the `$StudioVersion` parameter in the `Sample_Roundtrip.ps1` corresponds to version of Studio you are using *("Studio16" for Studio 2021, "Studio17" for Studio 2022)* 
+    - `C:\users\{your_user_name}\Documents\windowspowershell\modules`
+3. Copy the `Sample_Roundtrip.ps1` into `windowspowershell` folder.
+4. Copy the five PowerShell modules into `modules` folder:
+    - `....\windowspowershell\modules\GetGuids`
+    - `....\windowspowershell\modules\ProjectHelper`
+    - `....\windowspowershell\modules\PackageHelper`
+    - `....\windowspowershell\modules\TMHelper`
+    - `....\windowspowershell\modules\ToolkitInitializer`
+5. Open the PowerShell **(x86)** command prompt (since Trados Studio is a 32-bit application) 
+6. Before running script make sure the `$StudioVersion` parameter in the `Sample_Roundtrip.ps1` corresponds to version of Studio you are using *("Studio16" for Studio 2021, "Studio17" for Studio 2022)* 
 
 ## Sample script usage
 1. Open a PowerShell command prompt as Administrator
@@ -30,13 +37,14 @@ and a `Sample_Roundtrip.ps1` sample script which contains examples to create tra
 e.g. `C:\users\{your_user_name}\Documents\windowspowershell`
 3. Ensure you have rights to run the script. You may first need to enter the following command:
 `Set-ExecutionPolicy remotesigned`
+4. Ensure the StudioVersion from the `Sample_Roundtrip` file matches the Trados Studio version you are using
 4. Run your script: type `.\Sample_Roundtrip` and press enter
 
 ## Modules usage
-1. Ensure to import the `ToolkitInitializer` Modules
-2. Ensure that the default StudioVersion from the Import-ToolkitModules matches your Trados Studio version
+1. Ensure that the default StudioVersion from the `ToolkitInitializer.psm1` is set to the Trados Studio version you are using
+2. Import the `ToolkitInitializer` module
 3. Call the Import-ToolkitModules with your StudioVersion or with no paramter if the default StudioVersion paramter was set.
-4. Use all the available functions.
+4. All the functions from the Trados Studio Toolkit are available to use.
 
 ## Functions Available
 | Command | Definition |

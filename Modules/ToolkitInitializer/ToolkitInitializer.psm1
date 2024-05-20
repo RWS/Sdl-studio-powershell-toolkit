@@ -1,6 +1,5 @@
 $scriptPath = $MyInvocation.MyCommand.Path
 $scriptParentDiv = Split-Path $scriptPath -Parent;
-$scriptParentDiv = Split-Path $scriptParentDiv -Parent;
 $global:moduleNames = @()
 $defaultModules = @(
     "TMHelper",
@@ -57,7 +56,7 @@ function Import-ToolkitModules {
 
     foreach ($moduleName in $global:moduleNames)
     {
-        Import-Module "$scriptParentDiv\$moduleName" -Scope Global
+        Import-Module -Name $moduleName -Scope Global
     }
 }
 
@@ -66,7 +65,7 @@ function Import-ToolkitModules {
     Remove all the used modules
 
     .DESCRIPTION
-    Removes all the modules the user has loaded that are part of the SDL Toolkit
+    Removes all the modules the user has loaded that are part of the Trados Powershell Toolkit except the ToolkitInitializer
 
     .EXAMPLE
     Remove-ToolkitModules
@@ -83,7 +82,7 @@ function Remove-ToolkitModules {
 function Add-Dependencies {
     param([String] $StudioVersion)
 
-    $assemblyResolverPath = $scriptParentDiv + "\ToolkitInitializer\DependencyResolver.dll"
+    $assemblyResolverPath = $scriptParentDiv + "\DependencyResolver.dll"
     $versionNumber = [regex]::Match($StudioVersion, "\d+").Value;
 
     if ("${Env:ProgramFiles(x86)}") {

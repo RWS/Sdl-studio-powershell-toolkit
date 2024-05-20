@@ -3,7 +3,7 @@ Write-Host "This script demonstrates how the PowerShell Toolkit can be used to a
 
 Write-Host "Start with loading PowerShell Toolkit modules.";
 $StudioVersion = "Studio18Beta";
-Import-Module D:\Code\Toolkit\Sdl-studio-powershell-toolkit/Modules/ToolkitInitializer
+Import-Module -Name ToolkitInitializer
 Import-ToolkitModules $StudioVersion
 
 Write-Host "Now let's create a new empty TM.";
