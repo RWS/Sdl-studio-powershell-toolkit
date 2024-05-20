@@ -1,4 +1,4 @@
-﻿PowerShell Toolkit
+﻿Trados PowerShell Toolkit
 ==================
 
 ## Introduction
