@@ -2,7 +2,7 @@
 Write-Host "This script demonstrates how the PowerShell Toolkit can be used to automate small workflows";
 
 Write-Host "Start with loading PowerShell Toolkit modules.";
-$StudioVersion = "Studio18Beta";
+$StudioVersion = "Studio18";
 Import-Module -Name ToolkitInitializer
 Import-ToolkitModules $StudioVersion
 

@@ -29,7 +29,20 @@ and a `Sample_Roundtrip.ps1` sample script which contains examples to create tra
     - `....\windowspowershell\modules\TMHelper`
     - `....\windowspowershell\modules\ToolkitInitializer`
 5. Open the PowerShell **(x86)** command prompt (since Trados Studio is a 32-bit application) 
-6. Before running script make sure the `$StudioVersion` parameter in the `Sample_Roundtrip.ps1` corresponds to version of Studio you are using *("Studio16" for Studio 2021, "Studio17" for Studio 2022)* 
+6. Before running script make sure the `$StudioVersion` parameter in the `Sample_Roundtrip.ps1` corresponds to version of Studio you are using *("Studio16" for Studio 2021, "Studio17" for Studio 2022, "Studio18" for Studio 2024)* 
+
+## Finding the Studio Version
+The Trados Studio version that you are ussing can be found in one of the following locations:
+- `C:\Program Files (x86)\Trados\Trados Studio` for Trados Studio 2022 and 2024
+- `C:\Program Files (x86)\SDL\SDL Trados Studio` for older versions, including Trados Studio 2021. 
+
+If the above paths does not contain `Program Files (x86)` does not exist, you can replace that with `Program Files`
+    - e.g `C:\Program Files\Trados\Trados Studio`
+
+At the above path there is a folder whose name represents the Studio Version.
+
+
+
 
 ## Sample script usage
 1. Open a PowerShell command prompt as Administrator
@@ -41,9 +54,9 @@ e.g. `C:\users\{your_user_name}\Documents\windowspowershell`
 4. Run your script: type `.\Sample_Roundtrip` and press enter
 
 ## Modules usage
-1. Ensure that the default StudioVersion from the `ToolkitInitializer.psm1` is set to the Trados Studio version you are using
+1. Ensure that the default StudioVersion from the `Import-ToolkitModules` function in the `ToolkitInitializer.psm1` is set to the Trados Studio version you are using
 2. Import the `ToolkitInitializer` module
-3. Call the Import-ToolkitModules with your StudioVersion or with no paramter if the default StudioVersion paramter was set.
+3. If you have followed the first step, you can call the `Import-ToolkitModules` without any parameters, otherwise you can call it using the StudioVersion you are using. e.g `Import-Toolkit Studio18`.
 4. All the functions from the Trados Studio Toolkit are available to use.
 
 ## Functions Available
@@ -62,7 +75,7 @@ e.g. `C:\users\{your_user_name}\Documents\windowspowershell`
 |Open-FileBasedTM| Opens an existing file based TM|
 |Get-TargetTMLanguage| Gets the target language of a TM|
 |Get-Language | Gets a language as a Trados Language|
-|Get-Languages | Gets a list of languages as a Trados Languages|
+|Get-Languages | Gets a list of languages as Trados Languages|
 
 ## Contribution
 If you want to add a new functionality or you spot a bug please fill free to create a [pull request](http://www.codenewbie.org/blogs/how-to-make-a-pull-request) with your changes.

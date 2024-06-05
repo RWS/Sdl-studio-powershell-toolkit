@@ -41,7 +41,7 @@ $defaultModules = @(
     Loads all the dependencies only for the GetGuids module for the default Studio Version.
 #>
 function Import-ToolkitModules {
-    param ([String] $StudioVersion = "Studio18Beta",
+    param ([String] $StudioVersion = "Studio18",
     [String[]] $Modules = @())
 
     Add-Dependencies $StudioVersion
