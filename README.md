@@ -29,7 +29,7 @@ and a `Sample_Roundtrip.ps1` sample script which contains examples to create tra
     - `....\windowspowershell\modules\TMHelper`
     - `....\windowspowershell\modules\ToolkitInitializer`
 5. Open the PowerShell **(x86)** command prompt (since Trados Studio is a 32-bit application) 
-6. Before running script make sure the `$StudioVersion` parameter in the `Sample_Roundtrip.ps1` corresponds to version of Studio you are using *("Studio16" for Studio 2021, "Studio17" for Studio 2022, "Studio18" for Studio 2024)* 
+6. Before running script make sure the `$StudioVersion` parameter in the `Sample_Roundtrip.ps1` corresponds to version of Studio you are using *("Studio16" for Studio 2021, "Studio17" for Studio 2022, "Studio18" for Studio 2024 and "Studio18Beta" for Studio 2024 Beta version users)* 
 
 ## Finding the Studio Version
 The Trados Studio version that you are ussing can be found in one of the following locations:
