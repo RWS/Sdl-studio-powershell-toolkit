@@ -88,7 +88,7 @@ After downloading, ensure the following files are unblocked for proper toolkit f
   - `Sample_Roundtrip.ps1`
   
 ## Finding the Studio Version
-The Trados Studio version that you are ussing can be found in one of the following locations:
+The Trados Studio version that you are using can be found in one of the following locations:
 - `C:\Program Files (x86)\Trados\Trados Studio` for Trados Studio 2022 and 2024
 - `C:\Program Files (x86)\SDL\SDL Trados Studio` for older versions, including Trados Studio 2021. 
 
@@ -138,7 +138,7 @@ If you find an issue you report it [here](https://github.com/sdl/Sdl-studio-powe
 
 ## Changes
 ### v3.0.0.0
-- Updated script to be compatible with newer versions (Studio 2021, Studio 2022 and Studio 2024 Beta)
+- Updated script to be compatible with newer versions (Studio 2021, Studio 2022 and Studio 2024)
 - Added the ToolkitInitializer Module to load all the modules in one function
 - Added help support for all the functions
 
