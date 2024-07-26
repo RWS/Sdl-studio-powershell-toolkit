@@ -1,0 +1,19 @@
+{
+  "title": "Sample Data",
+  "author": "John Doe",
+  "published": true,
+  "tags": ["example", "json", "data"],
+  "views": 1024,
+  "comments": [
+    {
+      "user": "Alice",
+      "message": "Great article!",
+      "likes": 5
+    },
+    {
+      "user": "Bob",
+      "message": "Very informative.",
+      "likes": 3
+    }
+  ]
+}

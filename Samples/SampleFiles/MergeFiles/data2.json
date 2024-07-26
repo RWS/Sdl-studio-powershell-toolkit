@@ -1,0 +1,20 @@
+{
+  "id": 1,
+  "name": "Widget",
+  "price": 19.99,
+  "inStock": true,
+  "categories": ["tools", "hardware"],
+  "ratings": {
+    "average": 4.5,
+    "reviews": 24
+  },
+  "dimensions": {
+    "length": 10,
+    "width": 5,
+    "height": 2
+  },
+  "manufacturer": {
+    "name": "Widget Co.",
+    "location": "USA"
+  }
+}

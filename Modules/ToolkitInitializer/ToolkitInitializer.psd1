@@ -11,12 +11,12 @@
     
     # Author of this module
     Author = 'Trados Appstore Team'
-    
+
     # Company or vendor of this module
-    CompanyName = 'RWS'
-    
+    CompanyName = 'SDL Limited as part of the RWS Holdings Plc group of companies'
+
     # Copyright statement for this module
-    Copyright = '© 2024 RWS. All rights reserved.'
+    Copyright = '© 2011 - 2022 SDL Limited as part of the RWS Holdings Plc group of companies (\"RWS Group\").'
     
     # Description of the functionality provided by this module
     Description = 'A PowerShell module to help SDL Translation Memories management'

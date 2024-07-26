@@ -1,8 +1,10 @@
-﻿cls
+﻿$StudioVersion = "Studio18";
+$ProjectSourceFiles = "C:\Users\aflorescu\Code\Samples"
+Clear-Host
 Write-Host "This script demonstrates how the PowerShell Toolkit can be used to automate small workflows";
 
 Write-Host "Start with loading PowerShell Toolkit modules.";
-$StudioVersion = "Studio18";
+
 Import-Module -Name ToolkitInitializer
 Import-ToolkitModules $StudioVersion
 
@@ -16,25 +18,25 @@ $sdltmtgtlangcode = "de-DE" ;
 New-FileBasedTM -filePath $tmFilePath -description $sdltmdesc -sourceLanguageName $sdltmsrclangcode -targetLanguageName $sdltmtgtlangcode;
 
 Write-Host "A TM created at: " $tmFilePath;
-
+	
 Write-Host "Now let's create a new project which will use the newly created TM.";
 
 $projectName = "My Test Project";
 $projectDestinationPath = "c:\Projects\PowerShellToolKit\PowerShellTest\$StudioVersion\" + "SampleProject";
-$sourceLanguage = Get-Language "en-US";
-$targetLanguages = Get-Languages @("de-DE");
-$inputFilesFolderPath = "c:\Projects\PowerShellToolKit\PowerShellTest\$StudioVersion\SampleFiles";
+$sourceLanguage = "en-US";
+$targetLanguages = "de-DE", "fr-FR";
+$tmProvider = Get-TranslationProvider -tmPath "$tmFilePath"
+$tmProvider
+$inputFilesFolderPath = "$ProjectSourceFiles\SampleFiles";
+$pathForPerfectMatch = "$ProjectSourceFiles\ForPerfectMatch"
+$referenceFiles = @("Reference_1_Pp.pptx", "sample2_reference.pptx")
+$localizableFiles = @("meme1.jpg", "meme2.jpg")
+$mergeFiles = @("books.xml","datax.xml", "data.json", "data2.json")
+$mergeName = "MergedFile"
+$dueDate = "2030-03-24";
+$description = "ApiProject"
 
-if(!(test-path $inputFilesFolderPath))
-{
-	New-Item -ItemType Directory -Force -Path $inputFilesFolderPath
-}
-New-Item ($inputFilesFolderPath + "\sampleTestFile.txt") -type file -force -value "This is text added to the sample file."
-
-$translationMemories = @($tmFilePath);
-
-
-New-Project $projectName $projectDestinationPath $sourceLanguage $targetLanguages $translationMemories $inputFilesFolderPath $pathSampleFile;
+New-Project -ProjectName $projectName -projectDestination $projectDestinationPath -sourceLanguage $sourceLanguage -targetLanguages $targetLanguages -translationProviders @($tmProvider) -sourceFilesFolder $inputFilesFolderPath -referenceFiles $referenceFiles -localizableFiles $localizableFiles -mergeFiles $mergeFiles -mergeFileName $mergeName -pathToPerfectMatch $pathForPerfectMatch -projectDueDate $dueDate -projectDescription $description;
 
 Write-Host "A new project creation completed.";
 
@@ -46,14 +48,12 @@ Get-AnalyzeStatistics $project;
 
 Write-Host "Press any key to continue ...";
 
-#enable when running in PowerShell command line
-#$null = $Host.UI.RawUI.ReadKey([System.Management.Automation.Host.ReadKeyOptions]::IncludeKeyDown -bor [System.Management.Automation.Host.ReadKeyOptions]::NoEcho);
-
 Write-Host "Now for each target language create translation package.";
 
+$targetLanguages = Get-Languages $targetLanguages;
 foreach($targetLanguage in $targetLanguages)
 {
-	New-Package $targetLanguage ("c:\Projects\PowerShellToolKit\PowerShellTest\$StudioVersion\translationpackage_"+ $targetLanguage.IsoAbbreviation +".sdlppx") $project;
+	Export-Package $targetLanguage ("c:\Projects\PowerShellToolKit\PowerShellTest\$StudioVersion\translationpackage_"+ $targetLanguage.IsoAbbreviation +".sdlppx") $project;
 }
 
 Write-Host "Completed.";

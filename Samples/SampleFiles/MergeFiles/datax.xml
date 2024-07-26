@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<product>
+    <id>1</id>
+    <name>Widget</name>
+    <price>19.99</price>
+    <inStock>true</inStock>
+    <categories>
+        <category>tools</category>
+        <category>hardware</category>
+    </categories>
+    <ratings>
+        <average>4.5</average>
+        <reviews>24</reviews>
+    </ratings>
+    <dimensions>
+        <length>10</length>
+        <width>5</width>
+        <height>2</height>
+    </dimensions>
+    <manufacturer>
+        <name>Widget Co.</name>
+        <location>USA</location>
+    </manufacturer>
+</product>

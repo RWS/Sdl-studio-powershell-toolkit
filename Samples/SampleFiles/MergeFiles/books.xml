@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book>
+    <title>The Great Adventure</title>
+    <author>Jane Smith</author>
+    <genre>Fiction</genre>
+    <price>14.99</price>
+    <publishDate>2023-04-12</publishDate>
+    <reviews>
+        <review>
+            <user>John</user>
+            <rating>5</rating>
+            <comment>Exciting and well-written!</comment>
+        </review>
+        <review>
+            <user>Emily</user>
+            <rating>4</rating>
+            <comment>Great read, but a bit slow in the middle.</comment>
+        </review>
+    </reviews>
+</book>

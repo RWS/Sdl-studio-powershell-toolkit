@@ -2,8 +2,38 @@
 ==================
 
 ## Introduction
-The Trados Powershell Toolkit allows to script the [Project Automation API](http://producthelp.sdl.com/SDK/ProjectAutomationApi/3.0/html/b986e77a-82d2-4049-8610-5159c55fddd3.htm) that is available with Trados Studio Professional.  In order to use the Project Automation API via the Trados PowerShell Toolkit , a Professional license for Trados Studio is required.
-PowerShell 2.0 comes pre-installed on Windows 7. On Windows XP, you may need to manually install PowerShell if it is not already installed.
+The Trados PowerShell Toolkit allows scripting the [Project Automation API](https://developers.rws.com/studio-api-docs/apiconcepts/projectautomation/overview.html) that is available with Trados Studio Professional. To use the Project Automation API via this toolkit, a Professional license for Trados Studio is required.
+
+## Table of contents
+<details>
+  <summary>Expand</summary>
+  
+  - [Prerequisites](#prerequisites)
+  - [Structure](#structure)
+  - [Configuring the Scripts](#configuring-the-scripts)
+  - [Installation](#installation)
+  - [Finding the Studio Version](#finding-the-studio-version)
+  - [Sample Script Usage](#sample-script-usage)
+  - [Modules Usage](#modules-usage)
+  - [Functions Available](#functions-available)
+  - [Ensuring File Permissions for Toolkit Files](#ensuring-file-permissions-for-toolkit-files)
+  - [Known issues](#known-issues)
+  - [Contribution](#contribution)
+  - [Issues](#issues)
+  - [Changes](#changes)
+</details>
+
+## Prerequisites
+Ensure the following requirements are met before using this toolkit:
+1. Trados Studio License
+    - A Trados Studio license is mandatory for the operation of this toolkit.
+2. PowerShell Version
+    - Ensure that PowerShell 5 (x86) is installed and configured on your system. PowerShell 5.1 is included by default in Windows 10 (version 1607 and later) and Windows 11. For other versions of Windows, you may need to manually install or upgrade to PowerShell 5.0 or 5.1.
+3. File Permissions
+    - Verify and adjust file permissions for the toolkit files as necessary. Detailed instructions can be found in the [File Permissions](#ensuring-file-permissions-for-toolkit-files) section.
+4. Script Configuration
+    - Properly configure the script according to the provided guidelines to ensure smooth functionality. Detailed instructions can be found in the [Configuring the scripts](#configuring-the-scripts) section.
+
 
 ## Structure
 The PowerShell Toolkit consists of 5 modules
@@ -12,44 +42,89 @@ The PowerShell Toolkit consists of 5 modules
 - `ProjectHelper`
 - `TMHelper`
 - `ToolkitInitializer`
-used to load all of the other four modules and the required dependencies that enables their funcionality.
 
-and a `Sample_Roundtrip.ps1` sample script which contains examples to create translation memories, projects and packages.
+The toolkit also includes:
+- `Sample_Roundtrip.ps1`: A sample script which contains examples to create translation memories, projects and packages
+- `Samples`: A folder used by the `Sample_Roundtrip.ps1` file for toolkit demonstration purposes
+
+## Configuring the scripts
+The `ToolkitInitializer` module includes the `Import-ToolkitModules` method, responsible for importing all other modules, resolving dependencies, and addressing version conflicts. This function can be called with or without the `$StudioVersion` parameter.
+
+### Configuration Instructions
+To configure this module for your Trados Studio, set the `$StudioVersion` parameter in the  `....\windowspowershell\modules\ToolkitInitializer\ToolkitInitializer.psm1` file.
+- Example: `[String] $StudioVersion = "{Studio_Version}"`
+
+### Dynamic Assignment
+To dynamically assign the Trados Studio version, provide the version when calling `Import-ToolkitModules`.
+- Example `Import-ToolkitModules -StudioVersion "Studio18"`
+
+For detailed instructions on finding the Trados Studio version, refer to the [Finding the Studio Version](#finding-the-studio-version) section.
+
+### Sample Roundtrip configuration.
+To run the `Sample_Roundtrip.ps1` script:
+    - Set the `$StudioVersion` parameter to match the Studio version you are using
+        - Example: `$StudioVersion = "Studio18"`
+    - Set the `$ProjectSourceFiles` parameter to location of the `Sample` folder.
+        - Example: `$ProjectSourceFiles = "C:\Path\To\Samples"`
 
 ## Installation
+1. Create the following 2 folders:
+    - `C:\users\{your_user_name}\Documents\WindowsPowerShell`
+    - `C:\users\{your_user_name}\Documents\WindowsPowerShell\modules`
+2. Copy the `Sample_Roundtrip.ps1` into `WindowsPowerShell` folder.
+3. Copy the five PowerShell modules into `modules` folder:
+    - `....\WindowsPowerShell\modules\GetGuids`
+    - `....\WindowsPowerShell\modules\ProjectHelper`
+    - `....\WindowsPowerShell\modules\PackageHelper`
+    - `....\WindowsPowerShell\modules\TMHelper`
+    - `....\WindowsPowerShell\modules\ToolkitInitializer`
 
-1. **Ensure File Permissions for Toolkit Files**
-   - Before proceeding with the installation, unblock the downloaded toolkit files to prevent any potential issues.
-   - Follow the steps in the "Ensuring File Permissions for Toolkit Files" section below.
+## Finding the Studio Version
+The Trados Studio version that you are using can be found in one of the following locations:
+- `C:\Program Files (x86)\Trados\Trados Studio`
+- `C:\Program Files\Trados\Trados Studio` if `Program Files (x86)` does not exist
 
-2. **Ensure Trados Studio with a professional license is installed.**
-   
-3. **Create Required Folders:**
-   - Create the following two folders if they do not already exist:
-     - `C:\users\{your_user_name}\Documents\windowspowershell`
-     - `C:\users\{your_user_name}\Documents\windowspowershell\modules`
+In the above path, the folder name represents the Studio version.
 
-4. **Copy Files:**
-   - Copy `Sample_Roundtrip.ps1` into the `windowspowershell` folder.
-   - Copy the five PowerShell modules into the `modules` folder:
-     - `....\windowspowershell\modules\GetGuids`
-     - `....\windowspowershell\modules\ProjectHelper`
-     - `....\windowspowershell\modules\PackageHelper`
-     - `....\windowspowershell\modules\TMHelper`
-     - `....\windowspowershell\modules\ToolkitInitializer`
+## Sample script usage
+1. Open the PowerShell command prompt as an Administrator
+2. Change to the directory where your script is located:
+- e.g. `C:\users\{your_user_name}\Documents\WindowsPowerShell`
+3. Ensure you have rights to run the script. You may first need to enter the following command:
+- `Set-ExecutionPolicy remotesigned`
+4. Run the script bt typing `.\Sample_Roundtrip` and pressing enter
 
-5. **Open PowerShell (x86) Command Prompt:**
-   - Since Trados Studio is a 32-bit application, use the PowerShell (x86) command prompt.
+## Modules usage
+1. Import the `ToolkitInitializer` module.
+2. Call the `Import-ToolkitModules` method.
+3. All the functions from the Trados Studio Toolkit will be available for use.
 
-6. **Configure Script:**
-   - Before running the script (`Sample_Roundtrip.ps1`), ensure the `$StudioVersion` parameter corresponds to your Trados Studio version (e.g., "Studio16" for Studio 2021, "Studio17" for Studio 2022).
+## Functions Available
+| Function Name                | Definition                                                                      | Module            |
+|------------------------------|---------------------------------------------------------------------------------|-------------------|
+| Import-ToolkitModules        | Imports all modules or specified modules from the toolkit.                      | ToolkitInitializer |
+| Remove-ToolkitModules        | Removes all the loaded modules.                                                 | ToolkitInitializer |
+| Get-Guids                    | Gets the file ids of the given project files.                                   | GetGuids           |
+| Import-Package               | Imports a return package into the provided file based project                   | PackageHelper      |
+| Export-Package               | Creates a package from the provided file based project                          | PackageHelper      |
+| New-Project                  | Creates a new file based project.                                               | ProjectHelper      |
+| Remove-Project               | Removes a file based project.                                                   | ProjectHelper      |
+| Get-Project                  | Opens a file based project.                                                     | ProjectHelper      |
+| Get-AnalyzeStatistics        | Gets the given file based project's statistics.                                 | ProjectHelper      |
+| Get-TaskFileInfoFiles        | Gets the task files of the given target language from an existing file based project. | ProjectHelper     |
+| New-FileBasedTM              | Creates a new file based TM.                                                    | TMHelper           |
+| Open-FileBasedTM             | Opens an existing file based TM.                                                | TMHelper           |
+| Get-TargetTMLanguage         | Gets the target language of a TM.                                               | TMHelper           |
+| Get-Language                 | Gets a language as a Trados Language.                                           | TMHelper           |
+| Get-Languages                | Gets a list of languages as Trados Languages                                    | TMHelper           |
+| Get-TranslationProvider      | Returns an object to be used as a translation provider for project creation.    | TMHelper           |
+| Import-TMXToFileBasedTM      | Imports a TMX file into an existing file-based Translation Memory                | TMHelper           |
+| Export-TMXFromFileBasedTM    | Exports a TMX file from an existing file-based Translation Memory               | TMHelper           |
 
-7. **Run the Script:**
-   - Execute the script by navigating to `C:\users\{your_user_name}\Documents\windowspowershell` and running `.\Sample_Roundtrip.ps1`.
 
 ## Ensuring File Permissions for Toolkit Files
 
-When you download files from the internet, Windows may block them for security reasons. To ensure the toolkit functions properly, you need to unblock these files. Follow the steps below to unblock downloaded files:
+Windows may block files downloaded from the internet for security reasons. To ensure the toolkit functions properly, unblock these files.
 
 ### Step-by-Step Instructions
 
@@ -57,16 +132,15 @@ When you download files from the internet, Windows may block them for security r
 - Open File Explorer and navigate to the folder containing the downloaded file.
 
 #### Right-Click on the File:
-- Find the file you need to unblock.
 - Right-click on the file to open the context menu.
 
 #### Open File Properties:
-- From the context menu, select "Properties." This will open the Properties dialog for the file.
+- Select "Properties" from the context menu. 
 
 #### Unblock the File:
 - In the Properties dialog, go to the "General" tab.
-- At the bottom of the dialog, look for a security section with the message: "This file came from another computer and might be blocked to help protect this computer."
-- If you see this message, check the box next to "Unblock."
+- Look for the message: "This file came from another computer and might be blocked to help protect this computer."
+- If this message is present, check the box next to "Unblock."
 
 #### Apply and Close:
 - Click "Apply" to save the changes.
@@ -74,7 +148,7 @@ When you download files from the internet, Windows may block them for security r
 
 ### Files to Unblock
 
-After downloading, ensure the following files are unblocked for proper toolkit functionality:
+Ensure the following files are unblocked for proper toolkit functionality:
 
 - **Modules:**
   - `GetGuids.psd1` and `GetGuids.psm1`
@@ -86,60 +160,21 @@ After downloading, ensure the following files are unblocked for proper toolkit f
   - `DependencyResolver.dll`
 - **Sample Script:**
   - `Sample_Roundtrip.ps1`
-  
-## Finding the Studio Version
-The Trados Studio version that you are using can be found in one of the following locations:
-- `C:\Program Files (x86)\Trados\Trados Studio` for Trados Studio 2022 and 2024
-- `C:\Program Files (x86)\SDL\SDL Trados Studio` for older versions, including Trados Studio 2021. 
 
-If the above paths does not contain `Program Files (x86)` does not exist, you can replace that with `Program Files`
-    - e.g `C:\Program Files\Trados\Trados Studio`
-
-At the above path there is a folder whose name represents the Studio Version.
-
-## Sample script usage
-1. Open a PowerShell command prompt as Administrator
-2. Change to the directory where your script is located:
-e.g. `C:\users\{your_user_name}\Documents\windowspowershell`
-3. Ensure you have rights to run the script. You may first need to enter the following command:
-`Set-ExecutionPolicy remotesigned`
-4. Ensure the StudioVersion from the `Sample_Roundtrip` file matches the Trados Studio version you are using
-4. Run your script: type `.\Sample_Roundtrip` and press enter
-
-## Modules usage
-1. Ensure that the default StudioVersion from the `Import-ToolkitModules` function in the `ToolkitInitializer.psm1` is set to the Trados Studio version you are using
-2. Import the `ToolkitInitializer` module
-3. If you have followed the first step, you can call the `Import-ToolkitModules` without any parameters, otherwise you can call it using the StudioVersion you are using. e.g `Import-Toolkit Studio18`.
-4. All the functions from the Trados Studio Toolkit are available to use.
-
-## Functions Available
-| Command | Definition | Module |
-|---------|------------| ------ |
-|Import-ToolkitModules| Imports globally all the modules or the given modules from the toolkit.| ToolkitInitializer |
-|Remove-ToolkitModules| Removes all the loaded modules. | ToolkitInitializer |
-|Get-Guids|     Gets the files id of the given project files. | GetGuids | 
-|New-Package|	Creates a new package based on an existing filebased project.| PackageHelper |
-|New-Project| 	Creates a new file based project.| ProjectHelper |
-|Remove-Project| Removes a file based project. | ProjectHelper |
-|Get-Project| Opens a file based project. | ProjectHelper |
-|Get-AnalyzeStatistics| Gets the given file based project's statistics. | ProjectHelper |
-|Get-TaskFileInfoFiles | Gets the task files of the given target language from an existing file based project.| ProjectHelper |
-|New-FileBasedTM | Creates a new file based TM. | TMHelper |
-|Open-FileBasedTM| Opens an existing file based TM. | TMHelper |
-|Get-TargetTMLanguage| Gets the target language of a TM. | TMHelper |
-|Get-Language | Gets a language as a Trados Language. | TMHelper |
-|Get-Languages | Gets a list of languages as Trados Languages| TMHelper |
+## Known issues
+### "log4net:ERROR: XmlConfigurator..." message displayed each time automation is started
+The issue identified is a cosmetic bug in the Trados Studio API. Please be assured that it does not impact the functionality of automation processes.
 
 ## Contribution
-If you want to add a new functionality or you spot a bug please fill free to create a [pull request](http://www.codenewbie.org/blogs/how-to-make-a-pull-request) with your changes.
+To add functionality or report bugs, please create a [pull request](http://www.codenewbie.org/blogs/how-to-make-a-pull-request) with your changes.
 
 ## Issues
-If you find an issue you report it [here](https://github.com/sdl/Sdl-studio-powershell-toolkit/issues).
+Report issues [here](https://github.com/sdl/Sdl-studio-powershell-toolkit/issues).
 
 ## Changes
 ### v3.0.0.0
-- Updated script to be compatible with newer versions (Studio 2021, Studio 2022 and Studio 2024)
-- Added the ToolkitInitializer Module to load all the modules in one function
+- Updated script to be compatible with newer versions (Trados Studio 2022 and Trados Studio 2024)
+- Added `ToolkitInitializer` Module to load all modules in one function
 - Added help support for all the functions
 
 ### v2.0.1.0

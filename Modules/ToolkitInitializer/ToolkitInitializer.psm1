@@ -56,7 +56,7 @@ function Import-ToolkitModules {
 
     foreach ($moduleName in $global:moduleNames)
     {
-        Import-Module -Name $moduleName -Scope Global
+        Import-Module -Name $moduleName -ArgumentList $StudioVersion -Scope Global
     }
 }
 
@@ -83,8 +83,6 @@ function Add-Dependencies {
     param([String] $StudioVersion)
 
     $assemblyResolverPath = $scriptParentDiv + "\DependencyResolver.dll"
-    $versionNumber = [regex]::Match($StudioVersion, "\d+").Value;
-
     if ("${Env:ProgramFiles(x86)}") {
         $ProgramFilesDir = "${Env:ProgramFiles(x86)}"
     }
@@ -92,14 +90,9 @@ function Add-Dependencies {
         $ProgramFilesDir = "${Env:ProgramFiles}"
     }
 
-    if ($versionNumber -le 16)
-    {
-        $appPath = "$ProgramFilesDir\Sdl\Sdl Trados Studio\$StudioVersion\"
-    }
-    else {
-        $appPath = "$ProgramFilesDir\Trados\Trados Studio\$StudioVersion\"
-    }
+    $appPath = "$ProgramFilesDir\Trados\Trados Studio\$StudioVersion\"
 
+    Add-CustomTypes
     # Solve dependency conficts
     Add-Type -Path $assemblyResolverPath;
     $assemblyResolver = New-Object DependencyResolver.AssemblyResolver("$appPath\");
@@ -108,6 +101,99 @@ function Add-Dependencies {
     Add-Type -Path "$appPath\Sdl.ProjectAutomation.FileBased.dll"
     Add-Type -Path "$appPath\Sdl.ProjectAutomation.Core.dll"
     Add-Type -Path "$appPath\Sdl.LanguagePlatform.TranslationMemory.dll"
+    Add-Type -Path "$appPath\Sdl.FileTypeSupport.Framework.Core.Utilities.dll"
+    Add-Type -Path "$appPath\Sdl.ProjectAutomation.Settings.dll"
+}
+
+function Add-CustomTypes {
+    Add-Type -TypeDefinition @'
+	using System;
+	using System.Reflection;
+
+    public static class ReflectionHelper
+    {
+        public static void CallEnsurePluginRegistryIsCreated(Type fileBasedProjectType)
+        {
+            // Get the MethodInfo object for the private static method using BindingFlags
+            MethodInfo methodInfo = fileBasedProjectType.GetMethod(
+                "EnsurePluginRegistryIsCreated",
+                BindingFlags.NonPublic | BindingFlags.Static);
+ 
+            // Ensure the method has been found
+            if (methodInfo == null)
+            {
+                throw new InvalidOperationException("Could not find the method EnsurePluginRegistryIsCreated");
+            }
+ 
+            // Invoke the private static method
+            methodInfo.Invoke(null, null);
+        }
+    }
+'@
+Add-Type -TypeDefinition @'
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Management.Automation.Runspaces;
+
+public class RunspacedDelegateFactory
+{
+    public static Delegate NewRunspacedDelegate(Delegate _delegate, Runspace runspace)
+    {
+        Action setRunspace = () => Runspace.DefaultRunspace = runspace;
+
+        return ConcatActionToDelegate(setRunspace, _delegate);
+    }
+
+    private static Expression ExpressionInvoke(Delegate _delegate, params Expression[] arguments)
+    {
+        var invokeMethod = _delegate.GetType().GetMethod("Invoke");
+
+        return Expression.Call(Expression.Constant(_delegate), invokeMethod, arguments);
+    }
+
+    public static Delegate ConcatActionToDelegate(Action a, Delegate d)
+    {
+        var parameters =
+            d.GetType().GetMethod("Invoke").GetParameters()
+            .Select(p => Expression.Parameter(p.ParameterType, p.Name))
+            .ToArray();
+
+        Expression body = Expression.Block(ExpressionInvoke(a), ExpressionInvoke(d, parameters));
+
+        var lambda = Expression.Lambda(d.GetType(), body, parameters);
+
+        var compiled = lambda.Compile();
+
+        return compiled;
+    }
+}
+'@
+
+Add-Type -TypeDefinition @'
+using System;
+
+namespace TMProvider
+{
+	public class MemoryResource
+	{
+		public string Path { get; set; }
+
+		public Uri Uri { get; set; }
+
+		public Uri UriSchema { get; set; }
+
+		public string UserNameOrClientId { get; set; }
+
+		public string UserPasswordOrClientSecret { get; set; }
+
+		public bool IsWindowsUser { get; set; }
+
+		public string TargetLanguageCode { get; set; }
+	}
+}
+'@
 }
 
 Export-ModuleMember Import-ToolkitModules
