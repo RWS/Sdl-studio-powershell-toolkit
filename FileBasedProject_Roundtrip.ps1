@@ -1,5 +1,5 @@
 ﻿$StudioVersion = "Studio18";
-$ProjectSourceFiles = "C:\Users\aflorescu\Documents\windowspowershell\Samples"
+$ProjectSourceFiles = "C:\Path\To\Samples"
 Clear-Host
 Write-Host "This script demonstrates how the PowerShell Toolkit can be used to automate small workflows";
 
