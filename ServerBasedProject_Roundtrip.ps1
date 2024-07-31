@@ -7,7 +7,6 @@ Clear-Host;
 Write-Host "This script demonstrates how the PowerShell Toolkit can be used to automate small workflows";
 
 Write-Host "Start with loading PowerShell Toolkit modules.";
-$studioVersion = "Studio18";
 Import-ToolkitModules $studioVersion;
 
 Write-host "Now Let's Publish the previously created Project to the server"
