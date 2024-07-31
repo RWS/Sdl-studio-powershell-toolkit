@@ -2,47 +2,41 @@ $scriptPath = $MyInvocation.MyCommand.Path
 $scriptParentDiv = Split-Path $scriptPath -Parent;
 $global:moduleNames = @()
 $defaultModules = @(
-    "TMHelper",
-    "ProjectHelper",
-    "PackageHelper",
     "GetGuids"
+    "PackageHelper",
+    "ProjectHelper",
+    "ProjectServerHelper",
+    "TMHelper",
+    "TMServerHelper",
+    "UserManagerHelper"
 )
 
 <#
     .SYNOPSIS
-    Import all the necessary or given modules from the Modules folder.
+    Imports all necessary or specified modules from the Modules folder.
 
     .DESCRIPTION
-    Loads all the types and dependencies together with the modules and export their functions globally.
-    Additionally it can load only the given modules
+    Loads the types and dependencies of the specified modules and exports their functions globally. By default, it loads all modules for the specified Trados Studio version. It also allows for loading only specified modules if provided.
 
     .PARAMETER StudioVersion
-    Represents the Version of the Studio the user is using | Studio17 for Studio 2022, Studio18 for Studio 2024
-    The User can change its default value to the Trados Studio version he/she is using.
-
-    .PARAMETER Modules
-    Optional. Represents the module names to load into the powershell session.
+    Represents the version of Trados Studio that the user is using. For example, "Studio17" for Studio 2022 or "Studio18" for Studio 2024. The default value is "Studio18". Users can change this parameter to match the version of Trados Studio they are using.
 
     .EXAMPLE
     Import-ToolkitModules
 
-    Loads all the modules and the depedencies on the default version. User can change this to the used Trados Studio version
+    Loads all modules and their dependencies for the default version of Trados Studio. The default version is "Studio18".
 
-    Import-ToolkitModules -StudioVersion "Studio16"
+    .EXAMPLE
+    Import-ToolkitModules -StudioVersion "Studio18"
 
-    Loads all the modules and the dependencies for the Studio 2021 (Studio16 version name).
+    Loads all modules and their dependencies for Trados Studio 2024, identified by the version name "Studio18".
 
-    Import-ToolkitModules -StudioVersion "Studio16" -Modules @("GetGuids")
-
-    Loads all the dependencies and only the GetGuids modules for the Studio 2021 (STudio16 version name).
-
-    Import-ToolkitModules -Modules@("GetGuids")
-
-    Loads all the dependencies only for the GetGuids module for the default Studio Version.
+    .OUTPUTS
+    None
+    The function does not return any output but imports modules globally for use.
 #>
 function Import-ToolkitModules {
-    param ([String] $StudioVersion = "Studio18",
-    [String[]] $Modules = @())
+    param ([String] $StudioVersion = "Studio18")
 
     Add-Dependencies $StudioVersion
 
@@ -62,13 +56,19 @@ function Import-ToolkitModules {
 
 <#
     .SYNOPSIS
-    Remove all the used modules
+    Removes all the modules that were loaded as part of the Trados Powershell Toolkit, except for the ToolkitInitializer.
 
     .DESCRIPTION
-    Removes all the modules the user has loaded that are part of the Trados Powershell Toolkit except the ToolkitInitializer
+    This function removes all modules that were imported into the PowerShell session as part of the Trados Powershell Toolkit. It will not remove the ToolkitInitializer module. The function clears the list of module names stored in the `$global:moduleNames` variable.
 
     .EXAMPLE
     Remove-ToolkitModules
+
+    Removes all modules that were loaded as part of the Trados Powershell Toolkit and clears the global module names list.
+
+    .OUTPUTS
+    None
+    The function does not return any output but will remove the specified modules from the PowerShell session.
 #>
 function Remove-ToolkitModules {
     foreach ($moduleName in $global:moduleNames)
@@ -92,7 +92,6 @@ function Add-Dependencies {
 
     $appPath = "$ProgramFilesDir\Trados\Trados Studio\$StudioVersion\"
 
-    Add-CustomTypes
     # Solve dependency conficts
     Add-Type -Path $assemblyResolverPath;
     $assemblyResolver = New-Object DependencyResolver.AssemblyResolver("$appPath\");
@@ -103,97 +102,7 @@ function Add-Dependencies {
     Add-Type -Path "$appPath\Sdl.LanguagePlatform.TranslationMemory.dll"
     Add-Type -Path "$appPath\Sdl.FileTypeSupport.Framework.Core.Utilities.dll"
     Add-Type -Path "$appPath\Sdl.ProjectAutomation.Settings.dll"
-}
-
-function Add-CustomTypes {
-    Add-Type -TypeDefinition @'
-	using System;
-	using System.Reflection;
-
-    public static class ReflectionHelper
-    {
-        public static void CallEnsurePluginRegistryIsCreated(Type fileBasedProjectType)
-        {
-            // Get the MethodInfo object for the private static method using BindingFlags
-            MethodInfo methodInfo = fileBasedProjectType.GetMethod(
-                "EnsurePluginRegistryIsCreated",
-                BindingFlags.NonPublic | BindingFlags.Static);
- 
-            // Ensure the method has been found
-            if (methodInfo == null)
-            {
-                throw new InvalidOperationException("Could not find the method EnsurePluginRegistryIsCreated");
-            }
- 
-            // Invoke the private static method
-            methodInfo.Invoke(null, null);
-        }
-    }
-'@
-Add-Type -TypeDefinition @'
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Management.Automation.Runspaces;
-
-public class RunspacedDelegateFactory
-{
-    public static Delegate NewRunspacedDelegate(Delegate _delegate, Runspace runspace)
-    {
-        Action setRunspace = () => Runspace.DefaultRunspace = runspace;
-
-        return ConcatActionToDelegate(setRunspace, _delegate);
-    }
-
-    private static Expression ExpressionInvoke(Delegate _delegate, params Expression[] arguments)
-    {
-        var invokeMethod = _delegate.GetType().GetMethod("Invoke");
-
-        return Expression.Call(Expression.Constant(_delegate), invokeMethod, arguments);
-    }
-
-    public static Delegate ConcatActionToDelegate(Action a, Delegate d)
-    {
-        var parameters =
-            d.GetType().GetMethod("Invoke").GetParameters()
-            .Select(p => Expression.Parameter(p.ParameterType, p.Name))
-            .ToArray();
-
-        Expression body = Expression.Block(ExpressionInvoke(a), ExpressionInvoke(d, parameters));
-
-        var lambda = Expression.Lambda(d.GetType(), body, parameters);
-
-        var compiled = lambda.Compile();
-
-        return compiled;
-    }
-}
-'@
-
-Add-Type -TypeDefinition @'
-using System;
-
-namespace TMProvider
-{
-	public class MemoryResource
-	{
-		public string Path { get; set; }
-
-		public Uri Uri { get; set; }
-
-		public Uri UriSchema { get; set; }
-
-		public string UserNameOrClientId { get; set; }
-
-		public string UserPasswordOrClientSecret { get; set; }
-
-		public bool IsWindowsUser { get; set; }
-
-		public string TargetLanguageCode { get; set; }
-	}
-}
-'@
+    Add-Type -Path "$appPath\Sdl.Desktop.Platform.ServerConnectionPlugin.dll"
 }
 
 Export-ModuleMember Import-ToolkitModules
