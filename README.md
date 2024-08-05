@@ -316,7 +316,7 @@ Example: `Get-Help Get-DBServers`
 
 ## Ensuring File Permissions for Toolkit Files
 
-Windows may block files downloaded from the internet for security reasons. To ensure the toolkit functions properly, unblock these files.
+Windows may block files downloaded from the internet for security reasons. To ensure the toolkit functions properly, unblock the downloaded zip file.
 
 ### Step-by-Step Instructions
 
@@ -349,9 +349,9 @@ To determine which version of PowerShell is installed on your system:
 
 3. Check the PowerShell Version:
    - In the PowerShell window, enter the following command:
-    ```powershell
-    $PSVersionTable
-    ```
+      ```powershell
+      $PSVersionTable
+      ```
 4. Press Enter. This will display a table with detailed information about the PowerShell version, including the version number
 
 ## Contribution

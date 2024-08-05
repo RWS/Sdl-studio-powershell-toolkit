@@ -1,5 +1,5 @@
 ﻿$StudioVersion = "Studio18"; # Change this with the actual Trados Studio version
-$ProjectSourceFiles = "C:\Documents\Samples" # Change this value with the actual path to the Samples folder
+$ProjectSourceFiles = "C:\Users\aflorescu\Documents\windowspowershell\Samples" # Change this value with the actual path to the Samples folder
 
 # Clear the console host...
 Clear-Host
@@ -38,7 +38,7 @@ Write-Host "Now let's create a new project which will use the newly created TM."
 $projectName = "My Test Project";
 $projectDestinationPath = "c:\Projects\PowerShellToolKit\PowerShellTest\$StudioVersion\" + "SampleProject";
 $sourceLanguage = "en-US";
-$targetLanguages = "de-DE", "fr-FR";
+$targetLanguages = @("de-DE", "fr-FR");
 $tmProvider = Get-TranslationProvider -tmPath "$tmFilePath"
 $tmProvider
 $inputFilesFolderPath = "$ProjectSourceFiles\SampleFiles";
