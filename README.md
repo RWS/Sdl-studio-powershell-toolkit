@@ -46,7 +46,7 @@ Ensure the following requirements are met before using this toolkit:
 ## Installation
 1. **Download the Files:**
     - Ensure you have downloaded all necessary files for the toolkit, including the sample roundtrip scripts and PowerShell modules. These files should be obtained from the provided source or repository. [Download Toolkit Files](https://github.com/RWS/Sdl-studio-powershell-toolkit/releases/tag/3.0.0.0)
-    - After downloading, verify and adjust file permissions for the toolkit files as necessary. Detailed instructions can be found in the [Ensuring File Permissions for Toolkit Files](#ensuring-file-permissions-for-toolkit-files) section.
+    - After downloading, you may need to **unblock the zip file**. For instructions on how to unblock files, see [Ensuring File Permissions for Toolkit File](#ensuring-file-permissions-for-toolkit-files).
 2. **Create Required Folders:**
     - First, create the following folders if they do not already exist:
       - `C:\users\{your_user_name}\Documents\WindowsPowerShell`
@@ -218,9 +218,9 @@ To begin using the toolkit functions, you must first import the ToolkitInitializ
   ```
   - Replace `{YourUserName}` with your actual Windows username.
 - **Example for User-Specific Directory:**
-```powershell
-$env:PSModulePath += ";C:\Users\JohnDoe\Documents\WindowsPowerShell\Modules"
-```
+  ```powershell
+  $env:PSModulePath += ";C:\Users\JohnDoe\Documents\WindowsPowerShell\Modules"
+  ```
 - **Permanently Permanently Add the Path to `$env:PSModulePath`:** If you wish to add the path permanently so that it remains available across sessions and reboots, follow these steps:
     - Open PowerShell as Administrator
     - Add the Directory to the Environment Variable:
@@ -233,17 +233,23 @@ $env:PSModulePath += ";C:\Users\JohnDoe\Documents\WindowsPowerShell\Modules"
     ```powershell
     $env:PSModulePath
     ```
+- **Import the Toolkit Module by Specifying Its Path:** If you prefer or need to import the module by specifying its path directly, you can do so using the following command:
+  ```powershell
+  Import-Module "C:\Users\{YourUserName}\Documents\WindowsPowerShell\Modules\ToolkitInitializer"
+  ```
+    - Replace `{YourUserName}` with your actual Windows username.
+
 
 ### 2. Call the `Import-ToolkitModules` Method
 Once the `ToolkitInitializer` module is imported, you need to call the `Import-ToolkitModules` method. This step may require parameters depending on your configuration.
   - Command: 
-  ```powershell
-  Import-ToolkitModules
-  ```
+    ```powershell
+    Import-ToolkitModules
+    ```
   - Optional Parameters: If you need to specify parameters based on your configuration, include them as required:
-  ```powershell
-  Import-ToolkitModules -StudioVersion "Studio18"
-  ```
+    ```powershell
+    Import-ToolkitModules -StudioVersion "Studio18"
+    ```
 
 ### 3. Access Toolkit Functions
 After importing the module and calling the `Import-ToolkitModules` method, all the functions from the Trados Studio Toolkit will be available for use in your PowerShell session.
@@ -332,27 +338,6 @@ Windows may block files downloaded from the internet for security reasons. To en
 - Click "Apply" to save the changes.
 - Click "OK" to close the Properties dialog.
 
-### Files to Unblock
-
-Ensure the following files are unblocked for proper toolkit functionality:
-
-- **Modules:**
-  - `GetGuids.psd1` and `GetGuids.psm1`
-  - `PackageHelper.psd1` and `PackageHelper.psm1`
-  - `ProjectHelper.psd1` and `ProjectHelper.psm1`
-  - `ProjectServerHelper.psd1` and `ProjectServerHelper.psm1`
-  - `TMHelper.psd1` and `TMHelper.psm1`
-  - `TMServerHelepr.psd1` and `TMServerHelper.psm1`
-  - `ToolkitInitializer.psd1` and `ToolkitInitializer.psm1`
-  - `UserManagerHelper.psd1` and `UserManagerHelper.psm1`
-- **ToolkitInitializer:**
-  - `DependencyResolver.dll`
-- **Sample Scripts:**
-  - `FileBasedProject_Roundtrip.ps1`
-  - `ServerBasedProject_Roundtrip.ps1`
-  - `TMServer_Roundtrip.ps1`
-  - `UserManager_Roundtrip.ps1`
-
 ## Check installed version of Powershell
 To determine which version of PowerShell is installed on your system:
 
@@ -364,9 +349,9 @@ To determine which version of PowerShell is installed on your system:
 
 3. Check the PowerShell Version:
    - In the PowerShell window, enter the following command:
-  ```powershell
-  $PSVersionTable
-  ```
+    ```powershell
+    $PSVersionTable
+    ```
 4. Press Enter. This will display a table with detailed information about the PowerShell version, including the version number
 
 ## Contribution

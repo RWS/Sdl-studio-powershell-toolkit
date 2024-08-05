@@ -1,5 +1,7 @@
 $scriptPath = $MyInvocation.MyCommand.Path
 $scriptParentDiv = Split-Path $scriptPath -Parent;
+$modulesPath = Split-Path $scriptParentDiv -Parent;
+
 $global:moduleNames = @()
 $defaultModules = @(
     "GetGuids"
@@ -50,7 +52,7 @@ function Import-ToolkitModules {
 
     foreach ($moduleName in $global:moduleNames)
     {
-        Import-Module -Name $moduleName -ArgumentList $StudioVersion -Scope Global
+        Import-Module -Name "$modulesPath\$moduleName" -ArgumentList $StudioVersion -Scope Global
     }
 }
 
