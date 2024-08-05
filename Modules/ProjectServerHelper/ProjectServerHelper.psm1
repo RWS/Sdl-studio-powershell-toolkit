@@ -18,6 +18,10 @@ The password associated with the provided username. This is required for authent
 $projectServer = Get-ProjectServer -serverAddress "https://example.com" -userName "admin" -password "securepassword"
 
 This example creates a `CredentialStore` object with the server address `https://example.com`, the username `admin`, and the password `securepassword`. The resulting `$projectServer` object can then be used to interact with the server in other functions.
+
+.OUTPUTS
+[CredentialStore]
+Returns the CredentialStore objects which will be used for connecting the the proeject server.
 #>
 function Get-ProjectServer 
 {
@@ -44,18 +48,21 @@ The `Show-ServerbasedProjects` function connects to a server using provided cred
 .PARAMETER server
 An instance of the `CredentialStore` class containing the server URI, username, and password used for authentication.
 
-.PARAMETER organization
-The `ResourceGroup` object representing the organization from which projects will be retrieved. This object should be obtained from the SDL.ApiClientSDK.
+.PARAMETER organizationPath
+(Optional)Represents the organization path as a string. If this value is not provided the function will return the info for all the projects.
 
 .PARAMETER includeSubOrganizations
 A boolean value indicating whether to include projects from suborganizations. By default, this is set to `false`.
 
 .EXAMPLE
 $credential = Get-ProjectServer -serverAddress "https://example.com" -userName "admin" -password "securepassword"
-$organization = Get-OrganizationResourceGroup -name "MainOrg"
-$projects = Show-ServerbasedProjects -server $credential -organization $organization -includeSubOrganizations $true
+$projects = Show-ServerbasedProjects -server $credential -organizationPath "/" -includeSubOrganizations $true
 
-This example shows how to retrieve all projects from the "MainOrg" organization and its suborganizations. The `$projects` variable will contain the list of projects.
+This example shows how to retrieve all projects from the Root organization and its suborganizations. The `$projects` variable will contain the list of project infos.
+
+.OUTPUTS
+[ServerProjectInfo[]]
+Returns an array of serverprojectinfo, representing information about the found projects.
 #>
 function Show-ServerbasedProjects
 {
@@ -63,15 +70,20 @@ function Show-ServerbasedProjects
         [Parameter(Mandatory=$true)]
         [DependencyResolver.CredentialStore] $server,
 
-        [Parameter(Mandatory=$true)]
-        [SDL.ApiClientSDK.GS.Models.ResourceGroup] $organization,
 
+        [String] $organizationPath = "/",
         [Bool] $includeSubOrganizations = $false)
 
-    $projectServer = New-Object Sdl.ProjectAutomation.FileBased.ProjectServer(
-        $server.ServerUri, $false, $server.UserName, $server.Password);
-
-    return $projectServer.GetServerProjects($organization.Path, $includeSubOrganizations, $true);
+    try {
+        $projectServer = New-Object Sdl.ProjectAutomation.FileBased.ProjectServer(
+            $server.ServerUri, $false, $server.UserName, $server.Password);
+    
+        return $projectServer.GetServerProjects($organizationPath, $includeSubOrganizations, $true);        
+    }
+    catch 
+    {
+        Write-Host "Invalid ProjectServer instance" -ForegroundColor Green;
+    }
 }
 
 <#
@@ -84,8 +96,8 @@ The `Get-ServerbasedProject` function connects to a server using provided creden
 .PARAMETER server
 An instance of the `CredentialStore` class containing the server URI, username, and password used for authentication.
 
-.PARAMETER organization
-The `ResourceGroup` object representing the organization where the project is hosted. This object should be obtained from the SDL.ApiClientSDK.
+.PARAMETER organizationPath
+Represents the path location as a string of the project.
 
 .PARAMETER projectName
 The name of the project to be downloaded from the server.
@@ -95,11 +107,14 @@ The local directory path where the project will be copied. The project will be s
 
 .EXAMPLE
 $credential = Get-ProjectServer -serverAddress "https://example.com" -userName "admin" -password "securepassword"
-$organization = Get-OrganizationResourceGroup -name "MainOrg"
 $outputFolder = "D:\LocalProjects"
-Get-ServerbasedProject -server $credential -organization $organization -projectName "ProjectX" -outputProjectFolder $outputFolder
+Get-ServerbasedProject -server $credential -organization "/" -projectName "ProjectX" -outputProjectFolder $outputFolder
 
-This example downloads the project named "ProjectX" from the "MainOrg" organization and copies it to the local folder "D:\LocalProjects".
+This example downloads the project named "ProjectX" from the Root organization and copies it to the local folder "D:\LocalProjects".
+
+.OUTPUTS
+[FileBasedProject]
+Returns the FileBasedPreoject instance representing the downloaded project.
 #>
 function Get-ServerbasedProject
 {
@@ -108,7 +123,7 @@ function Get-ServerbasedProject
         [DependencyResolver.CredentialStore] $server,
 
         [Parameter(Mandatory=$true)]
-        [SDL.ApiClientSDK.GS.Models.ResourceGroup] $organization,
+        [String] $organizationPath,
  
         [Parameter(Mandatory=$true)]
         [String] $projectName,
@@ -119,8 +134,41 @@ function Get-ServerbasedProject
 
     $projectServer = New-Object Sdl.ProjectAutomation.FileBased.ProjectServer(
         $server.ServerUri, $false, $server.UserName, $server.Password);
-    $projectInfo = $projectServer.GetServerProject("$($organization.Path)/$projectName");
-    return $ProjectServer.OpenProject($projectInfo.ProjectId, $outputProjectFolder + "\" + $projectInfo.Name);
+
+    # Validates the ProjectCredential objects
+    try 
+    {
+        $projectInfo = $projectServer.GetServerProject("$organizationPath/$projectName");
+    }
+    catch 
+    {
+        Write-Host "Invalid ProjectServer" -ForegroundColor Green;
+        return;
+    }
+
+    # Validates the Project existence
+    if ($null -eq $projectInfo)
+    {
+        Write-Host "Project does not exist" -ForegroundColor Green;
+        return;
+    }
+    
+    
+    $outputProjectFolder += "\$($projectInfo.Name)"
+
+    # Validates the provided output folder to be an empty directory or a non-existing one
+    if (Test-Path $outputProjectFolder) 
+	{
+		$items = Get-ChildItem -Path $outputProjectFolder
+
+		if ($items) 
+		{
+			Write-Host "The path should be an empty directory" -ForegroundColor Green
+			return;
+		} 
+	}
+
+    return $ProjectServer.OpenProject($projectInfo.ProjectId, $outputProjectFolder);
 }
 
 <#
@@ -136,16 +184,14 @@ An instance of the `CredentialStore` class containing the server URI, username, 
 .PARAMETER project
 An instance of the `FileBasedProject` class representing the project to be published. This project should be loaded and ready for publishing.
 
-.PARAMETER organization
-The `ResourceGroup` object representing the organization on the GroupShare server where the project will be published. This object should be obtained from the SDL.ApiClientSDK.
+.PARAMETER organizationPath
+Represents the organization path to the project
 
 .EXAMPLE
 $credential = Get-ProjectServer -serverAddress "https://example.com" -userName "admin" -password "securepassword"
-$project = Open-Project -path "D:\LocalProjects\MyProject"
-$organization = Get-OrganizationResourceGroup -name "MainOrg"
-Publish-Project -server $credential -project $project -organization $organization
+Publish-Project -server $credential -project $project -organizationPath "/"
 
-This example publishes a local project named "MyProject" to the "MainOrg" organization on the GroupShare server.
+This example publishes a local project named "MyProject" to the Root organization on the GroupShare server.
 #>
 function Publish-Project 
 {
@@ -157,10 +203,18 @@ function Publish-Project
         [Sdl.ProjectAutomation.FileBased.FileBasedProject] $project,
 
         [Parameter(Mandatory=$true)]
-        [SDL.ApiClientSDK.GS.Models.ResourceGroup] $organization)
+        [String] $organizationPath)
 
     $null = $project.PublishProject(
-        $server.ServerUri, $false, $server.UserName, $server.Password, $organization.Path, $null); # maybe add a delegate here to display
+        $server.ServerUri, $false, $server.UserName, $server.Password, $organizationPath, {
+            param ($obj, $evt)
+            Write-Host "$($evt.StatusMessage) $($evt.PercentComplete)% complete"
+            
+            if ($cancelledByUser) {
+                $evt.Cancel = $true
+            }
+        }); 
+
 }
 
 <#
@@ -174,7 +228,7 @@ The `UnPublish-Project` function removes a project from the GroupShare server. T
 An instance of the `FileBasedProject` class representing the project to be removed from the server. This project should be loaded and must exist on the server.
 
 .EXAMPLE
-$project = Open-Project -path "D:\LocalProjects\MyProject"
+$project = Get-Project -path "D:\LocalProjects\MyProject"
 UnPublish-Project -project $project
 
 This example removes the project located at "D:\LocalProjects\MyProject" from the GroupShare server.
@@ -185,11 +239,16 @@ function UnPublish-Project
         [Parameter(Mandatory=$true)]
         [Sdl.ProjectAutomation.FileBased.FileBasedProject] $project)
 
-    $project.DeleteFromServer();
+    try {
+        $project.DeleteFromServer();
+    }
+    catch {
+        Write-Host "The provided project is not published" -ForegroundColor Green
+    }
 }
 
 Export-ModuleMember Get-ProjectServer;
 Export-ModuleMember Show-ServerbasedProjects;
-Export-ModuleMember Get-ServerbasedProject; 
-Export-ModuleMember Publish-Project; 
+Export-ModuleMember Get-ServerbasedProject;
+Export-ModuleMember Publish-Project;  
 Export-ModuleMember UnPublish-Project;

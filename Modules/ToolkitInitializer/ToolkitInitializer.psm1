@@ -103,6 +103,20 @@ function Add-Dependencies {
     Add-Type -Path "$appPath\Sdl.FileTypeSupport.Framework.Core.Utilities.dll"
     Add-Type -Path "$appPath\Sdl.ProjectAutomation.Settings.dll"
     Add-Type -Path "$appPath\Sdl.Desktop.Platform.ServerConnectionPlugin.dll"
+
+    $log4netPath = "$appPath\Sdl.Desktop.Logger.dll"
+    Resolve-Log4Net $log4netPath
+}
+
+function Resolve-Log4Net {
+    param ([String] $assemblyPath)
+
+    Add-Type -Path $assemblyPath;
+    $assembly = [System.Reflection.Assembly]::LoadFrom($assemblyPath)
+
+    $internalClassType = $assembly.GetType("Sdl.Desktop.Logger.Log4NetLogger");
+    $field = $internalClassType.GetField('Log4netInitialized', 'NonPublic, Static')
+    $field.SetValue($false, $true);
 }
 
 Export-ModuleMember Import-ToolkitModules

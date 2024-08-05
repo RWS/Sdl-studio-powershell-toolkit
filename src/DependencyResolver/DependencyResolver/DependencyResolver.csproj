@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.17" />
     <PackageReference Include="System.Management.Automation" Version="6.1.7601.17515" />
   </ItemGroup>
 
