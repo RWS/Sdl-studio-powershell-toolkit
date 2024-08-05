@@ -45,34 +45,34 @@ Ensure the following requirements are met before using this toolkit:
 
 ## Installation
 1. **Download the Files:**
-  - Ensure you have downloaded all necessary files for the toolkit, including the sample roundtrip scripts and PowerShell modules. These files should be obtained from the provided source or repository. [Download Toolkit Files](https://github.com/RWS/Sdl-studio-powershell-toolkit/releases/tag/3.0.0.0)
-  - After downloading, verify and adjust file permissions for the toolkit files as necessary. Detailed instructions can be found in the [Ensuring File Permissions for Toolkit Files](#ensuring-file-permissions-for-toolkit-files) section.
+    - Ensure you have downloaded all necessary files for the toolkit, including the sample roundtrip scripts and PowerShell modules. These files should be obtained from the provided source or repository. [Download Toolkit Files](https://github.com/RWS/Sdl-studio-powershell-toolkit/releases/tag/3.0.0.0)
+    - After downloading, verify and adjust file permissions for the toolkit files as necessary. Detailed instructions can be found in the [Ensuring File Permissions for Toolkit Files](#ensuring-file-permissions-for-toolkit-files) section.
 2. **Create Required Folders:**
-  - First, create the following folders if they do not already exist:
-    - `C:\users\{your_user_name}\Documents\WindowsPowerShell`
-    - `C:\users\{your_user_name}\Documents\WindowsPowerShell\modules`
+    - First, create the following folders if they do not already exist:
+      - `C:\users\{your_user_name}\Documents\WindowsPowerShell`
+      - `C:\users\{your_user_name}\Documents\WindowsPowerShell\modules`
 3. **Copy Sample Roundtrip Scripts**
-    - Copy the sample roundtrip scripts into the `WindowsPowerShell` folder:
-      - `FileBasedProject_Roundtrip.ps1`
-      - `ServerBasedProject_Roundtrip.ps1`
-      - `TMServer_Roundtrip.ps1`
-      - `UserManager_Roundtrip.ps1`
-    - Ensure these files are placed directly in the `C:\Users\{your_user_name}\Documents\WindowsPowerShell` directory.
+      - Copy the sample roundtrip scripts into the `WindowsPowerShell` folder:
+        - `FileBasedProject_Roundtrip.ps1`
+        - `ServerBasedProject_Roundtrip.ps1`
+        - `TMServer_Roundtrip.ps1`
+        - `UserManager_Roundtrip.ps1`
+      - Ensure these files are placed directly in the `C:\Users\{your_user_name}\Documents\WindowsPowerShell` directory.
 4. **Copy PowerShell Modules:**
-  - Next, copy the PowerShell modules into the `modules` folder:
-    - `....\WindowsPowerShell\modules\GetGuids`
-    - `....\WindowsPowerShell\modules\PackageHelper`
-    - `....\WindowsPowerShell\modules\ProjectHelper`
-    - `....\WindowsPowerShell\modules\ProjectServerHelper`
-    - `....\WindowsPowerShell\modules\TMHelper`
-    - `....\WindowsPowerShell\modules\TMServerHelper`
-    - `....\WindowsPowerShell\modules\ToolkitInitializer`
-    - `....\WindowsPowerShell\modules\UserManagerHelper`
-  - Ensure each module folder contains its respective `.psd1` and `.psm1` files.
+    - Next, copy the PowerShell modules into the `modules` folder:
+      - `....\WindowsPowerShell\modules\GetGuids`
+      - `....\WindowsPowerShell\modules\PackageHelper`
+      - `....\WindowsPowerShell\modules\ProjectHelper`
+      - `....\WindowsPowerShell\modules\ProjectServerHelper`
+      - `....\WindowsPowerShell\modules\TMHelper`
+      - `....\WindowsPowerShell\modules\TMServerHelper`
+      - `....\WindowsPowerShell\modules\ToolkitInitializer`
+      - `....\WindowsPowerShell\modules\UserManagerHelper`
+    - Ensure each module folder contains its respective `.psd1` and `.psm1` files.
 5. **Verify File Locations**
-  - Confirm that the files are located in the correct directories:
-    - Scripts should be in `C:\Users\{your_user_name}\Documents\WindowsPowerShell`
-    - Modules should be in `C:\Users\{your_user_name}\Documents\WindowsPowerShell\modules` with appropriate subfolders for each module.
+    - Confirm that the files are located in the correct directories:
+      - Scripts should be in `C:\Users\{your_user_name}\Documents\WindowsPowerShell`
+      - Modules should be in `C:\Users\{your_user_name}\Documents\WindowsPowerShell\modules` with appropriate subfolders for each module.
 
 Following these steps will ensure that the PowerShell toolkit is set up correctly and ready for use.
 
@@ -81,16 +81,16 @@ The `ToolkitInitializer` module includes the `Import-ToolkitModules` function, w
 
 ### Configuration Instructions
 1. Setting the Trados Studio Version
-  - To configure the toolkit for your specific version of Trados Studio, you need to set the `$StudioVersion` parameter in the `ToolkitInitializer.psm1` file located at:
-  - `....\WindowsPowerShell\modules\ToolkitInitializer\ToolkitInitializer.psm1`
-  - Example Configuration: `[String] $StudioVersion = "Studio18"`
-  - Replace `$StudioVersion` with the version of Trados Studio you are using.
+    - To configure the toolkit for your specific version of Trados Studio, you need to set the `$StudioVersion` parameter in the `ToolkitInitializer.psm1` file located at:
+    - `....\WindowsPowerShell\modules\ToolkitInitializer\ToolkitInitializer.psm1`
+    - Example Configuration: `[String] $StudioVersion = "Studio18"`
+    - Replace `$StudioVersion` with the version of Trados Studio you are using.
 
 2. Dynamic Version Assignment
 If you prefer to dynamically specify the Trados Studio version when running the script, you can do so by passing the version as a parameter to the `Import-ToolkitModules` function.
-  - Example Command:
-  - `Import-ToolkitModules -StudioVersion "Studio18"`
-  
+    - Example Command:
+    - `Import-ToolkitModules -StudioVersion "Studio18"`
+    
 For details on locating the correct Trados Studio version, refer to the [Finding the Studio Version](#finding-the-studio-version) section.
 
 ### Roundtrip Script Configuration
@@ -98,79 +98,79 @@ To properly run the various roundtrip scripts, you must configure the parameters
 
 #### 1. File-Based Roundtrip (`FileBasedProject_Roundtrip.ps1`)
 1. Set Studio Version:
-  - Configure the `$StudioVersion` parameter to match the version of Trados Studio you are using.
-  - Example: `$StudioVersion = "Studio18"`
+    - Configure the `$StudioVersion` parameter to match the version of Trados Studio you are using.
+    - Example: `$StudioVersion = "Studio18"`
 2. Set Project Source Files:
-  - Configure the `$ProjectSourceFiles` parameter to point to the location of the `Sample` folder.
-  - Example: `$ProjectSourceFiles = "C:\Path\To\Samples"`
+    - Configure the `$ProjectSourceFiles` parameter to point to the location of the `Sample` folder.
+    - Example: `$ProjectSourceFiles = "C:\Path\To\Samples"`
 
 #### 2. Server-Based Project Roundtrip (`ServerBasedProject_Roundtrip.ps1`)
 (Optional: Only if you are using GroupShare server functionalities)
 1. Set Studio Version:
-  - Configure the `$StudioVersion` parameter similarly as for the file-based roundtrip.
-  - Example: `$StudioVersion = "Studio18"`
+    - Configure the `$StudioVersion` parameter similarly as for the file-based roundtrip.
+    - Example: `$StudioVersion = "Studio18"`
 2. Set GroupShare Server Details:
-  - **Server URL**:
-    - Configure the `$ServerUrl` parameter with the URL of your GroupShare server.
-    - Example: `$ServerUrl = "http://your-group-share-server-url"`
-  - **Authentication**:
-    - Set the `$UserName` and `$Password` parameters with your GroupShare credentials.
-    - Example: 
-      - `$UserName = "your-username"`
-      - `$Password = "your-password"`
+    - **Server URL**:
+      - Configure the `$ServerUrl` parameter with the URL of your GroupShare server.
+      - Example: `$ServerUrl = "http://your-group-share-server-url"`
+    - **Authentication**:
+      - Set the `$UserName` and `$Password` parameters with your GroupShare credentials.
+      - Example: 
+        - `$UserName = "your-username"`
+        - `$Password = "your-password"`
 
 #### 3. TM Server Roundtrip (`TMServerHelper_Roundtrip.ps1`)
 (Optional: Only if you are using GroupShare server functionalities)
 1. Set Studio Version:
-  - Configure the `$StudioVersion` parameter similarly as for the file-based roundtrip.
-  - Example: `$StudioVersion = "Studio18"`
+    - Configure the `$StudioVersion` parameter similarly as for the file-based roundtrip.
+    - Example: `$StudioVersion = "Studio18"`
 2. Set GroupShare Server Details:
-  - **Server URL**:
-    - Configure the `$ServerUrl` parameter with the URL of your GroupShare server.
-    - Example: `$ServerUrl = "http://your-group-share-server-url"`
-  - **Authentication**:
-    - Set the `$UserName` and `$Password` parameters with your GroupShare credentials.
-    - Example: 
-      - `$UserName = "your-username"`
-      - `$Password = "your-password"`
+    - **Server URL**:
+      - Configure the `$ServerUrl` parameter with the URL of your GroupShare server.
+      - Example: `$ServerUrl = "http://your-group-share-server-url"`
+    - **Authentication**:
+      - Set the `$UserName` and `$Password` parameters with your GroupShare credentials.
+      - Example: 
+        - `$UserName = "your-username"`
+        - `$Password = "your-password"`
 
 #### 4. User Manager Roundtrip (`UserManager_Roundtrip.ps1`)
 (Optional: Only if you are using GroupShare server functionalities)
 1. Set Studio Version:
-  - Configure the `$StudioVersion` parameter similarly as for the file-based roundtrip.
-  - Example: `$StudioVersion = "Studio18"`
+    - Configure the `$StudioVersion` parameter similarly as for the file-based roundtrip.
+    - Example: `$StudioVersion = "Studio18"`
 2. Set GroupShare Server Details:
-  - **Server URL**:
-    - Configure the `$ServerUrl` parameter with the URL of your GroupShare server.
-    - Example: `$ServerUrl = "http://your-group-share-server-url"`
-  - **Authentication**:
-    - Set the `$UserName` and `$Password` parameters with your GroupShare credentials.
-    - Example: 
-      - `$UserName = "your-username"`
-      - `$Password = "your-password"`
+    - **Server URL**:
+      - Configure the `$ServerUrl` parameter with the URL of your GroupShare server.
+      - Example: `$ServerUrl = "http://your-group-share-server-url"`
+    - **Authentication**:
+      - Set the `$UserName` and `$Password` parameters with your GroupShare credentials.
+      - Example: 
+        - `$UserName = "your-username"`
+        - `$Password = "your-password"`
 
 ## Running Toolkit Sample Scripts
 This section assumes that all the Roundtrip files have been configured as described in the [Roundtrips configuration](#roundtrips-configuration) section. Follow the steps below to run the scripts for file-based and server-based operations:
 
 1. Open PowerShell as an Administrator:
-  - Right-click on the PowerShell icon and select *"Run as Administrator."*
+    - Right-click on the PowerShell icon and select *"Run as Administrator."*
 2. Set the Execution Policy (If Needed):
-  - If you have not unblocked the files as described in the [Ensuring File Permissions for Toolkit Files](#ensuring-file-permissions-for-toolkit-files) section, you might need to allow script execution by setting the execution policy. To do this, execute:
-    - `Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser`
-  - This command allows PowerShell script execution without requiring local Windows admin privileges and needs to be executed once per machine and per user profile.
-  - **Note:** If you have already unblocked all the files (see E[nsuring File Permissions for Toolkit Files](#ensuring-file-permissions-for-toolkit-files)), you may not need to set the execution policy. Unblocking the files can sometimes resolve script execution issues without changing the execution policy.
+    - If you have not unblocked the files as described in the [Ensuring File Permissions for Toolkit Files](#ensuring-file-permissions-for-toolkit-files) section, you might need to allow script execution by setting the execution policy. To do this, execute:
+      - `Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser`
+    - This command allows PowerShell script execution without requiring local Windows admin privileges and needs to be executed once per machine and per user profile.
+    - **Note:** If you have already unblocked all the files (see E[nsuring File Permissions for Toolkit Files](#ensuring-file-permissions-for-toolkit-files)), you may not need to set the execution policy. Unblocking the files can sometimes resolve script execution issues without changing the execution policy.
 3. Change to the Directory Where Your Script Is Located:
-  - Navigate to the directory containing your script:
-    - cd C:\users\{your_user_name}\Documents\WindowsPowerShell
+    - Navigate to the directory containing your script:
+      - cd C:\users\{your_user_name}\Documents\WindowsPowerShell
 4. Run the File-Based Roundtrip Script:
-  - To execute the `FileBasedProject_Roundtrip.ps1` script, type `.\FileBasedProject_Roundtrip.ps1`
-  - This script creates and processes file-based translation memories, projects, and packages.
+    - To execute the `FileBasedProject_Roundtrip.ps1` script, type `.\FileBasedProject_Roundtrip.ps1`
+    - This script creates and processes file-based translation memories, projects, and packages.
 5. Optional: Run the Server-Based Project Roundtrip Script (If Using GroupShare Server):
-  - If you are using GroupShare functionalities, execute the `ServerBasedProject_Roundtrip.ps1` script after the file-based roundtrip script.
+    - If you are using GroupShare functionalities, execute the `ServerBasedProject_Roundtrip.ps1` script after the file-based roundtrip script.
 6. Optional: Run the TM Server Roundtrip Script (If Using GroupShare Server):
-  - To execute the `TMServer_Roundtrip.ps1` script, type `.\TMServer_Roundtrip.ps1`
+    - To execute the `TMServer_Roundtrip.ps1` script, type `.\TMServer_Roundtrip.ps1`
 7. Optional: Run the User Manager Roundtrip Script (If Using GroupShare Server):
-  - To execute the `UserManager_Roundtrip.ps1` script, type `.\UserManager_Roundtrip.ps1`
+    - To execute the `UserManager_Roundtrip.ps1` script, type `.\UserManager_Roundtrip.ps1`
 
 ### **Example Session**
 Here’s an example of a complete session to run the file-based roundtrip script:
@@ -188,13 +188,13 @@ cd C:\users\{your_user_name}\Documents\WindowsPowerShell
 ## Finding the Studio Version
 To determine your Trados Studio version, follow these steps:
   1. Navigate to Installation Directory:
-    - Check one of the following directories on your system to locate Trados Studio:
-      - `C:\Program Files (x86)\Trados\Trados Studio`
-      - `C:\Program Files\Trados\Trados Studio` (if `Program Files (x86)` does not exist)
+      - Check one of the following directories on your system to locate Trados Studio:
+        - `C:\Program Files (x86)\Trados\Trados Studio`
+        - `C:\Program Files\Trados\Trados Studio` (if `Program Files (x86)` does not exist)
   2. Identify the Version Folder:
     In the directory you find, the folder name typically corresponds to the version of Trados Studio installed. For example:
-      - **Studio 2022** will be in a folder named  `Studio17`
-      - **Studio 2024** will be in a folder named  `Studio18`
+        - **Studio 2022** will be in a folder named  `Studio17`
+        - **Studio 2024** will be in a folder named  `Studio18`
 
 By identifying the folder name, you can determine the version of Trados Studio you are using.
 
@@ -214,13 +214,25 @@ To begin using the toolkit functions, you must first import the ToolkitInitializ
   ```
   - If needed, add the module directory to the path:
   ```powershell
-  $env:PSModulePath += ";C:\Users\{YourUserName}\Documents\WindowsPowerShell"
+  $env:PSModulePath += ";C:\Users\{YourUserName}\Documents\WindowsPowerShell\Modules"
   ```
   - Replace `{YourUserName}` with your actual Windows username.
 - **Example for User-Specific Directory:**
 ```powershell
-$env:PSModulePath += ";C:\Users\JohnDoe\Documents\WindowsPowerShell"
+$env:PSModulePath += ";C:\Users\JohnDoe\Documents\WindowsPowerShell\Modules"
 ```
+- **Permanently Permanently Add the Path to `$env:PSModulePath`:** If you wish to add the path permanently so that it remains available across sessions and reboots, follow these steps:
+    - Open PowerShell as Administrator
+    - Add the Directory to the Environment Variable:
+    ```powershell
+    $modulePath = "C:\Users\{Your_username}\Documents\WindowsPowerShell\Modules"
+  [System.Environment]::SetEnvironmentVariable("PSModulePath", "$env:PSModulePath;$modulePath", [System.EnvironmentVariableTarget]::User)
+    ```
+    - Replace `Your_username` with the actual username
+    - To confirm the path has been added permanently:
+    ```powershell
+    $env:PSModulePath
+    ```
 
 ### 2. Call the `Import-ToolkitModules` Method
 Once the `ToolkitInitializer` module is imported, you need to call the `Import-ToolkitModules` method. This step may require parameters depending on your configuration.
@@ -345,17 +357,17 @@ Ensure the following files are unblocked for proper toolkit functionality:
 To determine which version of PowerShell is installed on your system:
 
 1. Open the Run Dialog:
-  -  Press `Windows Key + R` to open the Run dialog.
+   -  Press `Windows Key + R` to open the Run dialog.
 
 2. Launch PowerShell:
-  - Type `powershell` into the Run dialog and press Enter. This will open a PowerShell window.
+    - Type `powershell` into the Run dialog and press Enter. This will open a PowerShell window.
 
 3. Check the PowerShell Version:
-  - In the PowerShell window, enter the following command:
+   - In the PowerShell window, enter the following command:
   ```powershell
   $PSVersionTable
   ```
-  - Press Enter. This will display a table with detailed information about the PowerShell version, including the version number
+4. Press Enter. This will display a table with detailed information about the PowerShell version, including the version number
 
 ## Contribution
 To add functionality or report bugs, please create a [pull request](http://www.codenewbie.org/blogs/how-to-make-a-pull-request) with your changes.
