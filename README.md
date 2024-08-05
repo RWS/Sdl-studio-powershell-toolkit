@@ -203,9 +203,9 @@ To utilize the Trados Studio Toolkit functions, follow these steps:
 ### 1. Import the `ToolkitInitializer` Module
 To begin using the toolkit functions, you must first import the ToolkitInitializer module into your PowerShell session. This step assumes you have correctly placed the module in the designated `WindowsPowerShell` directory.
   - Command: 
-  ```powershell
-  Import-Module -Name ToolkitInitializer
-  ```
+    ```powershell
+    Import-Module -Name ToolkitInitializer
+    ```
 **Note**:  If you receive an error indicating that the module cannot be found, ensure that the module directory is included in your PowerShell module path. You might need to update the `$env:PSModulePath` environment variable.
 #### Troubleshooting:
 - **Module Not Found Error**: Verify that the module is in the correct directory and that the path is included in the `$env:PSModulePath` environment variable. You can view the current paths with:
@@ -213,9 +213,9 @@ To begin using the toolkit functions, you must first import the ToolkitInitializ
   $env:PSModulePath
   ```
   - If needed, add the module directory to the path:
-  ```powershell
-  $env:PSModulePath += ";C:\Users\{YourUserName}\Documents\WindowsPowerShell\Modules"
-  ```
+    ```powershell
+    $env:PSModulePath += ";C:\Users\{YourUserName}\Documents\WindowsPowerShell\Modules"
+    ```
   - Replace `{YourUserName}` with your actual Windows username.
 - **Example for User-Specific Directory:**
   ```powershell
@@ -224,15 +224,15 @@ To begin using the toolkit functions, you must first import the ToolkitInitializ
 - **Permanently Permanently Add the Path to `$env:PSModulePath`:** If you wish to add the path permanently so that it remains available across sessions and reboots, follow these steps:
     - Open PowerShell as Administrator
     - Add the Directory to the Environment Variable:
-    ```powershell
-    $modulePath = "C:\Users\{Your_username}\Documents\WindowsPowerShell\Modules"
-  [System.Environment]::SetEnvironmentVariable("PSModulePath", "$env:PSModulePath;$modulePath", [System.EnvironmentVariableTarget]::User)
-    ```
+      ```powershell
+      $modulePath = "C:\Users\{Your_username}\Documents\WindowsPowerShell\Modules"
+    [System.Environment]::SetEnvironmentVariable("PSModulePath", "$env:PSModulePath;$modulePath", [System.EnvironmentVariableTarget]::User)
+      ```
     - Replace `Your_username` with the actual username
     - To confirm the path has been added permanently:
-    ```powershell
-    $env:PSModulePath
-    ```
+      ```powershell
+      $env:PSModulePath
+      ```
 - **Import the Toolkit Module by Specifying Its Path:** If you prefer or need to import the module by specifying its path directly, you can do so using the following command:
   ```powershell
   Import-Module "C:\Users\{YourUserName}\Documents\WindowsPowerShell\Modules\ToolkitInitializer"
