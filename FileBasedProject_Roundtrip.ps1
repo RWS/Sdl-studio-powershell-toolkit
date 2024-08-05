@@ -1,5 +1,5 @@
 ﻿$StudioVersion = "Studio18"; # Change this with the actual Trados Studio version
-$ProjectSourceFiles = "C:\Users\aflorescu\Documents\windowspowershell\Samples" # Change this value with the actual path to the Samples folder
+$ProjectSourceFiles = "C:\Path\To\Samples" # Change this value with the actual path to the Samples folder
 
 # Clear the console host...
 Clear-Host

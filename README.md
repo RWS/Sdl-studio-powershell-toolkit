@@ -310,9 +310,20 @@ Import-ToolkitModules
 | Export-Tmx         | Exports a file-based or a server-based Translation Memory to a specified location in TMX format.                 | TMServerHelper |
 
 ## How to Access Help for Functions
-Each function in this module has been documented with the `Get-Help` cmdlet, which provides detailed information about its usage and parameters. To view the documentation for a specific function, ensure that the modules are imported into your PowerShell session. You can then use the `Get-Help` cmdlet followed by the function name to access the help content.
+Each function in this module has been documented with the `Get-Help` cmdlet, which provides detailed information about its usage and parameters. To view the documentation for a specific function, ensure that the modules are imported into your PowerShell session.
 
-Example: `Get-Help Get-DBServers`
+### Steps to View Documentation:
+1. **Check if the Module is Loaded:** Execute the following command to check if the module has been loaded
+    ```powershell
+    Get-Module  
+    ```
+    - This command will display all the available modules that are imported into your session
+
+2. **Retrieve Help Information:** If the modules are loaded, you can retrieve the help information for a specific function by executing
+    ```powershell
+    Get-Help {function_name}
+    ```
+  - Replace `{function_name}` with the name of the function you are looking for.
 
 ## Ensuring File Permissions for Toolkit Files
 
