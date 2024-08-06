@@ -215,13 +215,14 @@ function Publish-Project
     $null = $project.PublishProject(
         $server.ServerUri, $false, $server.UserName, $server.Password, $organizationPath, {
             param ($obj, $evt)
-            Write-Host "$($evt.StatusMessage) $($evt.PercentComplete)% complete"
-            
+            Write-Host -NoNewline "`r$($evt.StatusMessage) $($evt.PercentComplete)% complete"
+
             if ($cancelledByUser) {
                 $evt.Cancel = $true
             }
         }); 
 
+        Write-Host $null;
 }
 
 <#
