@@ -40,6 +40,12 @@ $defaultModules = @(
 function Import-ToolkitModules {
     param ([String] $StudioVersion = "Studio18")
 
+    if ($(Test-PSVersion) -eq $false)
+    {
+        Write-Host "Please use PowerShell 5 (x86) for this script." -ForegroundColor Green
+        exit;
+    }
+
     Add-Dependencies $StudioVersion
 
     if ($Modules.Count -ne 0)
@@ -119,6 +125,14 @@ function Resolve-Log4Net {
     $internalClassType = $assembly.GetType("Sdl.Desktop.Logger.Log4NetLogger");
     $field = $internalClassType.GetField('Log4netInitialized', 'NonPublic, Static')
     $field.SetValue($false, $true);
+}
+
+function Test-PSVersion 
+{
+    $isPS5 = $Psversiontable.PSVersion.Major -eq 5
+    $is86x = [System.IntPtr]::Size -eq 4
+
+    return $isPS5 -and $is86x;
 }
 
 Export-ModuleMember Import-ToolkitModules
