@@ -50,7 +50,7 @@ Ensure the following requirements are met before using this toolkit:
 2. **Create Required Folders:**
     - First, create the following folders if they do not already exist:
       - `C:\users\{your_user_name}\Documents\WindowsPowerShell`
-      - `C:\users\{your_user_name}\Documents\WindowsPowerShell\modules`
+      - `C:\users\{your_user_name}\Documents\WindowsPowerShell\Modules`
 3. **Copy Sample Roundtrip Scripts**
       - Copy the sample roundtrip scripts into the `WindowsPowerShell` folder:
         - `FileBasedProject_Roundtrip.ps1`
@@ -60,19 +60,19 @@ Ensure the following requirements are met before using this toolkit:
       - Ensure these files are placed directly in the `C:\Users\{your_user_name}\Documents\WindowsPowerShell` directory.
 4. **Copy PowerShell Modules:**
     - Next, copy the PowerShell modules into the `modules` folder:
-      - `....\WindowsPowerShell\modules\GetGuids`
-      - `....\WindowsPowerShell\modules\PackageHelper`
-      - `....\WindowsPowerShell\modules\ProjectHelper`
-      - `....\WindowsPowerShell\modules\ProjectServerHelper`
-      - `....\WindowsPowerShell\modules\TMHelper`
-      - `....\WindowsPowerShell\modules\TMServerHelper`
-      - `....\WindowsPowerShell\modules\ToolkitInitializer`
-      - `....\WindowsPowerShell\modules\UserManagerHelper`
+      - `....\WindowsPowerShell\Modules\GetGuids`
+      - `....\WindowsPowerShell\Modules\PackageHelper`
+      - `....\WindowsPowerShell\Modules\ProjectHelper`
+      - `....\WindowsPowerShell\Modules\ProjectServerHelper`
+      - `....\WindowsPowerShell\Modules\TMHelper`
+      - `....\WindowsPowerShell\Modules\TMServerHelper`
+      - `....\WindowsPowerShell\Modules\ToolkitInitializer`
+      - `....\WindowsPowerShell\Modules\UserManagerHelper`
     - Ensure each module folder contains its respective `.psd1` and `.psm1` files.
 5. **Verify File Locations**
     - Confirm that the files are located in the correct directories:
       - Scripts should be in `C:\Users\{your_user_name}\Documents\WindowsPowerShell`
-      - Modules should be in `C:\Users\{your_user_name}\Documents\WindowsPowerShell\modules` with appropriate subfolders for each module.
+      - Modules should be in `C:\Users\{your_user_name}\Documents\WindowsPowerShell\Modules` with appropriate subfolders for each module.
 
 Following these steps will ensure that the PowerShell toolkit is set up correctly and ready for use.
 
@@ -82,7 +82,7 @@ The `ToolkitInitializer` module includes the `Import-ToolkitModules` function, w
 ### Configuration Instructions
 1. Setting the Trados Studio Version
     - To configure the toolkit for your specific version of Trados Studio, you need to set the `$StudioVersion` parameter in the `ToolkitInitializer.psm1` file located at:
-    - `....\WindowsPowerShell\modules\ToolkitInitializer\ToolkitInitializer.psm1`
+    - `....\WindowsPowerShell\Modules\ToolkitInitializer\ToolkitInitializer.psm1`
     - Example Configuration: `[String] $StudioVersion = "Studio18"`
     - Replace `$StudioVersion` with the version of Trados Studio you are using.
 
@@ -104,38 +104,11 @@ To properly run the various roundtrip scripts, you must configure the parameters
     - Configure the `$ProjectSourceFiles` parameter to point to the location of the `Sample` folder.
     - Example: `$ProjectSourceFiles = "C:\Path\To\Samples"`
 
-#### 2. Server-Based Project Roundtrip (`ServerBasedProject_Roundtrip.ps1`)
-(Optional: Only if you are using GroupShare server functionalities)
-1. Set Studio Version:
-    - Configure the `$StudioVersion` parameter similarly as for the file-based roundtrip.
-    - Example: `$StudioVersion = "Studio18"`
-2. Set GroupShare Server Details:
-    - **Server URL**:
-      - Configure the `$ServerUrl` parameter with the URL of your GroupShare server.
-      - Example: `$ServerUrl = "http://your-group-share-server-url"`
-    - **Authentication**:
-      - Set the `$UserName` and `$Password` parameters with your GroupShare credentials.
-      - Example: 
-        - `$UserName = "your-username"`
-        - `$Password = "your-password"`
+#### 2. Server-Based Roundtrips (`ServerBasedProject_Roundtrip.ps1`, `TMServerHelper_Roundtrip.ps1`, `UserManager_Roundtrip.ps1`, `UserManager_Roundtrip.ps1`)
+(Optional: Only if you are using GroupShare server functionalities).
 
-#### 3. TM Server Roundtrip (`TMServerHelper_Roundtrip.ps1`)
-(Optional: Only if you are using GroupShare server functionalities)
-1. Set Studio Version:
-    - Configure the `$StudioVersion` parameter similarly as for the file-based roundtrip.
-    - Example: `$StudioVersion = "Studio18"`
-2. Set GroupShare Server Details:
-    - **Server URL**:
-      - Configure the `$ServerUrl` parameter with the URL of your GroupShare server.
-      - Example: `$ServerUrl = "http://your-group-share-server-url"`
-    - **Authentication**:
-      - Set the `$UserName` and `$Password` parameters with your GroupShare credentials.
-      - Example: 
-        - `$UserName = "your-username"`
-        - `$Password = "your-password"`
+These configurations apply to all the server-based roundtrip scripts listed above.
 
-#### 4. User Manager Roundtrip (`UserManager_Roundtrip.ps1`)
-(Optional: Only if you are using GroupShare server functionalities)
 1. Set Studio Version:
     - Configure the `$StudioVersion` parameter similarly as for the file-based roundtrip.
     - Example: `$StudioVersion = "Studio18"`
@@ -150,7 +123,7 @@ To properly run the various roundtrip scripts, you must configure the parameters
         - `$Password = "your-password"`
 
 ## Running Toolkit Sample Scripts
-This section assumes that all the Roundtrip files have been configured as described in the [Roundtrips configuration](#roundtrips-configuration) section. Follow the steps below to run the scripts for file-based and server-based operations:
+This section assumes that all the Roundtrip files have been configured as described in the [Roundtrips configuration](#roundtrip-script-configuration) section. Follow the steps below to run the scripts for file-based and server-based operations:
 
 1. Open PowerShell as an Administrator:
     - Right-click on the PowerShell icon and select *"Run as Administrator."*
@@ -158,7 +131,7 @@ This section assumes that all the Roundtrip files have been configured as descri
     - If you have not unblocked the files as described in the [Ensuring File Permissions for Toolkit Files](#ensuring-file-permissions-for-toolkit-files) section, you might need to allow script execution by setting the execution policy. To do this, execute:
       - `Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser`
     - This command allows PowerShell script execution without requiring local Windows admin privileges and needs to be executed once per machine and per user profile.
-    - **Note:** If you have already unblocked all the files (see E[nsuring File Permissions for Toolkit Files](#ensuring-file-permissions-for-toolkit-files)), you may not need to set the execution policy. Unblocking the files can sometimes resolve script execution issues without changing the execution policy.
+    - **Note:** If you have already unblocked all the files (see [Ensuring File Permissions for Toolkit Files](#ensuring-file-permissions-for-toolkit-files)), you may not need to set the execution policy. Unblocking the files can sometimes resolve script execution issues without changing the execution policy.
 3. Change to the Directory Where Your Script Is Located:
     - Navigate to the directory containing your script:
       - cd C:\users\{your_user_name}\Documents\WindowsPowerShell
@@ -226,7 +199,7 @@ To begin using the toolkit functions, you must first import the ToolkitInitializ
     - Add the Directory to the Environment Variable:
       ```powershell
       $modulePath = "C:\Users\{Your_username}\Documents\WindowsPowerShell\Modules"
-    [System.Environment]::SetEnvironmentVariable("PSModulePath", "$env:PSModulePath;$modulePath", [System.EnvironmentVariableTarget]::User)
+      [System.Environment]::SetEnvironmentVariable("PSModulePath", "$env:PSModulePath;$modulePath", [System.EnvironmentVariableTarget]::User)
       ```
     - Replace `Your_username` with the actual username
     - To confirm the path has been added permanently:
