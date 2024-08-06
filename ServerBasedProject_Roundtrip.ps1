@@ -30,7 +30,7 @@ Write-host "Now Let's see all the projects from the Root Organization"
 $projectInfos = Show-ServerbasedProjects -server $credentialStore -organizationPath "/"
 foreach ($projectInfo in $projectInfos)
 {
-    Write-Host "Project: $($projectInfo.Name) in oganization $($projectInfo.organizationPath)"
+    Write-Host "Project: $($projectInfo.Name) in oganization $($projectInfo.organizationPath)" -ForegroundColor Green;
 }
 
 # Publishing the Project created form the FileBasedProject_Roundtrip to the groupshare server

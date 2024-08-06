@@ -280,7 +280,9 @@ Import-ToolkitModules
 | Get-TaskFileInfoFiles        | Gets the task files of the given target language from an existing file based project. | ProjectHelper     |
 | Get-ProjectServer         | Creates an instance of the CredentialStore class with server connection details. | ProjectServerHelper |
 | Show-ServerbasedProjects  | Retrieves all projects information from the specified organization and optionally the projects info within the suborganizations. | ProjectServerHelper |
-| Get-ServerbasedProject    | Downloads and copies a server-based project to a specified local folder.    | ProjectServerHelper |
+| Get-ServerbasedProject    | Downloads and copies a server-based project including the source and target language files to a specified local folder.    | ProjectServerHelper |
+| Set-CheckOutFiles | Performs checkout for the provided projects. | ProjectServerHelper |
+| Set-CheckOutFiles | Performs checkout for the provided projects. | ProjectServerHelper |
 | Publish-Project           | Publishes an existing project to the GroupShare server.                    | ProjectServerHelper |
 | UnPublish-Project         | Removes the specified project from the GroupShare server.                   | ProjectServerHelper |
 | New-FileBasedTM              | Creates a new file based TM.                                                    | TMHelper           |
