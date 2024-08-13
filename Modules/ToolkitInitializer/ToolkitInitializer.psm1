@@ -60,6 +60,10 @@ function Import-ToolkitModules {
     {
         Import-Module -Name "$modulesPath\$moduleName" -ArgumentList $StudioVersion -Scope Global
     }
+
+    $tempTM = "$scriptParentDiv\tmp.sdltm"
+    $null = New-FileBasedTM "$scriptParentDiv\tmp.sdltm" "en-US" "fr-FR"
+    Remove-Item $tempTM;
 }
 
 <#
