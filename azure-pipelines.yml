@@ -13,7 +13,7 @@ variables:
 - group: 'SDLPLC Authenticode Credentials'
 steps:
 - pwsh: |
-    Copy-Item -Path $env:Build_Repository_LocalPath\modules\" -Destination "$env:Build_ArtifactStagingDirectory -Recurse
+    Copy-Item -Path $env:Build_Repository_LocalPath\Modules\" -Destination "$env:Build_ArtifactStagingDirectory -Recurse
     Copy-Item -Path $env:Build_Repository_LocalPath\*.ps1 -Destination $env:Build_ArtifactStagingDirectory
   displayName: 'copy files to $(Build.ArtifactStagingDirectory)'  
 
