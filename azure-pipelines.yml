@@ -12,6 +12,11 @@ pool:
 variables:
 - group: 'SDLPLC Authenticode Credentials'
 steps:
+- pwsh: |
+    Copy-Item -Path "$(Build.Repository.LocalPath	)\modules\*" -Destination "$(Build.ArtifactStagingDirectory)" -Recurse
+    Copy-Item -Path "$(Build.Repository.LocalPath	)\*.ps1" -Destination "$(Build.ArtifactStagingDirectory)"
+  displayName: 'copy files to $(Build.ArtifactStagingDirectory)'  
+
 - task: TrustedSigning@0
   displayName: Sign with Trusted Signing
   inputs:
@@ -25,8 +30,8 @@ steps:
     Endpoint: 'https://weu.codesigning.azure.net/'
     CodeSigningAccountName: 'sdl-limited'
     CertificateProfileName: 'Codesigning'
-    FilesFolder: '$(Build.Repository.LocalPath)/modules/'
-    FilesFolderFilter: 'psm1,psd1,dll'
+    FilesFolder: '$(Build.ArtifactStagingDirectory)'
+    FilesFolderFilter: 'ps1,psm1,psd1,dll'
     FilesFolderRecurse: true
     FilesFolderDepth: '5'
     FileDigest: 'SHA256'
@@ -36,6 +41,6 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.Repository.LocalPath)/modules/'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'modules'
     publishLocation: 'Container'
