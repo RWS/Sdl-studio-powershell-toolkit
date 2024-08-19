@@ -25,8 +25,8 @@ steps:
     Endpoint: 'https://weu.codesigning.azure.net/'
     CodeSigningAccountName: 'sdl-limited'
     CertificateProfileName: 'Codesigning'
-    FilesFolder: './modules/'
-    FilesFolderFilter: 'psm1,psd1'
+    FilesFolder: '$(Build.Repository.LocalPath)/modules/'
+    FilesFolderFilter: 'psm1,psd1,dll'
     FilesFolderRecurse: true
     FilesFolderDepth: '5'
     FileDigest: 'SHA256'
@@ -36,6 +36,6 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: './modules/'
+    PathtoPublish: '$(Build.Repository.LocalPath)/modules/'
     ArtifactName: 'modules'
     publishLocation: 'Container'
