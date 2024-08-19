@@ -13,9 +13,9 @@ variables:
 - group: 'SDLPLC Authenticode Credentials'
 steps:
 - pwsh: |
-    Copy-Item -Path .\Modules\" -Destination "$env:Build_ArtifactStagingDirectory -Recurse
+    Copy-Item -Path .\Modules\" -Destination $env:Build_ArtifactStagingDirectory -Recurse
     Copy-Item -Path .\*.ps1 -Destination $env:Build_ArtifactStagingDirectory
-  displayName: 'copy files to $(Build.ArtifactStagingDirectory)'  
+  displayName: 'copy files to $(Build.ArtifactStagingDirectory)'
 
 - task: TrustedSigning@0
   displayName: Sign with Trusted Signing
