@@ -38,5 +38,5 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'modules'
+    ArtifactName: 'studio-powershell-toolkit'
     publishLocation: 'Container'
