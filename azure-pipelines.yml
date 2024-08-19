@@ -9,62 +9,33 @@ trigger:
 pool:
   vmImage: 'windows-latest'
 
+variables:
+- group: 'SDLPLC Authenticode Credentials'
 steps:
-  - task: PowerShell@2
-    inputs:
-      targetType: 'inline'
-      script: |
-        param(
-        [string]$sigingListFile = "$psscriptroot\filestosign.csv",
-        [string]$signingRoot = "$PSScriptRoot\..\..\..\..",
-        [string]$KeyVaultUrl = "https://sdl-lt-keyvault.vault.azure.net/",
-        [string]$TimestampServer="http://timestamp.digicert.com",
-        [string]$CertificateName="SDLPLCAuthenticode"
-        )
-        
-        $SigningClientId = "unset"
-        $SigningSecret = "unset"
-        
-        if ($null -ne $env:KeyVaultUrl)
-        {
-            $KeyVaultUrl = $env:KeyVaultUrl
-        }
-        
-        if ($null -ne $env:CurrentCertificateName)
-        {
-            $CertificateName = $env:CurrentCertificateName
-        }
-        
-        if ($env:SigningSecret -ne $null)
-        {
-            $SigningSecret = $env:SigningSecret
-        }
-        
-        if ($env:SigningClientId -ne $null)
-        {
-            $SigningClientId = $env:SigningClientId
-        }
-        
-        #files to sign are now in a csv to keep the code generic -Header "Description", "Path"
-        $FilesToSign = import-csv -Path $sigingListFile
-        
-        
-        $buildRoot="$psscriptroot\..\..\..\.."
-        $SrcRoot="$psscriptroot\..\..\.."
-        
-        $ToolPath=[System.IO.Path]::GetFullPath("$SrcRoot\tools\azuresigntool.exe");
-        $signingRoot=[System.IO.Path]::GetFullPath("$signingRoot");
-        
-        function AuthenticodeSign
-        {
-        param( [string]$path, [string]$description)
-        
-        attrib -r "$path" 
-        & "$ToolPath" sign -kvu "$KeyVaultUrl" -kvi "$SigningClientId" -kvs "$SigningSecret" -kvc "$CertificateName" -d "$description" -tr "$TimestampServer" -td sha512 -fd sha512 -v "$path"
-        }
-        
-        foreach ($item in $FilesToSign)
-        {
-            $path=[System.IO.Path]::GetFullPath($signingRoot + $item.Path);
-            AuthenticodeSign "$path" $item.Description
-        }
+- task: TrustedSigning@0
+  displayName: Sign with Trusted Signing
+  inputs:
+    AzureTenantID: '$(TenantID)'
+    AzureClientID: '$(SigningClientId)'
+    AzureClientSecret: '$(SigningSecret)'
+    ExcludeVisualStudioCredential: true
+    ExcludeVisualStudioCodeCredential: true
+    ExcludeAzureCliCredential: true
+    ExcludeAzurePowerShellCredential: true
+    Endpoint: 'https://weu.codesigning.azure.net/'
+    CodeSigningAccountName: 'sdl-limited'
+    CertificateProfileName: 'Codesigning'
+    FilesFolder: './modules/'
+    FilesFolderFilter: 'psm1,psd1'
+    FilesFolderRecurse: true
+    FilesFolderDepth: '5'
+    FileDigest: 'SHA256'
+    TimestampRfc3161: 'http://timestamp.acs.microsoft.com'
+    TimestampDigest: 'SHA256'
+    description: 'sign studio-powershell-toolkit'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: './modules/'
+    ArtifactName: 'modules'
+    publishLocation: 'Container'
