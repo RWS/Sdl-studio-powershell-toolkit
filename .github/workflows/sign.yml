@@ -1,0 +1,39 @@
+name: CI
+
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Trusted Signing
+        uses: Azure/trusted-signing-action@v0.3.17
+        with:
+          azure-tenant-id: ${{ secrets.TrustedSigningTenantID }}
+          azure-client-id: ${{ secrets.TrustedSigningSigningClientId }}
+          azure-client-secret: ${{ secrets.TrustedSigningSigningSecret}}
+          endpoint: ${{ secrets.TrustedSigningEndPoint }}
+          trusted-signing-account-name: ${{ secrets.TrustedSigningAccountName}}
+          certificate-profile-name: ${{ secrets.TrustedSigningCertificateProfile}}
+          files-folder: ${{ github.workspace }}
+          files-folder-filter: 'ps1,psm1,psd1,dll'
+          files-folder-recurse: true
+          files-folder-depth: 5
+          
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SignedPowershell
+          path:  ${{ github.workspace }}
