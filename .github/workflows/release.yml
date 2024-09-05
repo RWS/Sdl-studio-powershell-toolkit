@@ -1,0 +1,65 @@
+# Run this action to create a signed release of the toolkit
+# TOOLKIT_VERSION is a repo variable of the major and minor release for the repo 
+# the release will have a patch version of the number of runs that this action has completed.
+
+name: MakeRelease
+
+on:
+  workflow_dispatch:
+  
+run-name: Release run ${{ github.RUN_NUMBER }} by @${{ github.actor }}
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - id: create_version
+        name: Create version number
+        shell: pwsh
+        run: |
+          chcp 65001
+          $APPVERSION="$($env:TOOLKIT_VERSION).$($env:GITHUB_RUN_NUMBER)"
+          $RunVersion ="RELEASEVERSION=$APPVERSION"
+          Write-Host "$RunVersion=$RunVersion" 
+          $RunVersion | Out-File -FilePath $env:GITHUB_ENV -Append
+          $RunVersion | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+        env:
+          TOOLKIT_VERSION: ${{ vars.TOOLKIT_VERSION }}
+
+      - name: Trusted Signing
+        uses: Azure/trusted-signing-action@v0.3.17
+        with:
+          azure-tenant-id: ${{ secrets.TrustedSigningTenantID }}
+          azure-client-id: ${{ secrets.TrustedSigningSigningClientId }}
+          azure-client-secret: ${{ secrets.TrustedSigningSigningSecret}}
+          endpoint: ${{ secrets.TrustedSigningEndPoint }}
+          trusted-signing-account-name: ${{ secrets.TrustedSigningAccountName}}
+          certificate-profile-name: ${{ secrets.TrustedSigningCertificateProfile}}
+          files-folder: ${{ github.workspace }}
+          files-folder-filter: 'ps1,psm1,psd1,dll'
+          files-folder-recurse: true
+          files-folder-depth: 5
+
+      - name: Prepare release
+        shell: pwsh
+        run: |
+          $targetFolder = "artifacts\toolkit"
+          write-host "Preparing folder $targetFolder"
+          Remove-Item $targetFolder -Force -Recurse -ErrorAction SilentlyContinue
+          mkdir $targetFolder -Force
+          Copy-Item "*" "$targetFolder" -recurse -Exclude  @("*.yml",".github",".vscode","artifacts" )
+          cd .\artifacts\toolkit
+          7z a ..\Toolkit${{ env.RELEASEVERSION }}.zip *
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Trados PowerShell Toolkit v${{ env.RELEASEVERSION }}
+          tag_name: v${{ env.RELEASEVERSION }}
+          files: |
+            artifacts/*.zip
+          
