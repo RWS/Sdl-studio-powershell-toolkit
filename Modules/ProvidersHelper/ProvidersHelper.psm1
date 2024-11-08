@@ -46,23 +46,21 @@ function Set-MTCredential {
 
     switch ($Type) {
         'DeepL' {
-            $uri = Read-Host "Enter DeepL Uri"
             $apyKey = Read-Host "Enter DeepL API Key"
             $credentialData = @{
                 Type     = 'DeepL'
-                Uri      = $uri
+                Uri      = "deepltranslationprovider:///"
                 ApiKey   = $apyKey 
             }
         }
 
         'LanguageWeaverEdge' {
-            $uri = Read-Host "Enter LanguageWeaverEdge Uri"
             $accountRegion = Read-Host "Enter LanguageWeaverEdge Account Region"
             $lwhost = Read-Host "Enter LanguageWeaverEdge Host"
             $apiKey = Read-Host "Enter LanguageWeaverEdge API Key"
             $credentialData = @{
                 Type          = 'LanguageWeaverEdge'
-                Uri           = $uri
+                Uri           = "languageweaveredge:///"
                 AccountRegion = $accountRegion
                 Host          = $lwhost
                 ApiKey        = $apiKey
@@ -70,47 +68,43 @@ function Set-MTCredential {
         }
 
         'LanguageWeaverCloud' {
-            $uri = Read-Host "Enter LanguageWeaverCloud Uri"
             $accountRegion = Read-Host "Enter LanguageWeaverCloud Account Region"
             $clientId = Read-Host "Enter LanguageWeaverCloud Client ID" 
             $clientSecret = Read-Host "Enter LanguageWeaverCloud Client Secret"
             $credentialData = @{
                 Type          = 'LanguageWeaverCloud'
-                Uri           = $uri
+                Uri           = "languageweavercloud:///"
                 AccountRegion = $accountRegion
                 ClientId      = $clientId 
                 ClientSecret  = $clientSecret
             }
         }
         'Amazon' {
-            $uri = Read-Host "Enter Amazon Uri"
             $clientId = Read-Host "Enter Amazon Client ID" 
             $clientSecret = Read-Host "Enter Amazon Client Secret"
             $credentialData = @{
                 Type         = 'Amazon'
-                Uri          = $uri
+                Uri          = "amazontranslateprovider:///"
                 ClientId     = $clientId 
                 ClientSecret = $clientSecret 
             }
         }
 
         'Google' {
-            $uri = Read-Host "Enter Google Uri"
             $apiKey = Read-Host "Enter Google API Key"
             $credentialData = @{
                 Type         = "Google"
-                Uri          = $uri
+                Uri          = "googletranslationprovider:///"
                 ApiKey       = $apiKey
             }
         }
 
         'Microsoft' {
-            $uri = Read-Host "Enter Microsoft Uri"
             $region = Read-Host "Enter Microsoft Region"
             $apiKey = Read-Host "Enter API Key"
             $credentialData = @{
                 Type         = "MicrosoftTranslator"
-                Uri          = $uri 
+                Uri          = "microsofttranslatorprovider:///"
                 Region       = $region
                 ApiKey       = $apiKey
             }
