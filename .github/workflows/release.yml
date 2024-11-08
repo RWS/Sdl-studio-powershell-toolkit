@@ -1,7 +1,3 @@
-# Run this action to create a signed release of the toolkit
-# TOOLKIT_VERSION is a repo variable of the major and minor release for the repo 
-# the release will have a patch version of the number of runs that this action has completed.
-
 name: MakeRelease
 
 on:
@@ -21,7 +17,7 @@ jobs:
         shell: pwsh
         run: |
           chcp 65001
-          $APPVERSION="$($env:TOOLKIT_VERSION).$($env:GITHUB_RUN_NUMBER)"
+          $APPVERSION="$($env:TOOLKIT_VERSION).0"
           $RunVersion ="RELEASEVERSION=$APPVERSION"
           Write-Host "$RunVersion=$RunVersion" 
           $RunVersion | Out-File -FilePath $env:GITHUB_ENV -Append
