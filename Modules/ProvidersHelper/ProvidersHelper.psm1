@@ -187,7 +187,7 @@ function Remove-MTCredential {
     )
 
     try {
-        $secret = Get-Secret -Name $Target -Vault "LocalSecretStore" -ErrorAction SilentlyContinue
+        $secret = Get-Secret -Name $Target -Vault $vaultName -ErrorAction SilentlyContinue
 
         if ($null -eq $secret) {
             Write-Host "No credentials found for $Target in the vault."

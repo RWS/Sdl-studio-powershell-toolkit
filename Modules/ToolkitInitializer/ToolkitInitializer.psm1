@@ -59,15 +59,7 @@ function Import-ToolkitModules {
 
     Add-Dependencies $StudioVersion
 
-    if ($Modules.Count -ne 0)
-    {
-        $global:moduleNames = $Modules;
-    }
-    else {
-        $global:moduleNames = $defaultModules;
-    }
-
-    foreach ($moduleName in $global:moduleNames)
+    foreach ($moduleName in $defaultModules)
     {
         if ($moduleName -eq "ProvidersHelper")
         {
@@ -75,10 +67,12 @@ function Import-ToolkitModules {
             {
                 Install-SecretModules;
                 Import-Module -Name "$modulesPath\$moduleName" -ArgumentList $vaultName -Scope Global
+                $global:moduleNames += $moduleName;
             }
         }
         else {
             Import-Module -Name "$modulesPath\$moduleName" -ArgumentList $StudioVersion -Scope Global
+            $global:moduleNames += $moduleName;
         }
 
     }

@@ -39,8 +39,6 @@ $projectName = "My Test Project";
 $projectDestinationPath = "c:\Projects\PowerShellToolKit\PowerShellTest\$StudioVersion\" + "SampleProject";
 $sourceLanguage = "en-US";
 $targetLanguages = @("de-DE", "fr-FR");
-$tmProvider = Get-TranslationProvider -tmPath "$tmFilePath"
-$tmProvider
 $inputFilesFolderPath = "$ProjectSourceFiles\SampleFiles";
 $pathForPerfectMatch = "$ProjectSourceFiles\ForPerfectMatch"
 $referenceFiles = @("Reference_1_Pp.pptx", "sample2_reference.pptx")
@@ -51,7 +49,9 @@ $dueDate = "2030-03-24";
 $description = "ApiProject"
 
 # Creates the project
-New-Project -ProjectName $projectName -projectDestination $projectDestinationPath -sourceLanguage $sourceLanguage -targetLanguages $targetLanguages -translationProviders @($tmProvider) -sourceFilesFolder $inputFilesFolderPath -referenceFiles $referenceFiles -localizableFiles $localizableFiles -mergeFiles $mergeFiles -mergeFileName $mergeName -pathToPerfectMatch $pathForPerfectMatch -projectDueDate $dueDate -projectDescription $description;
+New-Project -ProjectName $projectName -projectDestination $projectDestinationPath -sourceLanguage $sourceLanguage -targetLanguages $targetLanguages `
+		-pathToTms @($tmFilePath) -sourceFilesFolder $inputFilesFolderPath -referenceFiles $referenceFiles -localizableFiles $localizableFiles `
+		-mergeFiles $mergeFiles -mergeFileName $mergeName -pathToPerfectMatch $pathForPerfectMatch -projectDueDate $dueDate -projectDescription $description;
 
 Write-Host "A new project creation completed.";
 Write-Host "Now open project and get analyze statistics.";
