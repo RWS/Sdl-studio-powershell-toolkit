@@ -1,24 +1,25 @@
 @{
+
     # Script module or binary module file associated with this manifest
-    ModuleToProcess = 'ProjectServerHelper.psm1'
+    ModuleToProcess = 'ProvidersHelper.psm1'
     
     # Version number of this module.
     ModuleVersion = '3.0.1.0'
     
     # ID used to uniquely identify this module
-    GUID = '{0E97E5F7-E5B1-4922-8ABA-41738717A23D}'
+    GUID = '{DE0ED8EF-6D61-41B8-8A34-D56DC01F2A74}'
     
     # Author of this module
     Author = 'Trados Appstore Team'
-
+    
     # Company or vendor of this module
     CompanyName = 'SDL Limited as part of the RWS Holdings Plc group of companies'
-
+    
     # Copyright statement for this module
     Copyright = '© 2011 - 2022 SDL Limited as part of the RWS Holdings Plc group of companies (\"RWS Group\").'
-
+    
     # Description of the functionality provided by this module
-    Description = 'A PowerShell module to automate SDL Trados Studio server project management'
+    Description = 'A PowerShell module to help manage the translation providers for project creation'
     
     # Minimum version of the Windows PowerShell engine required by this module
     PowerShellVersion = '2.0'
@@ -70,12 +71,11 @@
     
     # List of all files packaged with this module
     FileList = @(
-        '.\ProjectServerHelper.psm1'
-        '.\ProjectServerHelper.psd1'
+        '.\ProvidersHelper.psm1'
+        '.\ProvidersHelper.psd1'
     )
     
     # Private data to pass to the module specified in ModuleToProcess
     PrivateData = ''
     
     }
-    

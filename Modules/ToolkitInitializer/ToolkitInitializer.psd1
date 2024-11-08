@@ -4,7 +4,7 @@
     ModuleToProcess = 'ToolkitInitializer.psm1'
     
     # Version number of this module.
-    ModuleVersion = '3.0.0.0'
+    ModuleVersion = '3.0.1.0'
     
     # ID used to uniquely identify this module
     GUID = '{B5A83772-E820-4621-AB21-37CA9B092E2A}'
