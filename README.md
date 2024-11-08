@@ -5,7 +5,7 @@
 The Trados PowerShell Toolkit allows scripting the [Project Automation API](https://developers.rws.com/studio-api-docs/apiconcepts/projectautomation/overview.html) that is available with Trados Studio Professional. A Professional license for Trados Studio is required to use the API via this toolkit.
 
 ## Toolkit Overview
-  - **Modules:** `GetGuids`, `PackageHelper`, `ProjectHelper`, `ProjectServerHelper`, `TMHelper`, `TMServerHelper`, `ToolkitInitializer`, `UserManagerHelper`
+  - **Modules:** `GetGuids`, `PackageHelper`, `ProjectHelper`, `ProjectServerHelper`, `ProvidersHelper`, `TMHelper`, `TMServerHelper`, `ToolkitInitializer`, `UserManagerHelper`
   - **Scripts:** `FileBasedProject_Roundtrip.ps1`, `ServerBasedProject_Roundtrip.ps1`, `UserManager_Roundtrip.ps1`, `TMServer_Roundtrip.ps1`
   - **Samples:** Demonstration files for `FileBasedProject_Roundtrip.ps1`
 
@@ -45,7 +45,7 @@ Ensure the following requirements are met before using this toolkit:
 
 ## Installation
 1. **Download the Files:**
-    - Ensure you have downloaded all necessary files for the toolkit, including the sample roundtrip scripts and PowerShell modules. These files should be obtained from the provided source or repository. [Download Toolkit Files](https://github.com/RWS/Sdl-studio-powershell-toolkit/releases/tag/3.0.0.0)
+    - Ensure you have downloaded all necessary files for the toolkit, including the sample roundtrip scripts and PowerShell modules. These files are available at the [official releases page](https://github.com/RWS/Sdl-studio-powershell-toolkit/releases). Be sure to download the latest release to ensure you have the most up-to-date version of the toolkit.
     - After downloading, you may need to **unblock the zip file**. For instructions on how to unblock files, see [Ensuring File Permissions for Toolkit File](#ensuring-file-permissions-for-toolkit-files).
 2. **Create Required Folders:**
     - First, create the following folders if they do not already exist:
@@ -64,6 +64,7 @@ Ensure the following requirements are met before using this toolkit:
       - `....\WindowsPowerShell\Modules\PackageHelper`
       - `....\WindowsPowerShell\Modules\ProjectHelper`
       - `....\WindowsPowerShell\Modules\ProjectServerHelper`
+      - `....\WindowsPowerShell\Modules\ProvidersHelper`
       - `....\WindowsPowerShell\Modules\TMHelper`
       - `....\WindowsPowerShell\Modules\TMServerHelper`
       - `....\WindowsPowerShell\Modules\ToolkitInitializer`
@@ -77,21 +78,92 @@ Ensure the following requirements are met before using this toolkit:
 Following these steps will ensure that the PowerShell toolkit is set up correctly and ready for use.
 
 ## Configuring the scripts
-The `ToolkitInitializer` module includes the `Import-ToolkitModules` function, which imports all necessary modules, resolves dependencies, and handles version conflicts. This function can be called either with or without specifying the `$StudioVersion` parameter.
+The `ToolkitInitializer` module includes the `Import-ToolkitModules` function, which is responsible for importing the toolkit, ensuring that all necessary dependencies are included, and resolving any dependency conflicts.
+
+The `Import-ToolkitModules` function takes two parameters:
+  - `StudioVersion`: Specifies the version of Trados Studio to be used, such as Studio 2022 or Studio 2024.
+  - `VaultName`: Represents the name of the secure vault where credentials for translation providers (e.g., Amazon, Google) are stored. These credentials are used during project creation when the project includes such providers.
+    - If `VaultName` is provided, the toolkit will check if the `Microsoft.PowerShell.SecretManagement` and `Microsoft.PowerShell.SecretStore` modules are installed. If these modules are not already present, the toolkit will install them automatically, as they are required for secure credential storage.
 
 ### Configuration Instructions
-1. Setting the Trados Studio Version
-    - To configure the toolkit for your specific version of Trados Studio, you need to set the `$StudioVersion` parameter in the `ToolkitInitializer.psm1` file located at:
-    - `....\WindowsPowerShell\Modules\ToolkitInitializer\ToolkitInitializer.psm1`
-    - Example Configuration: `[String] $StudioVersion = "Studio18"`
-    - Replace `$StudioVersion` with the version of Trados Studio you are using.
+1. Setting the Trados Studio Version and/or Vault Name
+    - Configuring the toolkit with specific values for `StudioVersion` and `VaultName` allows you to call Import-ToolkitModules without needing to specify these arguments every time. Set these variables directly in the ToolkitInitializer.psm1 file located at:
+      - `....\WindowsPowerShell\Modules\ToolkitInitializer\ToolkitInitializer.psm1`
+    - **Note**: The `VaultName` parameter is optional and only necessary if you plan to use translation providers (e.g., Amazon, Google). If you don’t intend to use providers, you can omit this parameter.
+    - This configuration simplifies the toolkit initialization process by letting you call the function parameterless.
+    - Example Configuration
+      ```powershell
+      [String] $StudioVersion = "Studio18"  # Replace "Studio18" with the correct Trados Studio version
+      [String] $vaultName = "MySecureVault"  # Replace "MySecureVault" with your vault name for credential storage
+      ```
+      After setting these variables, you can simply call:
+        ```powershell
+        Import-ToolkitModules
+        ```
+      without needing to specify the parameters each time.
 
-2. Dynamic Version Assignment
-If you prefer to dynamically specify the Trados Studio version when running the script, you can do so by passing the version as a parameter to the `Import-ToolkitModules` function.
-    - Example Command:
-    - `Import-ToolkitModules -StudioVersion "Studio18"`
-    
+2. Dynamic Version and Vault Assignment
+    - For dynamic assignment, users can specify the StudioVersion and VaultName parameters directly when calling Import-ToolkitModules. This method is useful if you prefer to set these values at runtime instead of configuring them in advance.
+      - Example Command:
+        ```powershell
+        Import-ToolkitModules -StudioVersion "Studio18" -VaultName "MySecureVault"
+        ```
+      - Here, replace `"Studio18"` with the Trados Studio version you are using and `"MySecureVault"` with the name of your vault if you are using translation providers.
+      
 For details on locating the correct Trados Studio version, refer to the [Finding the Studio Version](#finding-the-studio-version) section.
+
+### Configuring the Translation Providers.
+This section assumes that you are providing the `VaultName` with the intent to include translation providers at project creation.
+
+As the project creation process in the Project Automation API requires that the translation provider credentials be available during project creation, this toolkit provides a module called `ProvidersHelper`. The `ProvidersHelper` module is responsible for storing credentials for these translation providers (Amazon, Google, DeepL). This module allows you to **create**, **update**, **read**, and **delete** these translation provider credentials from the secure credential store.
+  1. Why Secure Credential Storage is Important
+      - It is essential to store the credentials of translation providers securely to ensure the protection of sensitive information, such as API keys and access tokens. By using the `VaultName`, the toolkit securely manages these credentials during project creation and throughout the workflow.
+  2. Setting Up the Credential Store
+      - When the VaultName is provided, the toolkit automatically checks if the `Microsoft.PowerShell.SecretManagement` and `Microsoft.PowerShell.SecretStore` modules are installed. If these modules are not found, they will be installed as part of the configuration process, enabling secure storage for the provider credentials.
+      - Example: Initializing Credential Storage with a Vault Name
+      - If you intend to use translation providers, initialize the credential storage by specifying a `VaultName`:
+        ```powershell
+        Import-ToolkitModules -StudioVersion "Studio18" -VaultName "MySecureVault"
+        ```
+        Replace `"Studio18"` with the version of Trados Studio you are using (e.g., `"Studio2024"`) and `"MySecureVault"` with the name of your chosen vault for secure credential storage.
+  3. Adding Translation Provider Credentials
+      - Once your vault is initialized, you can add credentials for your translation providers using the `ProvidersHelper` module. The module provides the `Set-MTCredential`, `Get-MTCredential`, and `Remove-MTCredential` cmdlets to manage translation provider credentials.
+      - When using the `Set-MTCredential` cmdlet to add credentials, you will be prompted to securely input the required secrets for each provider.
+      - Example: Adding Credentials for Amazon Translate 
+        ```powershell
+        Set-MTCredential -Type "Amazon"
+        ```
+        After running this command, you will be prompted to enter the necessary API key or other required credentials for Amazon Translate. The credentials will be securely stored in your vault.
+
+      - Example: Adding Credentials for Google
+        ```powershell
+        Set-MTCredential -Type "Google"
+        ``` 
+        You will be prompted to provide the API key or credentials for Google Cloud Translate. Once entered, the credentials will be securely stored in your vault.
+  4. Managing Credentials
+      - The `ProvidersHelper` module offers the following cmdlets to manage the stored credentials:
+        - `Get-MTCredential`: Retrieve stored credentials for a specific provider.
+        - `Set-MTCredential`: Add or update credentials for a translation provider.
+        - `Remove-MTCredential`: Delete credentials for a specific provider.
+        - Example: Retrieving Stored Credentials for DeepL
+          ```powershell
+          Get-MTCredential -Type "DeepL"
+          ```
+        - Example: Deleting Stored Credentials for Amazon
+          ```powershell
+          Remove-MTCredential -Type "Amazon"
+          ```
+  5. Using Translation Providers During Project Creation
+      - With the translation providers configured and credentials securely stored, the toolkit will automatically search for these credentials when a new project is created. During the project creation process, the toolkit will retrieve the appropriate credentials from the secure vault and associate them with the project. This ensures that translation providers (such as Amazon, Google, or DeepL) are seamlessly integrated into the project without requiring manual intervention.
+  6. Supported Translation Providers
+      - The following translation providers are currently supported:
+        - Amazon
+        - DeepL
+        - Microsoft
+        - Language Weaver
+        - Google
+  
+**Important Note**: The **Language Cloud Translation Engine** will also be available once **Trados Studio 2024 CU2** is released. Stay tuned for updates on its availability.
 
 ### Roundtrip Script Configuration
 To properly run the various roundtrip scripts, you must configure the parameters specific to each script. Here’s how to set up each type:
@@ -258,12 +330,14 @@ Import-ToolkitModules
 | Set-CheckOutFiles | Performs checkout for the provided projects. | ProjectServerHelper |
 | Publish-Project           | Publishes an existing project to the GroupShare server.                    | ProjectServerHelper |
 | UnPublish-Project         | Removes the specified project from the GroupShare server.                   | ProjectServerHelper |
+| Get-MTCredential | Retrieves stored credentials for a specific translation provider.	 | ProvidersHelper |
+| Remove-MTCredential | Deletes stored credentials for a specific translation provider.	 | ProvidersHelper |
+| Set-MTCredential | Adds or updates credentials for a specific translation provider.	 | ProvidersHelper |
 | New-FileBasedTM              | Creates a new file based TM.                                                    | TMHelper           |
 | Open-FileBasedTM             | Opens an existing file based TM.                                                | TMHelper           |
 | Get-TargetTMLanguage         | Gets the target language of a TM.                                               | TMHelper           |
 | Get-Language                 | Gets a language as a Trados Language.                                           | TMHelper           |
 | Get-Languages                | Gets a list of languages as Trados Languages                                    | TMHelper           |
-| Get-TranslationProvider      | Returns a **MemoryResource** object representing a file-based Translation Memory, a server-based Translation Memory or any other Translation Provider (e.g DeepL) that can be used as a translation provider for project creation for specific language pairs or for all project language pairs.    | TMHelper           |
 | Get-UserManager        | Connects to the User Management Server and retrieves the UserManagerClient object.       | UserManagerHelper    |
 | Get-AllUsers           | Retrieves a list of all users from the User Management Server.                   | UserManagerHelper    |
 | Get-User               | Retrieves detailed information about a specific user by username.               | UserManagerHelper    |
@@ -347,6 +421,10 @@ To add functionality or report bugs, please create a [pull request](http://www.c
 Report issues [here](https://github.com/sdl/Sdl-studio-powershell-toolkit/issues).
 
 ## Changes
+### v3.0.1.0
+- Implemented `ProvidersHelper` module for managing translation provider credentials.
+- Updated `ToolkitInitializer` to include the `ProvidersHelper` module.
+
 ### v3.0.0.0
 - Updated script to be compatible with newer versions (Trados Studio 2022 and Trados Studio 2024)
 - Added `ToolkitInitializer` Module to load all modules in one function
