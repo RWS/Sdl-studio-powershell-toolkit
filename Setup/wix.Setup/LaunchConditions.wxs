@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+		<!-- Directory Search for Trados Studio 2022 (Studio17) -->
+		<Property Id="TRADOS2022_INSTALL">
+			<DirectorySearch Id="TradosStudio2021DirectoryCheck"
+							 Path="[ProgramFilesFolder]Trados\Trados Studio\Studio17"
+							 Depth="0" />
+		</Property>
+
+		<!-- Directory Search for Trados Studio 2024 (Studio18) -->
+		<Property Id="TRADOS2024_INSTALL">
+			<DirectorySearch Id="TradosStudio2022DirectoryCheck"
+							 Path="[ProgramFilesFolder]Trados\Trados Studio\Studio18"
+							 Depth="0" />
+		</Property>
+
+		<!-- Launch Condition for Trados Studio 2022 or 2024 -->
+		<Condition Message="Trados Studio 2022 or 2024 must be installed to proceed with this installation.">
+			<![CDATA[Installed OR (TRADOS2022_INSTALL OR TRADOS2024_INSTALL)]]>
+		</Condition>
+
+		<!-- PowerShell 5 Registry Search -->
+		<Property Id="POWERSHELL5">
+			<RegistrySearch Id="PowerShell5RegistryCheck"
+							Root="HKLM"
+							Key="SOFTWARE\WOW6432Node\Microsoft\PowerShell\3\PowerShellEngine"
+							Name="PowerShellVersion"
+							Type="raw"
+							Win64="no" />
+		</Property>
+
+		<!-- Launch Condition for PowerShell 5 (x86) -->
+		<Condition Message="PowerShell 5 (x86) is required to install this application.">
+			<![CDATA[Installed OR (POWERSHELL5 AND POWERSHELL5 >= "5.0" AND POWERSHELL5 < "6.0")]]>
+		</Condition>
+		<ComponentGroup Id="LaunchConditions" />
+	</Fragment>
+</Wix>

@@ -44,6 +44,21 @@ Ensure the following requirements are met before using this toolkit:
     - If you wish to use the GroupShare extension, ensure you have access to an existing GroupShare server. The toolkit can interact with GroupShare to enhance project management and translation processes.
 
 ## Installation
+### **1. Using the MSI Installer**
+For a quicker and more streamlined installation, you can use the MSI installer. This method automates the entire process, saving you time and ensuring all necessary files are placed in the correct locations.
+
+1. **Download the MSI Installer**
+    - Download the MSI installer from the [official releases page](https://github.com/RWS/Sdl-studio-powershell-toolkit/releases).
+
+2. **Run the MSI Installer**
+    - Double-click the downloaded MSI file to begin the installation process.
+    - Follow the on-screen prompts to install the toolkit. The installer will automatically place the necessary scripts and modules in the correct directories.
+3. **Verify Installation**
+    - After the installation is complete, verify that the toolkit has been correctly installed by checking the installation path.
+
+### **2. Manual Installation**
+If you prefer to manually install the toolkit, follow these steps:
+
 1. **Download the Files:**
     - Ensure you have downloaded all necessary files for the toolkit, including the sample roundtrip scripts and PowerShell modules. These files are available at the [official releases page](https://github.com/RWS/Sdl-studio-powershell-toolkit/releases). Be sure to download the latest release to ensure you have the most up-to-date version of the toolkit.
     - After downloading, you may need to **unblock the zip file**. For instructions on how to unblock files, see [Ensuring File Permissions for Toolkit File](#ensuring-file-permissions-for-toolkit-files).
@@ -421,6 +436,9 @@ To add functionality or report bugs, please create a [pull request](http://www.c
 Report issues [here](https://github.com/sdl/Sdl-studio-powershell-toolkit/issues).
 
 ## Changes
+### v3.0.2.0
+- Added an MSI installer for streamlined toolkit installation.
+
 ### v3.0.1.0
 - Implemented `ProvidersHelper` module for managing translation provider credentials.
 - Updated `ToolkitInitializer` to include the `ProvidersHelper` module.

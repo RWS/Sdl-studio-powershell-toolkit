@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+		<!-- Define the Program Menu Directory Reference -->
+		<DirectoryRef Id="ApplicationProgramsFolder">
+			<Component Id="PowerShell32StartMenuShortcut" Guid="2CBB655B-448C-49F1-A682-65635BF62872">
+				<Shortcut Id="StartPowerShell32StartMenuShortcut"
+                          Name="Trados PowerShell Toolkit"
+                          Directory="ApplicationProgramsFolder"
+                          Target="[WindowsFolder]SysWow64\WindowsPowerShell\v1.0\powershell.exe"
+                          WorkingDirectory="INSTALLDIR"
+                          Arguments="-NoExit -ExecutionPolicy Bypass"
+                          Icon="Studio_Toolkit.ico" />
+
+				<!-- Remove the folder when uninstalled, will only work if no other files are in the folder -->
+				<RemoveFolder Id="RemoveStartMenuShortcuts" On="uninstall"/>
+
+				<!-- Add registry value for tracking the shortcut -->
+				<RegistryValue Root="HKCU" Key="Software\Trados PowerShell Toolkit" Name="PowerShell32ShortcutCreated" Type="integer" Value="1" KeyPath="yes" />
+			</Component>
+		</DirectoryRef>
+	</Fragment>
+
+	<Fragment>
+		<DirectoryRef Id="DesktopFolder">
+			<Component Id="PowerShell32Shortcut" Guid="A1234567-1234-1234-1234-1234567890AB">
+				<!-- Create the Shortcut on Desktop -->
+				<Shortcut Id="StartPowerShell32Shortcut"
+						  Name="Trados PowerShell Toolkit"
+						  Directory="DesktopFolder"
+						  Target="[WindowsFolder]SysWow64\WindowsPowerShell\v1.0\powershell.exe"
+						  WorkingDirectory="INSTALLDIR"
+						  Arguments="-NoExit -ExecutionPolicy Bypass"
+						  Icon="Studio_Toolkit.ico" />
+
+				<RemoveFolder Id="RemoveDesktopShortcuts" On="uninstall"/>
+				<RegistryValue Root="HKCU" Key="Software\Trados PowerShell Toolkit" Name="PowerShell32ShortcutCreated" Type="integer" Value="1" KeyPath="yes" />
+			</Component>
+		</DirectoryRef>
+	</Fragment>
+</Wix>

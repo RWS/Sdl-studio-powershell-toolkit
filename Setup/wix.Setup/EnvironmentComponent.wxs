@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+		<Component Id="AddPSModulePath" Guid="89211E10-5AD7-427D-9354-0D7A1C9CA041" Directory="ModulesFolder">
+			<CreateFolder />
+			<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit" Name="Installed" Type="integer" Value="1" Action="write" />
+			<Environment Id="AddToPSModulePath"
+						 Name="PSModulePath"
+						 Value="[INSTALLDIR]Modules"
+						 Action="set"
+						 Part="last"
+						 Permanent="no"
+						 System="no" />
+		</Component>
+	</Fragment>
+</Wix>

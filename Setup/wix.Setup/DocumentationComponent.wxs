@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+		<Component Id="README" Directory="DocumentationFolder" Guid="771f6c60-e032-4f48-a44c-a2f9611b3767">
+			<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Documentation" Name="Installed" Type="integer" Value="1" Action="write" />
+			<File Source="..\..\README.md" />
+		</Component>
+	</Fragment>
+</Wix>

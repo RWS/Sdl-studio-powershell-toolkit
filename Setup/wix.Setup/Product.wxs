@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?include Defines.wxi ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" 
+			 Name="$(var.appName)" 
+			 Language="1033" 
+			 Version="$(var.productVersion)" 
+			 Manufacturer="$(var.manufacturer)" 
+			 UpgradeCode="$(var.upgradeCode)">
+		
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perUser" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+
+		<Icon Id="Studio_Toolkit.ico" SourceFile="Studio_Toolkit.ico"/>
+		<Property Id="ARPPRODUCTICON" Value="Studio_Toolkit.ico" />
+
+		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
+		<UIRef Id="WixUI_MyInstallDir" />
+
+		<MediaTemplate EmbedCab="yes" />
+
+		<FeatureGroupRef Id="ToolkitFeatures" />
+	</Product>
+
+</Wix>

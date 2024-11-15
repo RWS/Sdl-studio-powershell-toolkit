@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="PersonalFolder">
+				<!-- Install Directory -->
+				<Directory Id="INSTALLDIR" Name="WindowsPowerShell">
+
+					<!-- Modules Directory -->
+					<Directory Id="ModulesFolder" Name="Modules">
+						<Directory Id="GetGuids" Name="GetGuids" />
+						<Directory Id="PackageHelper" Name="PackageHelper" />
+						<Directory Id="ProjectHelper" Name="ProjectHelper" />
+						<Directory Id="ProjectServerHelper" Name="ProjectServerHelper" />
+						<Directory Id="ProvidersHelper" Name="ProvidersHelper" />
+						<Directory Id="TMHelper" Name="TMHelper" />
+						<Directory Id="TMServerHelper" Name="TMServerHelper" />
+						<Directory Id="ToolkitInitializer" Name="ToolkitInitializer" />
+						<Directory Id="UserManagerHelper" Name="UserManagerHelper" />
+					</Directory>
+
+
+					<!-- Sample Files -->
+					<Directory Id="SamplesFolder" Name="Samples">
+						<Directory Id="ForPerfectMatch" Name="ForPerfectMatch">
+							<Directory Id="de" Name="de-DE">
+								<Directory Id="PerfectMatch_Translatable" Name="Translatable" />
+							</Directory>
+						</Directory>
+						<Directory Id="SampleFiles" Name="SampleFiles">
+							<Directory Id="Localizable" Name="Localizable"/>
+							<Directory Id="MergeFiles" Name="MergeFiles"/>
+							<Directory Id="ReferenceFiles" Name="ReferenceFiles"/>
+							<Directory Id="Translatable" Name="Translatable"/>
+						</Directory>
+					</Directory>
+
+
+					<!-- Documentation -->
+					<Directory Id="DocumentationFolder" Name="Documentation" />
+				</Directory>
+			</Directory>
+
+			<!-- Desktop Directory -->
+			<Directory Id="DesktopFolder" Name="Desktop" />
+
+			<!-- Start Menu Directory -->
+			<Directory Id="ProgramMenuFolder">
+				<Directory Id="ApplicationProgramsFolder" Name="Trados PowerShell Toolkit" />
+			</Directory>
+		</Directory>
+	</Fragment>
+</Wix>

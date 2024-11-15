@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+	<?define productVersion = "3.0.2"?>
+	<?define upgradeCode = "6F629251-8654-4A12-81CC-283F36E75307"?>
+	<?define appName = "Trados PowerShell Toolkit"?>
+	<?define manufacturer = "Trados AppStore Team"?>
+</Include>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+		<FeatureGroup Id="ToolkitFeatures">
+			<Feature Id="ModulesComponentGroup" Title="Trados PowerShell Toolkit" Level="1" Absent="disallow">
+				<ComponentGroupRef Id="ModulesComponentGroup" />
+			</Feature>
+			<Feature Id="SampleFiles" Title="Trados PowerShell Toolkit Sample Files" Level="1">
+				<ComponentGroupRef Id="SampleComponentGroup"/>
+			</Feature>
+			<Feature Id="Documentation" Title="Toolkit Documentation" Level="1" >
+				<ComponentRef Id="README" />
+			</Feature>
+			<Feature Id="AddPSToPath" Title="Add Powershell To Environment" Level="1">
+				<ComponentRef Id="AddPSModulePath" />
+			</Feature>
+			<Feature Id="DesktopStart" Level="1">
+				<ComponentRef Id="PowerShell32Shortcut"/>
+			</Feature>
+			<Feature Id="RemoveFolder" Level="1">
+				<ComponentRef Id="PowerShell32StartMenuShortcut" />
+			</Feature>
+			<Feature Id="InstallerLaunchCondition">
+				<ComponentGroupRef Id="LaunchConditions"/>
+			</Feature>
+			<Feature Id="RemoveUsersFolders">
+				<ComponentRef Id="c_RemoveUsersFolders"/>
+			</Feature>
+		</FeatureGroup>
+	</Fragment>
+</Wix>

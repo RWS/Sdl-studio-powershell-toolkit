@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+		<ComponentGroup Id="ModulesComponentGroup">
+			<!-- Get Guids -->
+			<Component Id="c_GetGuids.psd1" Directory="GetGuids" Guid="4a82947f-e97f-4892-9b0b-062ad20e1049">
+				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Modules\GetGuids" Name="Installed" Type="integer" Value="1" Action="write" />
+				<File Source="..\..\Modules\GetGuids\GetGuids.psd1"/>
+			</Component>
+			<Component Id="c_GetGuids.psm1" Directory="GetGuids" Guid="1288867c-1c57-4677-8954-1f59bd416b62">
+				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Modules\GetGuids" Name="Installed" Type="integer" Value="1" Action="write" />
+				<File Source="..\..\Modules\GetGuids\GetGuids.psm1" />
+			</Component>
+
+			<!-- Package Helper  -->
+			<Component Id="c_PackageHelper.psd1" Directory="PackageHelper" Guid="87e10ba4-37c9-43c7-bcaa-bcac5cc2bd3c">
+				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Modules\PackageHelper" Name="Installed" Type="integer" Value="1" Action="write" />
+				<File Source="..\..\Modules\PackageHelper\PackageHelper.psd1" />
+ 			</Component>
+			<Component Id="c_PackageHelper.psm1" Directory="PackageHelper" Guid="4d43a657-ce29-4d18-b641-4b09bd094013">
+				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Modules\PackageHelper" Name="Installed" Type="integer" Value="1" Action="write" />
+				<File Source="..\..\Modules\PackageHelper\PackageHelper.psm1" />
+			</Component>
+
+			<!-- Project Helper -->
+			<Component Id="c_ProjectHelper.psd1" Directory="ProjectHelper" Guid="4a8833a5-6c4b-413c-b6c1-6e0332c66827">
+				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Modules\ProjectHelper" Name="Installed" Type="integer" Value="1" Action="write" />
+				<File Source="..\..\Modules\ProjectHelper\ProjectHelper.psd1" />
+			</Component>
+			<Component Id="c_ProjectHelper.psm1" Directory="ProjectHelper" Guid="3086b6ac-54e7-4b0d-aedc-787a3af600dc">
+				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Modules\ProjectHelper" Name="Installed" Type="integer" Value="1" Action="write" />
+				<File Source="..\..\Modules\ProjectHelper\ProjectHelper.psm1" />
+			</Component>
+
+			<!-- Project Server Helper -->
+			<Component Id="c_ProjectServerHelper.psd1" Directory="ProjectServerHelper" Guid="a1387a57-0872-4c71-aee2-5ecb53a4c46f">
+				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Modules\ProjectServerHelper" Name="Installed" Type="integer" Value="1" Action="write" />
+				<File Source="..\..\Modules\ProjectServerHelper\ProjectServerHelper.psd1" />
+			</Component>
+			<Component Id="c_ProjectServerHelper.psm1" Directory="ProjectServerHelper" Guid="2689d0a9-5652-469c-a590-d2fd531e0466">
+				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Modules\ProjectServerHelper" Name="Installed" Type="integer" Value="1" Action="write" />
+				<File Source="..\..\Modules\ProjectServerHelper\ProjectServerHelper.psm1" />
+			</Component>
+
+			<!-- Providers Helper -->
+			<Component Id="c_ProvidersHelper.psd1" Directory="ProvidersHelper" Guid="3fa4b76f-4b4b-422c-8053-899ca0b64e6c">
+				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Modules\ProvidersHelper" Name="Installed" Type="integer" Value="1" Action="write" />
+				<File Source="..\..\Modules\ProvidersHelper\ProvidersHelper.psd1" />
+			</Component>
+			<Component Id="c_ProvidersHelper.psm1" Directory="ProvidersHelper" Guid="4af067c9-7338-4e2a-9a67-e290e8b440fa">
+				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Modules\ProvidersHelper" Name="Installed" Type="integer" Value="1" Action="write" />
+				<File Source="..\..\Modules\ProvidersHelper\ProvidersHelper.psm1" />
+			</Component>
+
+			<!-- TM Helper -->
+			<Component Id="c_TMHelper.psd1" Directory="TMHelper" Guid="2d8722fe-c288-4680-a336-1a073190345f">
+				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Modules\TMHelper" Name="Installed" Type="integer" Value="1" Action="write" />
+				<File Source="..\..\Modules\TMHelper\TMHelper.psd1" />
+			</Component>
+			<Component Id="c_TMHelper.psm1" Directory="TMHelper" Guid="90b09143-442f-4739-8e4c-77637d80f2b3">
+				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Modules\TMHelper" Name="Installed" Type="integer" Value="1" Action="write" />
+				<File Source="..\..\Modules\TMHelper\TMHelper.psm1" />
+			</Component>
+
+			<!-- TM Server Helper -->
+			<Component Id="c_TMServerHelper.psd1" Directory="TMServerHelper" Guid="397a15ca-410f-4821-9abb-de17427ca2cd">
+				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Modules\TMServerHelper" Name="Installed" Type="integer" Value="1" Action="write" />
+				<File Source="..\..\Modules\TMServerHelper\TMServerHelper.psd1" />
+			</Component>
+			<Component Id="c_TMServerHelper.psm1" Directory="TMServerHelper" Guid="b3a457c4-ff0a-4d69-83bc-af0bcb528ebe">
+				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Modules\TMServerHelper" Name="Installed" Type="integer" Value="1" Action="write" />
+				<File Source="..\..\Modules\TMServerHelper\TMServerHelper.psm1" />
+			</Component>
+
+			<!-- ToolkitInitializer  -->
+			<Component Id="c_ToolkitInitializer.psd1" Directory="ToolkitInitializer" Guid="203c409c-c45e-4f29-be5e-2bfa56ad8322">
+				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Modules\ToolkitInitializer" Name="Installed" Type="integer" Value="1" Action="write" />
+				<File Source="..\..\Modules\ToolkitInitializer\ToolkitInitializer.psd1" />
+			</Component>
+			<Component Id="c_ToolkitInitializer.psm1" Directory="ToolkitInitializer" Guid="4e52dd9e-f2cf-4f39-8519-de487ca6e84e">
+				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Modules\ToolkitInitializer" Name="Installed" Type="integer" Value="1" Action="write" />
+
+				<File Source="..\..\Modules\ToolkitInitializer\ToolkitInitializer.psm1" />
+			</Component>
+			<Component Id="c_DependencyResolver.dll" Directory="ToolkitInitializer" Guid="061a7523-4e5a-4acd-83cf-bbdc08350a3d">
+				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Modules\ToolkitInitializer" Name="Installed" Type="integer" Value="1" Action="write" />
+				<File Source="..\..\Modules\ToolkitInitializer\DependencyResolver.dll" />
+			</Component>
+
+			<!-- UserManagerHelper -->
+			<Component Id="c_UserManagerHelper.psd1" Directory="UserManagerHelper" Guid="720503ac-2528-409a-afd8-12dd0526c352">
+				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Modules\UserManagerHelper" Name="Installed" Type="integer" Value="1" Action="write" />
+				<File Source="..\..\Modules\UserManagerHelper\UserManagerHelper.psd1" />
+			</Component>
+			<Component Id="c_UserManagerHelper.psm1" Directory="UserManagerHelper" Guid="fd9b9acf-8694-487c-8d89-7124f931e32b">
+				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Modules\UserManagerHelper" Name="Installed" Type="integer" Value="1" Action="write" />
+				<File Source="..\..\Modules\UserManagerHelper\UserManagerHelper.psm1" />
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+</Wix>

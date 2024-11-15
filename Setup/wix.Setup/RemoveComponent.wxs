@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+		<Component Id="c_RemoveUsersFolders" Directory="INSTALLDIR" Guid="8c0f939a-25ce-4b7e-b714-4d0571db3ae4">
+			<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit" Name="Installed" Type="integer" Value="1" Action="write" />
+			<RemoveFolder Id="RemoveDocumentationFolder" Directory="DocumentationFolder" On="uninstall"/>
+			<RemoveFolder Id="RemoveModulesFolder" Directory="ModulesFolder" On="uninstall"/>
+			<RemoveFolder Id="RemoveGetGuids" Directory="GetGuids" On="uninstall"/>
+			<RemoveFolder Id="RemovePackageHelper" Directory="PackageHelper" On="uninstall"/>
+			<RemoveFolder Id="RemoveProjectHelper" Directory="ProjectHelper" On="uninstall"/>
+			<RemoveFolder Id="RemoveProjectServerHelper" Directory="ProjectServerHelper" On="uninstall"/>
+			<RemoveFolder Id="RemoveProvidersHelper" Directory="ProvidersHelper" On="uninstall"/>
+			<RemoveFolder Id="RemoveTMHelper" Directory="TMHelper" On="uninstall"/>
+			<RemoveFolder Id="RemoveTMServerHelper" Directory="TMServerHelper" On="uninstall"/>
+			<RemoveFolder Id="RemoveToolkitInitializer" Directory="ToolkitInitializer" On="uninstall"/>
+			<RemoveFolder Id="RemoveUserManagerHelper" Directory="UserManagerHelper" On="uninstall"/>
+			<RemoveFolder Id="r_INSTALLDIR" On="uninstall"/>
+
+			<RemoveFolder Id="RemovePerfectMatch_Translatable" Directory="PerfectMatch_Translatable" On="uninstall"/>
+			<RemoveFolder Id="RemoveLocalizable" Directory="Localizable" On="uninstall"/>
+			<RemoveFolder Id="RemoveMergeFiles" Directory="MergeFiles" On="uninstall"/>
+			<RemoveFolder Id="RemoveReference" Directory="ReferenceFiles" On="uninstall"/>
+			<RemoveFolder Id="RemoveTranslatable" Directory="Translatable" On="uninstall"/>
+			<RemoveFolder Id="SamplesFolder" Directory="SampleFiles" On="uninstall"/>
+
+			<RemoveFolder Id="RemoveSampleFolder" On="uninstall" Directory="SamplesFolder"/>
+			<RemoveFolder Id="RemoveForPerfectMatch" Directory="ForPerfectMatch" On="uninstall" />
+			<RemoveFolder Id="RemovedeDE" Directory="de" On="uninstall" />
+			<RemoveRegistryValue Id="RemoveInstalledRegistry" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit" Name="Installed" />
+		</Component>
+	</Fragment>
+</Wix>
