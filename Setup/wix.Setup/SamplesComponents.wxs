@@ -4,19 +4,15 @@
 		<ComponentGroup Id="SampleComponentGroup" >
 			<!-- Roundtrip files -->
 			<Component Id="c_FileBasedProject_Roundtrip.ps1" Directory="INSTALLDIR" Guid="be076135-b504-4db8-91db-be044ebeb915">
-				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit" Name="Installed" Type="integer" Value="1" Action="write" />
 				<File Source="..\..\FileBasedProject_Roundtrip.ps1" />
 			</Component>
 			<Component Id="c_ServerBasedProject_Roundtrip.ps1" Directory="INSTALLDIR" Guid="9fca052d-72d7-4f18-8311-d47f6b56bb0c">
-				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit" Name="Installed" Type="integer" Value="1" Action="write" />
 				<File Source="..\..\ServerBasedProject_Roundtrip.ps1" />
 			</Component>
 			<Component Id="c_TMServer_Roundtrip.ps1" Directory="INSTALLDIR" Guid="d1908117-2fd8-47d2-b7b3-21ecc8ef02ce">
-				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit" Name="Installed" Type="integer" Value="1" Action="write" />
 				<File Source="..\..\TMServer_Roundtrip.ps1" />
 			</Component>
 			<Component Id="c_UserManager_Roundtrip.ps1" Directory="INSTALLDIR" Guid="a83cc7c0-f406-4cab-a87a-184e64b7202c">
-				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit" Name="Installed" Type="integer" Value="1" Action="write" />
 				<File Source="..\..\UserManager_Roundtrip.ps1" />
 				
 			</Component>
@@ -24,59 +20,47 @@
 			<!-- Sample Files -->
 			<!-- Perfect Match-->
 			<Component Id="c_sample1_word.docx.sdlxliff" Directory="PerfectMatch_Translatable" Guid="f1de1478-3f63-4035-9e0a-609e7171809a">
-				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Samples\ForPerfectMatch\de-De\Translatable" Name="Installed" Type="integer" Value="1" Action="write" />
 				<File Source="..\..\Samples\ForPerfectMatch\de-DE\Translatable\sample1_word.docx.sdlxliff" />
 			</Component>
 
 			<!-- Localizable Files-->
 			<Component Id="c_meme1.jpg" Directory="Localizable" Guid="e902f09e-4962-4574-9e51-7e9b430741c3">
-				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Samples\SampleFiles\Localizable" Name="Installed" Type="integer" Value="1" Action="write" />
 				<File Source="..\..\Samples\SampleFiles\Localizable\meme1.jpg" />
 			</Component>
 			<Component Id="c_meme2.jpg" Directory="Localizable" Guid="4730d5ba-c9c4-4bc6-8d26-e493404c3f27">
-				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Samples\SampleFiles\Localizable" Name="Installed" Type="integer" Value="1" Action="write" />
 				<File Source="..\..\Samples\SampleFiles\Localizable\meme2.jpg" />
 			</Component>
 
 			<!-- Merge Files -->
 			<Component Id="c_books.xml" Directory="MergeFiles" Guid="9d89eef8-2633-41b2-b9e5-cdcd49540897">
-				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Samples\SampleFiles\MergeFiles" Name="Installed" Type="integer" Value="1" Action="write" />
 				<File Source="..\..\Samples\SampleFiles\MergeFiles\books.xml" />
 			</Component>
 			<Component Id="c_data.json" Directory="MergeFiles" Guid="c46de968-024b-4aad-8cc2-29c9fa83f6da">
-				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Samples\SampleFiles\MergeFiles" Name="Installed" Type="integer" Value="1" Action="write" />
 				<File Source="..\..\Samples\SampleFiles\MergeFiles\data.json" />
 			</Component>
 			<Component Id="c_data2.json" Directory="MergeFiles" Guid="0d9eef16-6686-4a12-9299-c18c117c0946">
-				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Samples\SampleFiles\MergeFiles" Name="Installed" Type="integer" Value="1" Action="write" />
 				<File Source="..\..\Samples\SampleFiles\MergeFiles\data2.json" />
 			</Component>
 			<Component Id="c_datax.xml" Directory="MergeFiles" Guid="8bc9584d-828c-4159-a287-7ee65f36ccc3">
-				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Samples\SampleFiles\MergeFiles" Name="Installed" Type="integer" Value="1" Action="write" />
 				<File Source="..\..\Samples\SampleFiles\MergeFiles\datax.xml" />
 			</Component>
 
 			<!-- Reference Files -->
 			<Component Id="c_Reference_1_Pp.pptx" Directory="ReferenceFiles" Guid="65e839cc-a1cf-4ab1-8064-3c4b587a7045">
-				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Samples\SampleFiles\ReferenceFiles" Name="Installed" Type="integer" Value="1" Action="write" />
 				<File Source="..\..\Samples\SampleFiles\ReferenceFiles\Reference_1_Pp.pptx" />
 			</Component>
 			<Component Id="c_sample2_reference.pptx" Directory="Translatable" Guid="11990c9b-1264-44db-86f1-cc7dd762f094">
-				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Samples\SampleFiles\ReferenceFiles" Name="Installed" Type="integer" Value="1" Action="write" />
 				<File Source="..\..\Samples\SampleFiles\ReferenceFiles\sample2_reference.pptx" />
 			</Component>
 
 			<!-- Translatable Files -->
 			<Component Id="c_sample1_word.docx" Directory="Translatable" Guid="fdcea219-8c41-403a-ac50-17787ddd179c">
-				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Samples\SampleFiles\Translatable" Name="Installed" Type="integer" Value="1" Action="write" />
 				<File Source="..\..\Samples\SampleFiles\Translatable\sample1_word.docx" />
 			</Component>
 			<Component Id="c_SecondSample_Word.docx" Directory="Translatable" Guid="7b1ff600-3305-43ef-a37d-8a9b856bc3b1">
-				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Samples\SampleFiles\Translatable" Name="Installed" Type="integer" Value="1" Action="write" />
 				<File Source="..\..\Samples\SampleFiles\Translatable\Second Sample_Word.docx" />
 			</Component>
 			<Component Id="c_base.txt" Directory="SampleFiles" Guid="03d902bd-2314-43df-8923-4c8b333da47a">
-				<RegistryValue KeyPath="yes" Root="HKCU" Key="SOFTWARE\Trados PowerShell Toolkit\Samples\SampleFiles" Name="Installed" Type="integer" Value="1" Action="write" />
 				<File Source="..\..\Samples\SampleFiles\base.txt" />
 			</Component>
 		</ComponentGroup>

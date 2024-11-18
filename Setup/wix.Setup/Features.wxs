@@ -20,11 +20,14 @@
 			<Feature Id="RemoveFolder" Level="1">
 				<ComponentRef Id="PowerShell32StartMenuShortcut" />
 			</Feature>
-			<Feature Id="InstallerLaunchCondition">
+			<Feature Id="InstallerLaunchCondition" Level="1">
 				<ComponentGroupRef Id="LaunchConditions"/>
 			</Feature>
-			<Feature Id="RemoveUsersFolders">
-				<ComponentRef Id="c_RemoveUsersFolders"/>
+			<Feature Id="RemoveModuleFolder" Level="1">
+				<ComponentRef Id="c_RemoveModulesFolder"/>
+			</Feature>
+			<Feature Id="RemoveInstallDir" Level="1">
+				<ComponentRef Id="c_RemoveINSTALLDIR"/>
 			</Feature>
 		</FeatureGroup>
 	</Fragment>

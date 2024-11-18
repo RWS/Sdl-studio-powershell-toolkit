@@ -17,6 +17,10 @@
 		<Property Id="ARPPRODUCTICON" Value="Studio_Toolkit.ico" />
 
 		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
+		<SetProperty Id="INSTALLDIR"
+					 Value="[PersonalFolder]WindowsPowerShell"
+					 Before="CostFinalize"
+					 Sequence="first"/>
 		<UIRef Id="WixUI_MyInstallDir" />
 
 		<MediaTemplate EmbedCab="yes" />

@@ -2,12 +2,21 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
 		<Directory Id="TARGETDIR" Name="SourceDir">
-			<Directory Id="PersonalFolder">
 				<!-- Install Directory -->
-				<Directory Id="INSTALLDIR" Name="WindowsPowerShell">
-
+				<Directory Id="INSTALLDIR" Name="InstallDir">
+					<Component Id="c_RemoveINSTALLDIR">
+						<RemoveFolder Id="INSTALLDIR" On="uninstall"/>
+						<RegistryValue Root="HKCU" Key="Software\Trados PowerShell Toolkit" Name="Installed" Type="integer" Value="1" KeyPath="yes" />
+					</Component>
+					
 					<!-- Modules Directory -->
 					<Directory Id="ModulesFolder" Name="Modules">
+
+						<Component Id="c_RemoveModulesFolder">
+							<RemoveFolder Id="ModulesFolder" On="uninstall"/>
+							<RegistryValue Root="HKCU" Key="Software\Trados PowerShell Toolkit\ModulesFolder" Name="Installed" Type="integer" Value="1" KeyPath="yes" />
+						</Component>
+						
 						<Directory Id="GetGuids" Name="GetGuids" />
 						<Directory Id="PackageHelper" Name="PackageHelper" />
 						<Directory Id="ProjectHelper" Name="ProjectHelper" />
@@ -39,15 +48,16 @@
 					<!-- Documentation -->
 					<Directory Id="DocumentationFolder" Name="Documentation" />
 				</Directory>
+
+				<!-- Desktop Directory -->
+				<Directory Id="DesktopFolder" Name="Desktop" />
+
+				<!-- Start Menu Directory -->
+				<Directory Id="ProgramMenuFolder">
+					<Directory Id="ApplicationProgramsFolder" Name="Trados PowerShell Toolkit" />
+				</Directory>
 			</Directory>
 
-			<!-- Desktop Directory -->
-			<Directory Id="DesktopFolder" Name="Desktop" />
-
-			<!-- Start Menu Directory -->
-			<Directory Id="ProgramMenuFolder">
-				<Directory Id="ApplicationProgramsFolder" Name="Trados PowerShell Toolkit" />
-			</Directory>
-		</Directory>
+			
 	</Fragment>
 </Wix>

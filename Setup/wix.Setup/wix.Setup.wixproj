@@ -25,7 +25,6 @@
     <Compile Include="Features.wxs" />
     <Compile Include="LaunchConditions.wxs" />
     <Compile Include="ModulesComponents.wxs" />
-    <Compile Include="RemoveComponent.wxs" />
     <Compile Include="SamplesComponents.wxs" />
     <Compile Include="Product.wxs" />
     <Compile Include="ShortcutsComponents.wxs" />
