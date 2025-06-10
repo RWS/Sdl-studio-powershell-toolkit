@@ -436,6 +436,9 @@ To add functionality or report bugs, please create a [pull request](http://www.c
 Report issues [here](https://github.com/sdl/Sdl-studio-powershell-toolkit/issues).
 
 ## Changes
+### v3.0.3.0
+- Updated script to be compatible with Trados Studio 2024 Beta version
+
 ### v3.0.2.0
 - Added an MSI installer for streamlined toolkit installation.
 
