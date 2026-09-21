@@ -35,7 +35,10 @@ Ensure the following requirements are met before using this toolkit:
 1. Trados Studio License
     - A Trados Studio license is mandatory for the operation of this toolkit.
 2. PowerShell Version
-    - Ensure that PowerShell 5 (x86) is installed and configured on your system. PowerShell 5.1 is included by default in Windows 10 (version 1607 and later) and Windows 11. For other versions of Windows, you may need to manually install or upgrade to PowerShell 5.0 or 5.1.  Follow these steps if you are unsure [Check installed version of Powershell](#check-installed-version-of-powershell)
+    - Ensure that PowerShell 5 is installed and configured on your system. PowerShell 5.1 is included by default in Windows 10 (version 1607 and later) and Windows 11. For other versions of Windows, you may need to manually install or upgrade to PowerShell 5.0 or 5.1.  Follow these steps if you are unsure [Check installed version of Powershell](#check-installed-version-of-powershell)
+    - The PowerShell process must match the bitness of your Trados Studio version:
+      - **Trados Studio 2022 / 2024** (32-bit): use **PowerShell 5 (x86)** – `C:\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe`
+      - **Trados Studio 2026** and later (64-bit): use **PowerShell 5 (x64)** – `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe`
 3. Installation
     - Follow the instructions in the [Installation](#installation) section to properly set up the toolkit on your system.
 4. Script Configuration
@@ -96,7 +99,7 @@ Following these steps will ensure that the PowerShell toolkit is set up correctl
 The `ToolkitInitializer` module includes the `Import-ToolkitModules` function, which is responsible for importing the toolkit, ensuring that all necessary dependencies are included, and resolving any dependency conflicts.
 
 The `Import-ToolkitModules` function takes two parameters:
-  - `StudioVersion`: Specifies the version of Trados Studio to be used, such as Studio 2022 or Studio 2024.
+  - `StudioVersion`: Specifies the version of Trados Studio to be used: `Studio17` (2022), `Studio18` (2024) or `Studio19` (2026).
   - `VaultName`: Represents the name of the secure vault where credentials for translation providers (e.g., Amazon, Google) are stored. These credentials are used during project creation when the project includes such providers.
     - If `VaultName` is provided, the toolkit will check if the `Microsoft.PowerShell.SecretManagement` and `Microsoft.PowerShell.SecretStore` modules are installed. If these modules are not already present, the toolkit will install them automatically, as they are required for secure credential storage.
 
@@ -249,12 +252,13 @@ cd C:\users\{your_user_name}\Documents\WindowsPowerShell
 To determine your Trados Studio version, follow these steps:
   1. Navigate to Installation Directory:
       - Check one of the following directories on your system to locate Trados Studio:
-        - `C:\Program Files (x86)\Trados\Trados Studio`
-        - `C:\Program Files\Trados\Trados Studio` (if `Program Files (x86)` does not exist)
+        - `C:\Program Files (x86)\Trados\Trados Studio` (Trados Studio 2022 and 2024, 32-bit)
+        - `C:\Program Files\Trados\Trados Studio` (Trados Studio 2026 and later, 64-bit)
   2. Identify the Version Folder:
     In the directory you find, the folder name typically corresponds to the version of Trados Studio installed. For example:
         - **Studio 2022** will be in a folder named  `Studio17`
         - **Studio 2024** will be in a folder named  `Studio18`
+        - **Studio 2026** will be in a folder named  `Studio19`
 
 By identifying the folder name, you can determine the version of Trados Studio you are using.
 
@@ -357,7 +361,7 @@ Import-ToolkitModules
 | Get-AllUsers           | Retrieves a list of all users from the User Management Server.                   | UserManagerHelper    |
 | Get-User               | Retrieves detailed information about a specific user by username.               | UserManagerHelper    |
 | New-User               | Creates a new user in the User Management Server.                                | UserManagerHelper    |
-| Remove-User            | Removes a specified user from the User Management Server.                        | UserManagerHelper    |
+| Remove-User            | Removes a specified user from the User Management Server (not supported with Trados Studio 2026). | UserManagerHelper    |
 | Get-AllOrganizations   | Retrieves all existing organizations from the User Management Server.            | UserManagerHelper    |
 | Get-Organization       | Retrieves detailed information about a specific organization by its path.       | UserManagerHelper    |
 | Get-TMServer       | Establishes a connection to a Translation Memory (TM) Server using the specified server address, username, and password, returning a TranslationProviderServer object. | TMServerHelper |
@@ -429,6 +433,13 @@ To determine which version of PowerShell is installed on your system:
       ```
 4. Press Enter. This will display a table with detailed information about the PowerShell version, including the version number
 
+5. Check the PowerShell Bitness:
+   - In the same window, enter:
+      ```powershell
+      [IntPtr]::Size
+      ```
+   - `4` means PowerShell (x86), required for Trados Studio 2022 / 2024; `8` means PowerShell (x64), required for Trados Studio 2026 and later. On 64-bit Windows the x86 console is `C:\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` and the x64 console is `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe`.
+
 ## Contribution
 To add functionality or report bugs, please create a [pull request](http://www.codenewbie.org/blogs/how-to-make-a-pull-request) with your changes.
 
@@ -436,6 +447,11 @@ To add functionality or report bugs, please create a [pull request](http://www.c
 Report issues [here](https://github.com/sdl/Sdl-studio-powershell-toolkit/issues).
 
 ## Changes
+### v4.0.0.0
+- Added support for Trados Studio 2026 (`Studio19`). Trados Studio 2026 is a 64-bit application installed under `C:\Program Files`, so the toolkit must be run from PowerShell 5 (x64) for that version; Trados Studio 2022 / 2024 still require PowerShell 5 (x86).
+- `Remove-User` (`UserManagerHelper`) is not available with Trados Studio 2026: the user manager client no longer exposes a delete operation.
+- The MSI installer accepts Trados Studio 2022, 2024 or 2026 and PowerShell 5 (x86 or x64).
+
 ### v3.0.3.0
 - Updated script to be compatible with Trados Studio 2024 Beta version
 

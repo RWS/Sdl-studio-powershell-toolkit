@@ -1,4 +1,4 @@
-$studioVersion = "Studio18"; # Change this with the actual Trados Studio version
+$studioVersion = "Studio18"; # Change this with the actual Trados Studio version: Studio17 = 2022, Studio18 = 2024 (PowerShell 5 x86), Studio19 = 2026 (PowerShell 5 x64)
 $serverUri = "https://example.com/" # Change this with the actual Groupshare Server
 $userName = "user@example.com" # Change this with the username used for connecting to the Groupshare Server
 $password = "password123!" # Change this with the password used for connecting to the Groupshare Server

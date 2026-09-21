@@ -3,7 +3,7 @@
     ModuleToProcess = 'ProjectServerHelper.psm1'
     
     # Version number of this module.
-    ModuleVersion = '3.0.1.0'
+    ModuleVersion = '4.0.0.0'
     
     # ID used to uniquely identify this module
     GUID = '{0E97E5F7-E5B1-4922-8ABA-41738717A23D}'

@@ -15,12 +15,19 @@
 							 Depth="0" />
 		</Property>
 
-		<!-- Launch Condition for Trados Studio 2022 or 2024 -->
-		<Condition Message="Trados Studio 2022 or 2024 must be installed to proceed with this installation.">
-			<![CDATA[Installed OR (TRADOS2022_INSTALL OR TRADOS2024_INSTALL)]]>
+		<!-- Directory Search for Trados Studio 2026 (Studio19) - 64-bit, installed under Program Files -->
+		<Property Id="TRADOS2026_INSTALL">
+			<DirectorySearch Id="TradosStudio2026DirectoryCheck"
+							 Path="[ProgramFiles64Folder]Trados\Trados Studio\Studio19"
+							 Depth="0" />
+		</Property>
+
+		<!-- Launch Condition for Trados Studio 2022, 2024 or 2026 -->
+		<Condition Message="Trados Studio 2022, 2024 or 2026 must be installed to proceed with this installation.">
+			<![CDATA[Installed OR (TRADOS2022_INSTALL OR TRADOS2024_INSTALL OR TRADOS2026_INSTALL)]]>
 		</Condition>
 
-		<!-- PowerShell 5 Registry Search -->
+		<!-- PowerShell 5 (x86) Registry Search - required for Trados Studio 2022/2024 -->
 		<Property Id="POWERSHELL5">
 			<RegistrySearch Id="PowerShell5RegistryCheck"
 							Root="HKLM"
@@ -30,9 +37,19 @@
 							Win64="no" />
 		</Property>
 
-		<!-- Launch Condition for PowerShell 5 (x86) -->
-		<Condition Message="PowerShell 5 (x86) is required to install this application.">
-			<![CDATA[Installed OR (POWERSHELL5 AND POWERSHELL5 >= "5.0" AND POWERSHELL5 < "6.0")]]>
+		<!-- PowerShell 5 (x64) Registry Search - required for Trados Studio 2026 -->
+		<Property Id="POWERSHELL5_X64">
+			<RegistrySearch Id="PowerShell5X64RegistryCheck"
+							Root="HKLM"
+							Key="SOFTWARE\Microsoft\PowerShell\3\PowerShellEngine"
+							Name="PowerShellVersion"
+							Type="raw"
+							Win64="yes" />
+		</Property>
+
+		<!-- Launch Condition for PowerShell 5 (x86 or x64) -->
+		<Condition Message="PowerShell 5 (x86 or x64) is required to install this application.">
+			<![CDATA[Installed OR (POWERSHELL5 AND POWERSHELL5 >= "5.0" AND POWERSHELL5 < "6.0") OR (POWERSHELL5_X64 AND POWERSHELL5_X64 >= "5.0" AND POWERSHELL5_X64 < "6.0")]]>
 		</Condition>
 		<ComponentGroup Id="LaunchConditions" />
 	</Fragment>

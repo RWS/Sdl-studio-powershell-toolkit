@@ -4,7 +4,7 @@
     ModuleToProcess = 'ProvidersHelper.psm1'
     
     # Version number of this module.
-    ModuleVersion = '3.0.1.0'
+    ModuleVersion = '4.0.0.0'
     
     # ID used to uniquely identify this module
     GUID = '{DE0ED8EF-6D61-41B8-8A34-D56DC01F2A74}'
