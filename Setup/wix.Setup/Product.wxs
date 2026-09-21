@@ -1,31 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?include Defines.wxi ?>
+﻿<?include Defines.wxi ?>
 
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" 
-			 Name="$(var.appName)" 
-			 Language="1033" 
-			 Version="$(var.productVersion)" 
-			 Manufacturer="$(var.manufacturer)" 
-			 UpgradeCode="$(var.upgradeCode)">
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<Package Name="$(var.appName)" Language="1033" Version="$(var.productVersion)" Manufacturer="$(var.manufacturer)" UpgradeCode="$(var.upgradeCode)" InstallerVersion="200" Scope="perUser">
 		
-		<Package InstallerVersion="200" Compressed="yes" InstallScope="perUser" />
+		
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
 
-		<Icon Id="Studio_Toolkit.ico" SourceFile="Studio_Toolkit.ico"/>
+		<Icon Id="Studio_Toolkit.ico" SourceFile="Studio_Toolkit.ico" />
 		<Property Id="ARPPRODUCTICON" Value="Studio_Toolkit.ico" />
 
 		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
-		<SetProperty Id="INSTALLDIR"
-					 Value="[PersonalFolder]WindowsPowerShell"
-					 Before="CostFinalize"
-					 Sequence="first"/>
+		<SetProperty Id="INSTALLDIR" Value="[PersonalFolder]WindowsPowerShell" Before="CostFinalize" Sequence="first" />
 		<UIRef Id="WixUI_MyInstallDir" />
 
 		<MediaTemplate EmbedCab="yes" />
 
 		<FeatureGroupRef Id="ToolkitFeatures" />
-	</Product>
+	</Package>
 
 </Wix>

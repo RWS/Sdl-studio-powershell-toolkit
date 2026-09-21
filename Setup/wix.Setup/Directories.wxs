@@ -1,11 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
 	<Fragment>
-		<Directory Id="TARGETDIR" Name="SourceDir">
 				<!-- Install Directory -->
 				<Directory Id="INSTALLDIR" Name="InstallDir">
 					<Component Id="c_RemoveINSTALLDIR">
-						<RemoveFolder Id="INSTALLDIR" On="uninstall"/>
+						<RemoveFolder Id="INSTALLDIR" On="uninstall" />
 						<RegistryValue Root="HKCU" Key="Software\Trados PowerShell Toolkit" Name="Installed" Type="integer" Value="1" KeyPath="yes" />
 					</Component>
 					
@@ -13,7 +11,7 @@
 					<Directory Id="ModulesFolder" Name="Modules">
 
 						<Component Id="c_RemoveModulesFolder">
-							<RemoveFolder Id="ModulesFolder" On="uninstall"/>
+							<RemoveFolder Id="ModulesFolder" On="uninstall" />
 							<RegistryValue Root="HKCU" Key="Software\Trados PowerShell Toolkit\ModulesFolder" Name="Installed" Type="integer" Value="1" KeyPath="yes" />
 						</Component>
 						
@@ -37,10 +35,10 @@
 							</Directory>
 						</Directory>
 						<Directory Id="SampleFiles" Name="SampleFiles">
-							<Directory Id="Localizable" Name="Localizable"/>
-							<Directory Id="MergeFiles" Name="MergeFiles"/>
-							<Directory Id="ReferenceFiles" Name="ReferenceFiles"/>
-							<Directory Id="Translatable" Name="Translatable"/>
+							<Directory Id="Localizable" Name="Localizable" />
+							<Directory Id="MergeFiles" Name="MergeFiles" />
+							<Directory Id="ReferenceFiles" Name="ReferenceFiles" />
+							<Directory Id="Translatable" Name="Translatable" />
 						</Directory>
 					</Directory>
 
@@ -50,14 +48,11 @@
 				</Directory>
 
 				<!-- Desktop Directory -->
-				<Directory Id="DesktopFolder" Name="Desktop" />
+				<StandardDirectory Id="DesktopFolder" />
 
 				<!-- Start Menu Directory -->
-				<Directory Id="ProgramMenuFolder">
+				<StandardDirectory Id="ProgramMenuFolder">
 					<Directory Id="ApplicationProgramsFolder" Name="Trados PowerShell Toolkit" />
-				</Directory>
-			</Directory>
-
-			
-	</Fragment>
+				</StandardDirectory>
+			</Fragment>
 </Wix>
