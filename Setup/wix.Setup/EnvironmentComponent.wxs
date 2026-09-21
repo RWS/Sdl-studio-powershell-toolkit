@@ -1,17 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
 	<Fragment>
 		<Component Id="AddPSModulePath" Guid="89211E10-5AD7-427D-9354-0D7A1C9CA041" Directory="INSTALLDIR">
 			<CreateFolder />
-			<Environment Id="AddToPSModulePath"
-						 Name="PSModulePath"
-						 Value="[ModulesFolder]"
-						 Action="set"
-						 Part="last"
-						 Permanent="no"
-						 System="no" />
+			<Environment Id="AddToPSModulePath" Name="PSModulePath" Value="[ModulesFolder]" Action="set" Part="last" Permanent="no" System="no" />
 
-			<RemoveFolder Id="RemoveEnv" On="uninstall"/>
+			<RemoveFolder Id="RemoveEnv" On="uninstall" />
 		</Component>
 	</Fragment>
 </Wix>

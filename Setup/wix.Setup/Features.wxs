@@ -1,33 +1,32 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
 	<Fragment>
 		<FeatureGroup Id="ToolkitFeatures">
-			<Feature Id="ModulesComponentGroup" Title="Trados PowerShell Toolkit" Level="1" Absent="disallow">
+			<Feature Id="ModulesComponentGroup" Title="Trados PowerShell Toolkit" Level="1" AllowAbsent="no">
 				<ComponentGroupRef Id="ModulesComponentGroup" />
 			</Feature>
 			<Feature Id="SampleFiles" Title="Trados PowerShell Toolkit Sample Files" Level="1">
-				<ComponentGroupRef Id="SampleComponentGroup"/>
+				<ComponentGroupRef Id="SampleComponentGroup" />
 			</Feature>
-			<Feature Id="Documentation" Title="Toolkit Documentation" Level="1" >
+			<Feature Id="Documentation" Title="Toolkit Documentation" Level="1">
 				<ComponentRef Id="README" />
 			</Feature>
 			<Feature Id="AddPSToPath" Title="Add Powershell To Environment" Level="1">
 				<ComponentRef Id="AddPSModulePath" />
 			</Feature>
 			<Feature Id="DesktopStart" Level="1">
-				<ComponentRef Id="PowerShell32Shortcut"/>
+				<ComponentRef Id="PowerShell32Shortcut" />
 			</Feature>
 			<Feature Id="RemoveFolder" Level="1">
 				<ComponentRef Id="PowerShell32StartMenuShortcut" />
 			</Feature>
 			<Feature Id="InstallerLaunchCondition" Level="1">
-				<ComponentGroupRef Id="LaunchConditions"/>
+				<ComponentGroupRef Id="LaunchConditions" />
 			</Feature>
 			<Feature Id="RemoveModuleFolder" Level="1">
-				<ComponentRef Id="c_RemoveModulesFolder"/>
+				<ComponentRef Id="c_RemoveModulesFolder" />
 			</Feature>
 			<Feature Id="RemoveInstallDir" Level="1">
-				<ComponentRef Id="c_RemoveINSTALLDIR"/>
+				<ComponentRef Id="c_RemoveINSTALLDIR" />
 			</Feature>
 		</FeatureGroup>
 	</Fragment>

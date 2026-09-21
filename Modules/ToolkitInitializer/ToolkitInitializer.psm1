@@ -22,7 +22,8 @@ $defaultModules = @(
     The `Import-ToolkitModules` function loads the required types and dependencies of the specified modules and exports their functions globally. By default, it loads all modules for the specified Trados Studio version. It also allows for loading only specified modules if provided. Additionally, it allows specifying a secret vault name to be used for certain modules requiring credential access.
 
     .PARAMETER StudioVersion
-    Represents the version of Trados Studio that the user is using. For example, "Studio17" for Studio 2022 or "Studio18" for Studio 2024. The default value is "Studio18". Users can change this parameter to match the version of Trados Studio they are using.
+    Represents the version of Trados Studio that the user is using. For example, "Studio17" for Studio 2022, "Studio18" for Studio 2024 or "Studio19" for Studio 2026. The default value is "Studio18". Users can change this parameter to match the version of Trados Studio they are using.
+    Trados Studio 2022 and 2024 are 32-bit applications and require PowerShell 5 (x86). Trados Studio 2026 and later are 64-bit applications and require PowerShell 5 (x64).
 
     .PARAMETER vaultName
     Specifies the name of the Secret Vault to be used for credentials in modules that require access to stored secrets. The default value is "LocalSecretStore". This parameter is passed to modules that handle credentials.
@@ -42,6 +43,11 @@ $defaultModules = @(
 
     Loads all modules for Trados Studio 2022 (Studio17) and uses a custom secret vault called "CustomVault" for credential-based modules.
 
+    .EXAMPLE
+    Import-ToolkitModules -StudioVersion "Studio19"
+
+    Loads all modules and their dependencies for Trados Studio 2026 (Studio19). Must be run from PowerShell 5 (x64).
+
     .OUTPUTS
     None
     The function does not return any output but imports modules globally for use.
@@ -51,9 +57,16 @@ function Import-ToolkitModules {
         [String] $StudioVersion = "Studio18", 
         [String] $vaultName)
 
-    if ($(Test-PSVersion) -eq $false)
+    if ($(Test-PSVersion $StudioVersion) -eq $false)
     {
-        Write-Host "Please use PowerShell 5 (x86) for this script." -ForegroundColor Green
+        if (Test-Is64BitStudio $StudioVersion)
+        {
+            Write-Host "Please use PowerShell 5 (x64) for Trados Studio 2026 or later ($StudioVersion)." -ForegroundColor Green
+        }
+        else
+        {
+            Write-Host "Please use PowerShell 5 (x86) for Trados Studio 2024 or earlier ($StudioVersion)." -ForegroundColor Green
+        }
         exit;
     }
 
@@ -132,7 +145,8 @@ function Add-Dependencies {
     param([String] $StudioVersion)
 
     $assemblyResolverPath = $scriptParentDiv + "\DependencyResolver.dll"
-    if ("${Env:ProgramFiles(x86)}") {
+    # Trados Studio 2026 (Studio19) and later are 64-bit and install under Program Files; earlier versions are 32-bit
+    if ((Test-Is64BitStudio $StudioVersion) -eq $false -and "${Env:ProgramFiles(x86)}") {
         $ProgramFilesDir = "${Env:ProgramFiles(x86)}"
     }
     else {
@@ -140,6 +154,11 @@ function Add-Dependencies {
     }
 
     $appPath = "$ProgramFilesDir\Trados\Trados Studio\$StudioVersion\"
+
+    if ($(Test-Path -Path $appPath -PathType Container) -eq $false)
+    {
+        throw "Trados Studio installation folder not found: $appPath. Check the StudioVersion parameter (Studio17 = 2022, Studio18 = 2024, Studio19 = 2026)."
+    }
 
     # Solve dependency conficts
     Add-Type -Path $assemblyResolverPath;
@@ -154,8 +173,12 @@ function Add-Dependencies {
     Add-Type -Path "$appPath\Sdl.Desktop.Platform.ServerConnectionPlugin.dll"
     Add-Type -Path "$appPath\Sdl.LanguageCloud.IdentityApi.dll";
 
+    # Trados Studio 2026 and later use NLog and no longer ship Sdl.Desktop.Logger.dll; only the log4net based versions need this workaround
     $log4netPath = "$appPath\Sdl.Desktop.Logger.dll"
-    Resolve-Log4Net $log4netPath
+    if (Test-Path -Path $log4netPath -PathType Leaf)
+    {
+        Resolve-Log4Net $log4netPath
+    }
 }
 
 function Resolve-Log4Net {
@@ -169,12 +192,42 @@ function Resolve-Log4Net {
     $field.SetValue($false, $true);
 }
 
-function Test-PSVersion 
+function Test-PSVersion
 {
+    param([String] $StudioVersion)
+
     $isPS5 = $Psversiontable.PSVersion.Major -eq 5
     $is86x = [System.IntPtr]::Size -eq 4
 
+    # The PowerShell process must match the bitness of the Studio assemblies it loads
+    if (Test-Is64BitStudio $StudioVersion)
+    {
+        return $isPS5 -and -not $is86x;
+    }
+
     return $isPS5 -and $is86x;
+}
+
+# Extracts the numeric part of the version folder name, e.g. "Studio19" -> 19
+function Get-StudioVersionNumber
+{
+    param([String] $StudioVersion)
+
+    $number = $StudioVersion -replace '\D', ''
+    if ($number -eq '')
+    {
+        return 0;
+    }
+
+    return [int] $number;
+}
+
+# Trados Studio 2026 (Studio19) is the first 64-bit version
+function Test-Is64BitStudio
+{
+    param([String] $StudioVersion)
+
+    return $(Get-StudioVersionNumber $StudioVersion) -ge 19;
 }
 
 Export-ModuleMember Import-ToolkitModules
