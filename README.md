@@ -448,9 +448,11 @@ Report issues [here](https://github.com/sdl/Sdl-studio-powershell-toolkit/issues
 
 ## Changes
 ### v4.0.0.0
-- Added support for Trados Studio 2026 (`Studio19`). Trados Studio 2026 is a 64-bit application installed under `C:\Program Files`, so the toolkit must be run from PowerShell 5 (x64) for that version; Trados Studio 2022 / 2024 still require PowerShell 5 (x86).
-- `Remove-User` (`UserManagerHelper`) is not available with Trados Studio 2026: the user manager client no longer exposes a delete operation.
-- The MSI installer accepts Trados Studio 2022, 2024 or 2026 and PowerShell 5 (x86 or x64).
+- Added support for Trados Studio 2026 (`Studio19`). Studio 2026 is 64-bit: run the toolkit from PowerShell 5 (x64); Studio 2022/2024 still require PowerShell 5 (x86).
+- `Remove-User` is not available with Trados Studio 2026 (the user manager API no longer supports deleting users).
+- `Get-UserManager` returns nothing and prints "Invalid server or credentials" when the server is unreachable, instead of throwing.
+- MSI installer rebuilt with WiX v5 (`dotnet build Setup\wix.Setup.sln`); accepts Trados Studio 2022, 2024 or 2026 and PowerShell 5 x86 or x64.
+- Added Pester tests (`Invoke-Pester -Path .\Tests`) and an MSI install test (`Setup\Test-Install.ps1`).
 
 ### v3.0.3.0
 - Updated script to be compatible with Trados Studio 2024 Beta version
