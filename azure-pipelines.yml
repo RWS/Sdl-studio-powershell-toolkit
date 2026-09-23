@@ -15,10 +15,10 @@ steps:
       targetType: 'inline'
       script: |
         param(
-        [string]$sigingListFile = "$psscriptroot\filestosign.csv",
-        [string]$signingRoot = "$PSScriptRoot\..\..\..\..",
-        [string]$KeyVaultUrl = "https://sdl-lt-keyvault.vault.azure.net/",
-        [string]$TimestampServer="http://timestamp.digicert.com",
+        [string]$sigingListFile,
+        [string]$signingRoot,
+        [string]$KeyVaultUrl,
+        [string]$TimestampServer,
         [string]$CertificateName="SDLPLCAuthenticode"
         )
         
