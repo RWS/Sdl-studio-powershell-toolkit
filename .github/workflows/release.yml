@@ -26,14 +26,14 @@ jobs:
         env:
           TOOLKIT_VERSION: ${{ vars.TOOLKIT_VERSION }}
 
-      - name: Trusted Signing
-        uses: Azure/trusted-signing-action@v0.3.17
+      - name: Artifact Signing
+        uses: azure/artifact-signing-action@v2
         with:
           azure-tenant-id: ${{ secrets.TrustedSigningTenantID }}
           azure-client-id: ${{ secrets.TrustedSigningSigningClientId }}
           azure-client-secret: ${{ secrets.TrustedSigningSigningSecret}}
           endpoint: ${{ secrets.TrustedSigningEndPoint }}
-          trusted-signing-account-name: ${{ secrets.TrustedSigningAccountName}}
+          signing-account-name: ${{ secrets.TrustedSigningAccountName}}
           certificate-profile-name: ${{ secrets.TrustedSigningCertificateProfile}}
           files-folder: ${{ github.workspace }}
           files-folder-filter: 'ps1,psm1,psd1,dll'
