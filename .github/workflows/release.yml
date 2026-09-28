@@ -8,6 +8,9 @@ run-name: Release run ${{ github.RUN_NUMBER }} by @${{ github.actor }}
 jobs:
   build:
     runs-on: windows-latest
+    permissions:
+          contents: write
+          id-token: write
 
     steps:
       - uses: actions/checkout@v4
