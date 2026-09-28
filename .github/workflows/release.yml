@@ -8,6 +8,9 @@ run-name: Release run ${{ github.RUN_NUMBER }} by @${{ github.actor }}
 jobs:
   build:
     runs-on: windows-latest
+    permissions:
+          contents: write
+          id-token: write
 
     steps:
       - uses: actions/checkout@v4
@@ -26,19 +29,36 @@ jobs:
         env:
           TOOLKIT_VERSION: ${{ vars.TOOLKIT_VERSION }}
 
-      - name: Trusted Signing
-        uses: Azure/trusted-signing-action@v0.3.17
+      - name: Azure login
+        uses: azure/login@v3
+        with:
+          client-id: ${{ secrets.TRUSTEDSIGNINGCLIENTID2 }}
+          tenant-id: ${{ secrets.TrustedSigningTenantID }}
+          subscription-id: ${{ secrets.TrustedSigningSigningSubscriptionId }}
+
+      - name: Artifact Signing
+        uses: azure/artifact-signing-action@v2
         with:
           azure-tenant-id: ${{ secrets.TrustedSigningTenantID }}
-          azure-client-id: ${{ secrets.TrustedSigningSigningClientId }}
+          azure-client-id: ${{ secrets.TRUSTEDSIGNINGCLIENTID2 }}
           azure-client-secret: ${{ secrets.TrustedSigningSigningSecret}}
           endpoint: ${{ secrets.TrustedSigningEndPoint }}
-          trusted-signing-account-name: ${{ secrets.TrustedSigningAccountName}}
+          signing-account-name: ${{ secrets.TrustedSigningAccountName}}
           certificate-profile-name: ${{ secrets.TrustedSigningCertificateProfile}}
           files-folder: ${{ github.workspace }}
           files-folder-filter: 'ps1,psm1,psd1,dll'
           files-folder-recurse: true
           files-folder-depth: 5
+          exclude-environment-credential: true
+          exclude-workload-identity-credential: true
+          exclude-managed-identity-credential: true
+          exclude-shared-token-cache-credential: true
+          exclude-visual-studio-credential: true
+          exclude-visual-studio-code-credential: true
+          exclude-azure-cli-credential: false
+          exclude-azure-powershell-credential: true
+          exclude-azure-developer-cli-credential: true
+          exclude-interactive-browser-credential: true
 
       - name: Prepare release
         shell: pwsh
