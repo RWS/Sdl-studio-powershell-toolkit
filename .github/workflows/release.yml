@@ -26,6 +26,13 @@ jobs:
         env:
           TOOLKIT_VERSION: ${{ vars.TOOLKIT_VERSION }}
 
+      - name: Azure login
+        uses: azure/login@v3
+        with:
+          client-id: ${{ secrets.TrustedSigningSigningClientId }}
+          tenant-id: ${{ secrets.TrustedSigningTenantID }}
+          subscription-id: ${{ secrets.TrustedSigningSigningSubscriptionId }}
+
       - name: Artifact Signing
         uses: azure/artifact-signing-action@v2
         with:
@@ -39,6 +46,16 @@ jobs:
           files-folder-filter: 'ps1,psm1,psd1,dll'
           files-folder-recurse: true
           files-folder-depth: 5
+          exclude-environment-credential: true
+          exclude-workload-identity-credential: true
+          exclude-managed-identity-credential: true
+          exclude-shared-token-cache-credential: true
+          exclude-visual-studio-credential: true
+          exclude-visual-studio-code-credential: true
+          exclude-azure-cli-credential: false
+          exclude-azure-powershell-credential: true
+          exclude-azure-developer-cli-credential: true
+          exclude-interactive-browser-credential: true
 
       - name: Prepare release
         shell: pwsh
