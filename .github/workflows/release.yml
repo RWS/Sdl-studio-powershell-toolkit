@@ -36,7 +36,7 @@ jobs:
           tenant-id: ${{ secrets.TrustedSigningTenantID }}
           subscription-id: ${{ secrets.TrustedSigningSigningSubscriptionId }}
 
-      - name: Artifact Signing
+      - name: Sign module and binaries
         uses: azure/artifact-signing-action@v2
         with:
           azure-tenant-id: ${{ secrets.TrustedSigningTenantID }}
@@ -60,6 +60,36 @@ jobs:
           exclude-azure-developer-cli-credential: true
           exclude-interactive-browser-credential: true
 
+      - name: Build installer
+        shell: pwsh
+        run: |
+          dotnet build -c Release Setup\wix.Setup.sln
+
+      - name: Sign Installer
+        uses: azure/artifact-signing-action@v2
+        with:
+          azure-tenant-id: ${{ secrets.TrustedSigningTenantID }}
+          azure-client-id: ${{ secrets.TRUSTEDSIGNINGCLIENTID2 }}
+          azure-client-secret: ${{ secrets.TrustedSigningSigningSecret}}
+          endpoint: ${{ secrets.TrustedSigningEndPoint }}
+          signing-account-name: ${{ secrets.TrustedSigningAccountName}}
+          certificate-profile-name: ${{ secrets.TrustedSigningCertificateProfile}}
+          files-folder: ${{ github.workspace }}
+          files-folder-filter: 'msi'
+          files-folder-recurse: true
+          files-folder-depth: 5
+          exclude-environment-credential: true
+          exclude-workload-identity-credential: true
+          exclude-managed-identity-credential: true
+          exclude-shared-token-cache-credential: true
+          exclude-visual-studio-credential: true
+          exclude-visual-studio-code-credential: true
+          exclude-azure-cli-credential: false
+          exclude-azure-powershell-credential: true
+          exclude-azure-developer-cli-credential: true
+          exclude-interactive-browser-credential: true
+
+
       - name: Prepare release
         shell: pwsh
         run: |
@@ -78,4 +108,5 @@ jobs:
           tag_name: v${{ env.RELEASEVERSION }}
           files: |
             artifacts/*.zip
+            Setup\wix.Setup\bin\x86\Release\*.msi
           

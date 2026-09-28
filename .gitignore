@@ -1,3 +1,5 @@
 Setup/wix.Setup/bin/
 Setup/wix.Setup/obj/
 .vscode/
+
+.vs/

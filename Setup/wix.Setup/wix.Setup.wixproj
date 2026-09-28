@@ -2,7 +2,7 @@
   <!-- WiX v5 SDK-style project: builds with `dotnet build`, no Visual Studio extension needed.
        All *.wxs / *.wxi files in this folder are compiled automatically. -->
   <PropertyGroup>
-    <OutputName>wix.Setup</OutputName>
+    <OutputName>Trados_Powershell_Toolkit</OutputName>
     <InstallerPlatform>x86</InstallerPlatform>
     <DefineConstants Condition=" '$(Configuration)' == 'Debug' ">Debug</DefineConstants>
   </PropertyGroup>
